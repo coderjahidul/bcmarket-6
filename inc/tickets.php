@@ -545,33 +545,43 @@ function show_ticket_chat_list_callback(){
 			
 			// Retrieve and display the initial state
 			$meta_value = get_post_meta($ticket_id, '_solved_unsolved', true);
-			echo 'Titket Id:' . $ticket_id;
 		
 			// Check if the meta value exists
-			if ($meta_value == "solved") {?>
+			if ($meta_value == "solved") {
+				if(isset($ticket_id) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+					update_post_meta($ticket_id, '_solved_unsolved', 'unsolved');
+				}
+				?>
 				<div id="solved" style="display: block;">
-					<p style="color: green">Solution: The problem is solved!😊</p> 
+					<p style="color: green">The problem is solved!😊</p> 
 				</div>
 			<?php
-			} else {?>
+			} else {
+				if (isset($ticket_id) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+					update_post_meta($ticket_id, '_solved_unsolved', 'solved');
+				}
+				?>
 				<div id="unsolved" style="display: block;">
 					<p style="color: red">This is a problem that needs solving!😭</p>
 				</div>
 			<?php
 			}
-			// Assuming $ticket_id is set before this point
-			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['solvedButton'])) {
-				update_post_meta($ticket_id, '_solved_unsolved', 'solved');
-				// Optionally, you can redirect the user or perform additional actions after updating the post meta.
-			}
 			?>
 		
-			<div class="solved_unsolved_button_section">
-				<form method="POST">
-					<button type="submit" name="solvedButton">Solved</button>
-					<button type="submit" name="unsolvedButton">Unsolved</button>
-				</form>
-			</div>
+		<div class="solved_unsolved_button_section">
+			<?php
+			if ($meta_value == "unsolved") {
+			?>
+			<form method="POST">
+				<button type="submit">Solved</button>
+			</form>
+			<?php } else { ?>
+			<form method="POST">
+				<button type="submit">Unsolved</button>
+			</form>
+			<?php } ?>
+		</div>
+
 		</div>
 		
 
