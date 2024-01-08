@@ -569,7 +569,7 @@ function show_ticket_chat_list_callback(){
 			<div class="solved_unsolved_button_section">
 				<form method="POST">
 					<button type="submit" name="solvedButton">Solved</button>
-					<!-- <button type="submit" name="unsolvedButton">Unsolved</button> -->
+					<button type="submit" name="unsolvedButton">Unsolved</button>
 				</form>
 			</div>
 		</div>
