@@ -602,7 +602,30 @@ function enqueue_font_awesome() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_font_awesome');
 
+// Hook to add the menu page
+add_action('admin_menu', 'partner_history_menu');
 
+// Function to create the menu page
+function partner_history_menu(){
+    add_menu_page(
+        'Partner History', // Page title
+        'Partner History', // Menu title
+        'manage_options', // Capability (who can access)
+        'partner-history', // Menu slug
+        'partner_history_page_content', // Callback function to display content
+        'dashicons-businessman', // Icon Url or Dashicon class
+        30 // Position in the menu
+    );
+}
+
+function partner_history_page_content(){
+    ?>
+    <div class="row">
+        <h2>Partner History</h2>
+        <p>This is where you can manage partner history</p>
+    </div>
+    <?php
+}
 
 
 
