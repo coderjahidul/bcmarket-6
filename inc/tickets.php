@@ -570,7 +570,7 @@ function show_ticket_chat_list_callback(){
 		
 		<div class="solved_unsolved_button_section">
 			<?php
-			if ($meta_value == "unsolved") {
+			if ($meta_value == "unsolved" || $meta_value == NULL) {
 			?>
 			<form method="POST">
 				<button type="submit">Solved</button>
