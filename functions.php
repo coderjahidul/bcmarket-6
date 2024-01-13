@@ -193,6 +193,23 @@ function bcmarket_setup_post_type() {
     );
     
     register_taxonomy( 'item_cat', 'item', $args );
+
+    $args = array(
+        'public'    => true,
+        'label'        => __( 'Accounts', 'bcmarket' ),
+        'supports' => array(),
+        'rewrite' => array('slug' => 'accounts'),
+        'menu_icon' => 'dashicons-format-aside',
+    );
+
+    register_post_type( 'accounts', $args );
+
+    $args = array(
+        'label'        => __( 'Accounts Formats', 'bcmarket' ),
+        'public'       => true,
+        'hierarchical' => true,
+    );
+    register_taxonomy( 'accounts_cat', 'accounts', $args );
 }
 
 add_action( 'init', 'bcmarket_setup_post_type' );
@@ -626,6 +643,9 @@ function partner_history_page_content(){
     </div>
     <?php
 }
+
+// custom post type 
+
 
 
 
