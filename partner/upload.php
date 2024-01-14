@@ -152,7 +152,7 @@ endif;
                                     <option value="profile_link">Profile Link</option>
                                 </select> -->
                                 <select class="format_fi" name="format[0][]" multiple>
-                                    <option value="" disabled="" selected="" hidden="">Select a category</option>
+                                    <option value="" disabled="" selected="" hidden="">Select</option>
                                     <?php 
                                         $terms = get_terms( array(
                                             'taxonomy' => 'accounts_cat',
