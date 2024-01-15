@@ -53,6 +53,24 @@ function bcmarket_customize_register($wp_customize) {
               'section' => 'header',
             )  
         );
+        $wp_customize->add_setting("header_skype", array(
+            "default"   => "",
+            "transport" => "postMessage",
+        ));
+        $wp_customize->add_control("header_skype", array(
+            "label" => __("Header Skype Link"),
+            "type"  => "text",
+            "section"  => "header",
+        ));
+        $wp_customize->add_setting("header_whatsapp", array(
+            "default"   => "",
+            "transport" => "postMessage",
+        ));
+        $wp_customize->add_control("header_whatsapp", array(
+            "label" => __("Header Whatsapp Link"),
+            "type"  => "text",
+            "section"  => "header",
+        ));
 
         $wp_customize->add_setting("header_important_message", array(
             "default" => "",
@@ -77,11 +95,10 @@ function bcmarket_customize_register($wp_customize) {
             "transport" => "postMessage",
         ));
         $wp_customize->add_control( 'footer_telegram', array(
-              'label' => __( 'Footer Telegram' ),
-              'type' => 'text',
-              'section' => 'footer',
-            )  
-        );
+            'label' => __( 'Footer Telegram' ),
+            'type' => 'text',
+            'section' => 'footer',
+        ));
 
         $wp_customize->add_setting("footer_email", array(
             "default" => "",
@@ -93,6 +110,24 @@ function bcmarket_customize_register($wp_customize) {
               'section' => 'footer',
             )  
         );
+        $wp_customize->add_setting("footer_skype", array(
+            "default" => "",
+            "transport" => "postMessage",
+        ));
+        $wp_customize->add_control( 'footer_skype', array(
+            'label' => __( 'Footer Skype Link' ),
+            'type' => 'text',
+            'section' => 'footer',
+        ));
+        $wp_customize->add_setting("footer_whatsapp", array(
+            "default"   => "",
+            "transport" => "postMessage",
+        ));
+        $wp_customize->add_control("footer_whatsapp", array(
+            "label" => "Footer Whatsapp Link",
+            "type"  => "text",
+            "section" => "footer",
+        ));
 
          $wp_customize->add_setting("footer_copyright", array(
             "default" => "",

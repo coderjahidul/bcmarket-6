@@ -4878,6 +4878,13 @@ table.dataTable tbody td img {
     margin-right: auto;
     display: block;
 }
+.fab {
+    font-weight: 400;
+    font-size: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #fff;
+}
 .lk-menu ul li.lk-menu-header {
     display: flex;
     justify-content: space-between;

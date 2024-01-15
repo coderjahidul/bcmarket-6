@@ -18,6 +18,8 @@
                         <p><?php echo get_theme_mod('top_left_text'); ?> </p>
                         <p class="xs-vis"> <?php echo get_theme_mod('top_left_text_mobile'); ?> </p>
                         <div id="navigation_right">
+                            <a target="_blank" href="<?php echo get_theme_mod('header_skype'); ?>"><i class="fab fa-skype"></i></a>
+                            <a target="_blank" href="<?php echo get_theme_mod('header_whatsapp'); ?>"><i class="fab fa-whatsapp"></i></a>
 
                             <?php if(current_user_can('manage_options')) : ?>
                                 <div>
@@ -32,6 +34,7 @@
                                 <a class="ic-updates" href="<?php echo get_theme_mod('header_telegram_link'); ?>" rel="nofollow">
                                     <?php echo get_theme_mod('header_telegram_text'); ?>
                                 </a>
+                                
 
                             </div>
                             <div class="authorization">
