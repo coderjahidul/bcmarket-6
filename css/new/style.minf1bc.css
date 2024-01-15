@@ -4878,13 +4878,7 @@ table.dataTable tbody td img {
     margin-right: auto;
     display: block;
 }
-.fab {
-    font-weight: 400;
-    font-size: 18px;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: #fff;
-}
+
 .lk-menu ul li.lk-menu-header {
     display: flex;
     justify-content: space-between;
@@ -7767,4 +7761,20 @@ input[name="phone"]:hover {
 .security-menu-item svg {
     width: 15px;
     height: 15px;
+}
+#navigation_menu {
+    padding: 0 10px 0 10px;
+}
+#navigation_menu a {
+    margin: 0;
+}
+#navigation_menu > a + a {
+    margin-left: 0px;
+}
+.fa-solid, .fab {
+    font-weight: 300;
+    font-size: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #f7f7f7;
 }

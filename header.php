@@ -18,9 +18,6 @@
                         <p><?php echo get_theme_mod('top_left_text'); ?> </p>
                         <p class="xs-vis"> <?php echo get_theme_mod('top_left_text_mobile'); ?> </p>
                         <div id="navigation_right">
-                            <a target="_blank" href="<?php echo get_theme_mod('header_skype'); ?>"><i class="fab fa-skype"></i></a>
-                            <a target="_blank" href="<?php echo get_theme_mod('header_whatsapp'); ?>"><i class="fab fa-whatsapp"></i></a>
-
                             <?php if(current_user_can('manage_options')) : ?>
                                 <div>
                                     <a class="btn btn-primary btn-xs" href="<?php echo esc_url(home_url('/admin-interface/')); ?>">Admin Interface</a>
@@ -30,12 +27,13 @@
                             <?php endif; ?>
 
                             <div id="navigation_menu">
-
-                                <a class="ic-updates" href="<?php echo get_theme_mod('header_telegram_link'); ?>" rel="nofollow">
-                                    <?php echo get_theme_mod('header_telegram_text'); ?>
-                                </a>
-                                
-
+                                <!-- <a class="ic-updates" href="<?php //echo get_theme_mod('header_telegram_link'); ?>" rel="nofollow">
+                                    <?php //echo get_theme_mod('header_telegram_text'); ?>
+                                </a> -->
+                                <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_telegram_link')); ?>"><i class="fab fa-telegram"></i></a>
+                                <a target="_blank" href="mailto:<?php echo esc_html(get_theme_mod('footer_email')); ?>"><i class="fa-solid fa-envelope"></i></a>
+                                <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_skype')); ?>"><i class="fab fa-skype"></i></a>
+                                <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_whatsapp')); ?>"><i class="fab fa-whatsapp"></i></a>
                             </div>
                             <div class="authorization">
                                 <?php if(!is_user_logged_in()) : ?>
