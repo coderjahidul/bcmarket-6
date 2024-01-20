@@ -625,6 +625,7 @@ add_action('admin_menu', 'partner_history_menu');
 
 // Include partner-history.php
 include_once( 'partner-history.php' );
+
 // Function to create the menu page
 function partner_history_menu(){
     add_menu_page(
@@ -637,6 +638,25 @@ function partner_history_menu(){
         30 // Position in the menu
     );
 }
+// Hook to add the menu page
+add_action('admin_menu', 'buyer_history_menu');
+
+// Include buyer-history.php
+include_once( 'buyer-history.php' );
+
+// Function to create the menu page
+function buyer_history_menu() {
+    add_menu_page(
+        'Buyer History',              // Page title
+        'Buyer History',              // Menu title
+        'manage_options',             // Capability
+        'buyer-history',              // Menu slug
+        'buyer_history_page_content',  // Callback function to display the content
+        'dashicons-businessman', // Icon Url or Dashicon class
+        30 // Position in the menu
+    );
+}
+
 
 
 

@@ -1,7 +1,6 @@
-<?php
-// partner-history.php
-
-function partner_history_page_content() {
+<?php 
+// buyer-history.php
+function buyer_history_page_content() {
     ?>
     <style>
         .history {
@@ -25,7 +24,7 @@ function partner_history_page_content() {
         <!-- Search Form -->
         <form method="post">
             <p class="search-box">
-                <label class="screen-reader-text" for="user-search-input">Search Partner:</label>
+                <label class="screen-reader-text" for="user-search-input">Search Buyer:</label>
                 <input type="search" id="user-search-input" name="user_search" value="<?php echo isset($_POST['user_search']) ? esc_attr($_POST['user_search']) : ''; ?>">
                 <input type="submit" id="search-submit" class="button" value="Search Partner">
             </p>
@@ -40,7 +39,7 @@ function partner_history_page_content() {
         $offset = ($current_page - 1) * $users_per_page;
 
         $user_query = new WP_User_Query(array(
-            'role' => 'partner',
+            'role__in' => array('customer', 'subscriber'),
             'orderby' => 'login',
             'order' => 'ASC',
             'search' => '*' . $search_term . '*',
@@ -146,4 +145,3 @@ function partner_history_page_content() {
     </div>
     <?php
 }
-
