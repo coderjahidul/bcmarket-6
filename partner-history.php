@@ -4,7 +4,7 @@
 function partner_history_page_content() {
     ?>
     <div class="wrap">
-        <h2>Partner History</h2>
+        <h2><?php echo esc_html( get_admin_page_title());?></h2>
 
         <!-- Search Form -->
         <form method="post">
