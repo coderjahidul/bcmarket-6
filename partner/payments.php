@@ -51,13 +51,26 @@ get_header(); ?>
                             $page_number = intval(preg_replace('/[^0-9]+/', '', $current_url), 10);
 
                             $paged = $page_number == 0 ? 1 : $page_number;
+
+                            $current_user = wp_get_current_user();
+                            $is_admin = current_user_can('administrator');
+                            if ($is_admin) {
+                                // If the current user is an admin, show all payments
+                                $payment_query = new WP_Query(array(
+                                    'post_type' => 'payment',
+                                    'posts_per_page' => 10,
+                                    'paged' => $paged,
+                                ));
+                            } else {
+                                // If the current user is not an admin, show payments for the current user only
+                                $payment_query = new WP_Query(array(
+                                    'post_type' => 'payment',
+                                    'posts_per_page' => 10,
+                                    'paged' => $paged,
+                                    'author' => get_current_user_id(),
+                                ));
+                            }
                             
-                            $payment_query = new WP_Query(array(
-                                'post_type' => 'payment', 
-                                'posts_per_page' => 10, 
-                                'paged' => $paged, 
-                                // 'author' => get_current_user_id()
-                            ));
                             
                             if ($payment_query->have_posts()) {
                                 while ($payment_query->have_posts()) : $payment_query->the_post(); ?>
@@ -66,34 +79,37 @@ get_header(); ?>
                                     <td>
                                         <?php 
                                             global $wpdb;
-                                            $order_ids = get_post_meta(get_the_ID(), 'order_ids', true); 
-                                        
+                                            $order_ids = get_post_meta(get_the_ID(), 'order_ids', true);
+
                                             $order_ids = explode(',', $order_ids);
                                             $user_id = get_current_user_id();
 
-                                            // if($order_ids){
+                                            // if ($order_ids) {
                                             //     $count_total = count($order_ids);
-                                            //     $num = 1; 
-                                            //     foreach($order_ids as $order_id){
+                                            //     $num = 1;
+                                            //     foreach ($order_ids as $order_id) {
                                             //         $quantity = '';
-                                            //         $order = wc_get_order( $order_id );
-                                            //         foreach ( $order->get_items() as $item_id => $item ) {
+                                            //         $order = wc_get_order($order_id);
 
-                                            //             $product_id = $item->get_product_id();
+                                            //         // Check if $order is a valid object
+                                            //         if ($order && is_a($order, 'WC_Order')) {
+                                            //             foreach ($order->get_items() as $item_id => $item) {
+                                            //                 $product_id = $item->get_product_id();
+                                            //                 $post_author_id = get_post_field('post_author', $product_id);
 
-                                            //             $post_author_id = get_post_field( 'post_author', $product_id );
-
-                                            //             if($post_author_id == $user_id){
-                                            //                 $quantity = $item->get_quantity();
+                                            //                 if ($post_author_id == $user_id) {
+                                            //                     $quantity = $item->get_quantity();
+                                            //                 }
                                             //             }
-                                            //         }
-                                                
 
-                                            //         echo 'Payment application #'. get_post_meta($product_id, 'custom_product_id', true) .'('. $quantity .')';
-                                                    
-                                            //         if($count_total != $num){
+                                            //             echo 'Payment application #' . get_post_meta($product_id, 'custom_product_id', true) . '(' . $quantity . ')';
+                                            //         }
+
+                                            //         if ($count_total != $num) {
                                             //             echo '<br/>';
                                             //         }
+
+                                            //         $num++;
                                             //     }
                                             // }
                                         ?>
