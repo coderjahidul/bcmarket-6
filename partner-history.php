@@ -34,7 +34,11 @@ function partner_history_page_content() {
         <?php
         // Query and display user information
         $search_term = isset($_POST['user_search']) ? sanitize_text_field($_POST['user_search']) : '';
-        $current_page = max(1, get_query_var('paged'));
+        // Retrieve the 'paged' parameter from the URL
+        $current_page = max(1, isset($_GET['paged']) ? absint($_GET['paged']) : 1);
+
+        // Use get_query_var as a fallback
+        $current_page = max(1, get_query_var('paged', $current_page));
 
         $users_per_page = 10; // Change this as needed
         $offset = ($current_page - 1) * $users_per_page;

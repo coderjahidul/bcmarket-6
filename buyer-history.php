@@ -33,7 +33,9 @@ function buyer_history_page_content() {
         <?php
         // Query and display user information
         $search_term = isset($_POST['user_search']) ? sanitize_text_field($_POST['user_search']) : '';
-        $current_page = max(1, get_query_var('paged'));
+        $current_page = max(1, isset($_GET['paged']) ? absint($_GET['paged']) : 1);
+        // Use get_query_var as a fallback
+        $current_page = max(1, get_query_var('paged', $current_page));
 
         $users_per_page = 10; // Change this as needed
         $offset = ($current_page - 1) * $users_per_page;
@@ -71,11 +73,11 @@ function buyer_history_page_content() {
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Total Income</th>
-                        <th>Total Withdraw</th>
-                        <th>Roles</th>
-                        <th>Wallet Balance</th>
+                        <th><?php echo esc_html( 'Username');?></th>
+                        <th><?php echo esc_html( 'Total Income' );?></th>
+                        <th><?php echo esc_html( 'Total Withdraw' );?></th>
+                        <th><?php echo esc_html( 'Roles' );?></th>
+                        <th><?php echo esc_html( 'Wallet Balance' );?></th>
                     </tr>
                 </thead>
                 <tbody>
