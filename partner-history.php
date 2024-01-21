@@ -76,11 +76,11 @@ function partner_history_page_content() {
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Total Income</th>
-                        <th>Total Withdraw</th>
-                        <th>Roles</th>
-                        <th>Wallet Balance</th>
+                    <th><?php echo esc_html( 'Username');?></th>
+                        <th><?php echo esc_html( 'Total Income' );?></th>
+                        <th><?php echo esc_html( 'Total Withdraw' );?></th>
+                        <th><?php echo esc_html( 'Roles' );?></th>
+                        <th><?php echo esc_html( 'Wallet Balance' );?></th>
                     </tr>
                 </thead>
                 <tbody>

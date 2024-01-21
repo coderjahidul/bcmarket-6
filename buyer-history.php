@@ -74,8 +74,8 @@ function buyer_history_page_content() {
                 <thead>
                     <tr>
                         <th><?php echo esc_html( 'Username');?></th>
-                        <th><?php echo esc_html( 'Total Income' );?></th>
-                        <th><?php echo esc_html( 'Total Withdraw' );?></th>
+                        <th><?php echo esc_html( 'Total Deposit' );?></th>
+                        <th><?php echo esc_html( 'Total Purchase' );?></th>
                         <th><?php echo esc_html( 'Roles' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
                     </tr>
