@@ -76,12 +76,52 @@ function buyer_history_page_content() {
                         <th><?php echo esc_html( 'Username');?></th>
                         <th><?php echo esc_html( 'Total Deposit' );?></th>
                         <th><?php echo esc_html( 'Total Purchase' );?></th>
+                        <th><?php echo esc_html( 'Total Orders' );?></th>
                         <th><?php echo esc_html( 'Roles' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+                    function get_customer_total_spend($user_id) {
+                        $total_spend = 0;
+                    
+                        $customer_orders = wc_get_orders(array(
+                            'customer' => $user_id,
+                            'status'   => array('completed', 'processing'),
+                        ));
+                    
+                        foreach ($customer_orders as $order) {
+                            $total_spend += $order->get_total();
+                        }
+                    
+                        return $total_spend;
+                    }
+
+                    function column_total_diposit($user_id) {
+                        $args = array(
+                            'user_id'    => $user_id,
+                            'where'      => array(
+                                array(
+                                    'key'   => 'type',
+                                    'value' => 'credit',
+                                ),
+                            ),
+                            'where_meta' => array(
+                                array(
+                                    'key'   => '_type',
+                                    'value' => 'credit_purchase',
+                                ),
+                            ),
+                        );
+                    
+                        $transactions  = get_wallet_transactions($args);
+                        $total_diposit = array_sum(wp_list_pluck($transactions, 'amount'));
+                    
+                        return wc_price($total_diposit, woo_wallet_wc_price_args());
+                    }
+                    
+
                     foreach ($user_query->get_results() as $user) {
                         $user_id = $user->ID;
                         $username = $user->user_login;
@@ -91,35 +131,29 @@ function buyer_history_page_content() {
                         $wallet_balance = woo_wallet()->wallet->get_wallet_balance($user_id);
                     
                         // Assuming that the following functions are correctly defined
-                        $total_income = wc_price(get_pending_total_by_user_id($user_id));
+                        $total_deposit = column_total_diposit($user_id);
+                        // Check if the function exists before calling it
+                        if (function_exists('get_customer_total_spend')) {
+                            $total_spend = get_customer_total_spend($user_id);
+                        } else {
+                            $total_spend = 0; // Set a default value or handle the situation accordingly
+                        }
+                        $total_orders = count(wc_get_orders(array(
+                            'customer' => $user_id,
+                            'status'   => array('completed','processing'),
+                        )));
+                        
                     
-                        // Calculate total value for each user based on the 'payment' post type
-                        $total_withdraw = 0; // Initialize total value
-
-                        $payment_query = new WP_Query(array(
-                            'post_type' => 'payment',
-                            'posts_per_page' => -1,
-                            'author' => $user_id,
-                        ));
-
-                        while ($payment_query->have_posts()) : $payment_query->the_post();
-                            // Adjust the following logic based on your 'payment' post type structure
-                            $order_ids = get_post_meta(get_the_ID(), 'order_ids', true);
-
-                            // Assuming that get_payment_request_total and deduct_payment_by_payment_id return numeric values
-                            $total_withdraw += get_payment_request_total($order_ids, $user_id) - deduct_payment_by_payment_id($user_id);
-                        endwhile;
-
-                        wp_reset_postdata();
-
                         echo '<tr>';
                         echo '<td>' . esc_html($username) . '</td>';
-                        echo '<td>' . $total_income . '</td>';
-                        echo '<td>' . wc_price($total_withdraw) . '</td>';
+                        echo '<td>' . $total_deposit . '</td>';
+                        echo '<td>' . wc_price($total_spend) . '</td>';
+                        echo '<td>' . $total_orders . '</td>';
                         echo '<td>' . esc_html($roles) . '</td>';
                         echo '<td>' . $wallet_balance . '</td>';
                         echo '</tr>';
                     }
+                
                     ?>
                 </tbody>
             </table>
