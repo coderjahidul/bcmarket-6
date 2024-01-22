@@ -626,7 +626,7 @@ add_action('admin_menu', 'partner_history_menu');
 // Include partner-history.php
 include_once( 'partner-history.php' );
 
-// Function to create the menu page
+// Function to create the partner history menu page
 function partner_history_menu(){
     add_menu_page(
         'Partner History', // Page title
@@ -644,7 +644,7 @@ add_action('admin_menu', 'buyer_history_menu');
 // Include buyer-history.php
 include_once( 'buyer-history.php' );
 
-// Function to create the menu page
+// Function to create the buyer history menu page
 function buyer_history_menu() {
     add_menu_page(
         'Buyer History',              // Page title
@@ -657,7 +657,92 @@ function buyer_history_menu() {
     );
 }
 
+// Hook to add the menu page Users History
+add_action('admin_menu', 'users_history_menu');
 
+// Include users-history.php
+include_once( 'users-history.php' );
+// Function to create users history menu page
+function users_history_menu(){
+    add_menu_page(
+        'Users History', // Page title
+        'Users History', // Menu title
+        'manage_options', // Capability
+        'users-history', // Menu slug
+        'users_history_page_content', // Callback function to display the content
+        'dashicons-admin-users', // Icon Url or Dashicon class
+        40 // Position in the menu
+    );
+}
+
+// Function to identify the browser based on the user agent string
+function identify_browser($user_agent) {
+    if (stripos($user_agent, 'Chrome') !== false) {
+        return 'Google Chrome';
+    } elseif (stripos($user_agent, 'Firefox') !== false) {
+        return 'Mozilla Firefox';
+    } elseif (stripos($user_agent, 'Safari') !== false) {
+        return 'Apple Safari';
+    } elseif (stripos($user_agent, 'Edge') !== false) {
+        return 'Microsoft Edge';
+    } elseif (stripos($user_agent, 'Opera') !== false) {
+        return 'Opera';
+    } else {
+        return 'Unknown Browser';
+    }
+}
+// Function to get user's location based on IP address using ipinfo.io API
+function get_user_location($ip_address) {
+    $api_url = "http://ipinfo.io/{$ip_address}/json";
+    $response = wp_safe_remote_get($api_url);
+
+    if (!is_wp_error($response)) {
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body, true);
+
+        if ($data && !empty($data['city'])) {
+            return $data['city'] . ', ' . $data['region'] . ', ' . $data['country'];
+        }
+    }
+
+    return 'Unknown Location';
+}
+// Hook into the login process to capture the IP address, login time, and browser
+function capture_user_login_info($user_login, $user) {
+    // Get the user's IP address considering proxy or load balancer
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+
+    // Check if certain headers are set and use them if available
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip_address = $_SERVER['HTTP_CLIENT_IP'];
+    }
+
+    // Store the IP address in user meta
+    update_user_meta($user->ID, 'last_login_ip', $ip_address);
+
+    // Get the user agent string
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+    // Identify the browser
+    $browser_name = identify_browser($user_agent);
+
+    // Store the browser name in user meta
+    update_user_meta($user->ID, 'last_login_browser', $browser_name);
+
+    // Get the user's location based on IP address
+    $login_location = get_user_location($ip_address);
+
+    // Store the login location in user meta
+    update_user_meta($user->ID, 'last_login_location', $login_location);
+
+    // Store the login time in user meta
+    update_user_meta($user->ID, 'last_login_time', current_time('mysql'));
+}
+
+// Hook the function to the wp_login action
+add_action('wp_login', 'capture_user_login_info', 10, 2);
 
 
 
