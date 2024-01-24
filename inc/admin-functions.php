@@ -163,10 +163,12 @@ function ban_account_callback() {
  
 	$id = $_POST['id'];
 	$reason = $_POST['reason'];
+	$ban_datetime = $_POST['datetime'];
 
 	if(!empty($id)){
 	
 		update_user_meta($id, 'account_status', 'rejected');
+		update_user_meta($id, 'account_status_datetime', $ban_datetime);
 
 		$args = array(
 		    'post_type' => 'product',
@@ -211,6 +213,7 @@ function rec_partner_account_callback() {
 	if(!empty($id)){
 	
 		update_user_meta($id, 'account_status', '');
+		update_user_meta($id, 'account_status_datetime', '');
 
 		do_action('send_reactivate_email', $id);
 		

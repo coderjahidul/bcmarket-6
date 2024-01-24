@@ -7778,3 +7778,8 @@ input[name="phone"]:hover {
     padding-right: 6px;
     color: #f7f7f7;
 }
+.datetime {
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+}

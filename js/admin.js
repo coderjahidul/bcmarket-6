@@ -92,6 +92,7 @@ jQuery(document).ready(function($){
 
         var id  = $(this).attr('data-id');
         var reason  = $(this).prev('input').val();
+        var ban_datetime = $('.datetime').val();
         var dis = $(this);
         dis.text('Banning');
         dis.css("pointer-events",'none');
@@ -104,7 +105,8 @@ jQuery(document).ready(function($){
             data: {
                 action: 'ban_account', 
                 id: id, 
-                reason: reason, 
+                reason: reason,
+                datetime: ban_datetime,
             },
             success: function(response) {
                 console.log(response);
