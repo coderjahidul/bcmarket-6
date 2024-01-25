@@ -149,10 +149,11 @@ get_header(); ?>
 												$current_datetime = current_time('mysql'); // Get the current datetime in MySQL format
 
 												// Get the 'account_status_datetime' meta value for the user
-												$account_status_datetime = get_user_meta($user->ID, 'account_status_datetime', true);
+												$account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true);
+												$account_status_datetime = str_replace('T', ' ', $account_status_datetimes);
 												
 												// Compare 'account_status_datetime' with the current datetime
-												if ($account_status_datetime >= $current_datetime) {
+												if ($account_status_datetime <= $current_datetime) {
 													// Update 'account_status' to an empty string
 													update_user_meta($user->ID, 'account_status', '');
 													update_user_meta($user->ID, 'account_status_datetime', '');
@@ -162,14 +163,11 @@ get_header(); ?>
 												<?php if(get_user_meta($user->ID, 'account_status' , true) == 'rejected') : ?>
 													<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ">Banned</button>
 													<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger rec_partner_account">Re-activate</button>
+													
 												<?php else : ?>
 													<input class="ban_inp" type="text" placeholder="Add Ban Reason">
 													<input type="datetime-local" class="datetime" name="ban_datetime">
 	                                            	<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ban_account">Ban</button>
-													<?php
-													echo "Ban date: " . $account_status_datetime;
-													echo "Current date: " . $current_datetime;
-													?>
 	                                            <?php endif; ?>
 											</td>
 										</tr>
