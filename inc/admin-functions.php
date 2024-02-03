@@ -546,7 +546,7 @@ function mark_as_paid_callback(){
   $site_name = get_bloginfo('name');
   $domain_name = parse_url( get_site_url(), PHP_URL_HOST );
 
-  $subject = 'The payment is completed https://accountsseller.com';
+  $subject = 'The payment is completed https://pvamarkets.com/';
 
   ob_start(); 
 
@@ -657,7 +657,7 @@ add_action('wp_ajax_similar_pro_find', 'similar_pro_find_callback');
 
 function send_subscription_emails($to, $product_url){
 	$to = $to;
-	$subject = 'Get new Accounts from AccountsSeller';
+	$subject = 'Get new Accounts from Pvamarkets';
 	  $site_name = get_bloginfo('name');
       $domain_name = parse_url( get_site_url(), PHP_URL_HOST );
 	ob_start();
@@ -666,7 +666,7 @@ function send_subscription_emails($to, $product_url){
 		<?php the_custom_logo(); ?>
 		</p>
 		<p>Hi ,</p>
-		<p>Just to let you know — Some New Accounts are published in AccountsSeller.com.</p>
+		<p>Just to let you know — Some New Accounts are published in Pvamarkets.com.</p>
 
 
 		<h2 style="color: #7f54b3; display: block; font-family: &quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif; font-size: 18px; font-weight: bold; line-height: 130%; margin: 0 0 18px; text-align: left;">
@@ -675,7 +675,7 @@ function send_subscription_emails($to, $product_url){
 
 		<div style="margin-bottom: 40px;">
 			
-			<p>Thanks for using Accountsseller!</p>
+			<p>Thanks for using Pvamarkets!</p>
 			<p style="text-align: center;" align="center">Please read these articles to avoid problems when working with accounts</p>
 			<p style="text-align: center;" align="center">
 				<a target="_blank" rel="noopener noreferrer" href="<?php echo home_url(); ?>/accounts-guidelines/" style="color: #7f54b3; font-weight: normal; text-decoration: underline;">Recommendations for working with any accounts</a>
@@ -697,7 +697,7 @@ function send_subscription_emails($to, $product_url){
 
 
 		<p style="text-align: center;" align="center"><span style="color: #999999; font-size: 12px;">The message was created automatically and it does not require a reply</span></p>
-		<p style="text-align: center;" align="center"><span style="color: #999999; font-size: 12px;">Copyright ©&nbsp; Accountsseller 2023.</span></p>
+		<p style="text-align: center;" align="center"><span style="color: #999999; font-size: 12px;">Copyright ©&nbsp; Pvamarkets 2023.</span></p>
 		<p style="text-align: center;" align="center">&nbsp;</p>
 
 	<?php $body = ob_get_clean();

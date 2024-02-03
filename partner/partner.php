@@ -212,7 +212,7 @@ get_header(); ?>
         </div>
         <form class="partner_upload_form">
             <div class="partner_upload_warning">
-                <div class="upload_warning">Read carefully<a href="https://accountsseller.com/requirements-for-accounts/" target="_blank">account placing requirements!</a><br>If your accounts were added with errors, your bid will be rejected</div>
+                <div class="upload_warning">Read carefully<a href="https://pvamarkets.com/requirements-for-accounts/" target="_blank">account placing requirements!</a><br>If your accounts were added with errors, your bid will be rejected</div>
             </div>
             <div class="partner_upload_textarea">
                 <textarea name="accounts" required></textarea>
