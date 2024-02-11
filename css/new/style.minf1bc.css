@@ -3044,7 +3044,7 @@ input[type="checkbox"]:checked + label {
 .head-menu ul a {
     padding-left: 13px;
     padding-right: 13px;
-    background: 0 0;
+    background: #fff;
 }
 .head-menu ul a:hover {
     background: #efeeee;
