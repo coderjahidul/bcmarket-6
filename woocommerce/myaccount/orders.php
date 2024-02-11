@@ -78,12 +78,17 @@
 						<td class="table-tablet-hide"><?php echo $order->get_order_number(); ?></td>
 						<td class="table-tablet-hide">
 							<?php if($item_status != 'private') : ?>
-							<?php foreach ( $order->get_items() as $item_id => $item ) :
+							<?php 
+							foreach ( $order->get_items() as $item_id => $item ) :
 								$product_id = $item->get_product_id();
 								$product = wc_get_product( $product_id );
-								echo wc_get_product_category_list($product_id);
-								?>
-							<?php endforeach; endif; ?>
+								$categories_name = wc_get_product_category_list($product_id);
+								if (strpos($categories_name, 'Facebook') !== false) {
+									echo "<a>Other</a>";
+								} else {
+									echo $categories_name;
+								}
+							endforeach; endif; ?>
 						</td>
 						<td>
 							<div class="sub-col-data2 desktop-hide"><span>ID:</span> <?php echo $order->get_order_number(); ?></div>
