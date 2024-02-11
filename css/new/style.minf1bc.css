@@ -7783,3 +7783,6 @@ input[name="phone"]:hover {
     border: 1px solid #ccc; 
     border-radius: 3px;
 }
+.form-control-dsc {
+    width: 400px;
+}

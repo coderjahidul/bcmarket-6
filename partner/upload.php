@@ -110,7 +110,7 @@ endif;
                                     Description <span>*</span>
                                     <div class="help" data-help="with avatar, 100 friends, registered on Gmail email"></div>
                                 </div>
-                                <textarea name="description[]" class="form-control"><?php  
+                                <textarea name="description[]" class="form-control-dsc"><?php  
 
                                     if(!empty($like_id)){
                                         echo get_the_title($like_id);
@@ -183,14 +183,14 @@ endif;
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    <!-- <tfoot>
                         <tr>
                             <td colspan="6" align="center">
                                 <input type="button" class="btn btn-lg btn-block" id="addrow" value="+ Add another line" />
                             </td>
                         </tr>
                         <tr></tr>
-                    </tfoot>
+                    </tfoot> -->
                 </table>
                 <input type="hidden" name="like_this[]" value="<?php if(!empty($like_id)){
                    echo $like_id;
