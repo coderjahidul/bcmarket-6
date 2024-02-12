@@ -1,3 +1,4 @@
+
 <?php 
 add_action('wp_ajax_new_tickets', 'new_tickets_callback');
 add_action('wp_ajax_nopriv_new_tickets', 'new_tickets_callback');
@@ -248,7 +249,7 @@ function add_ticket_message_callback(){
 		                    <section class="section-msg">
 		                        <span class="ip"></span>
 		                        <div class="m">
-		                            <span><?php echo $result->message; ?></span>
+		                            <span><?php echo processMessage($result->message); ?></span>
 		                            <div class="cb"></div>
 		                            <div class="attachments">
 		                            	<?php 
@@ -283,7 +284,7 @@ function add_ticket_message_callback(){
 		                    <section class="section-msg">
 		                        <span class="ip"></span>
 		                        <div class="m">
-		                            <span><?php echo $result->message; ?></span>
+		                            <span><?php echo processMessage($result->message); ?></span>
 		                            <div class="cb"></div>
 		                            <div class="attachments">
 		                            	<?php 
@@ -448,7 +449,11 @@ function show_ticket_chat_list_callback(){
             <span class="ip"></span>
             <div class="m">
                 <span id="mess823580" ondblclick="tickets.textarea_dialog(823580)">
-                	<?php echo get_post_meta($ticket_id, 'message', true); ?>
+                	<?php 
+						$message = get_post_meta($ticket_id, 'message', true); 
+						echo processMessage($message);
+					
+					?>
                 </span>
                 <div class="cb"></div>
                 <div class="attachments"></div>
@@ -473,7 +478,7 @@ function show_ticket_chat_list_callback(){
             <section class="section-msg">
                 <span class="ip"></span>
                 <div class="m">
-                    <span><?php echo $result->message; ?></span>
+                    <span><?php echo processMessage($result->message); ?></span>
                     <div class="cb"></div>
                     <div class="attachments">
                     	<?php 
@@ -508,7 +513,7 @@ function show_ticket_chat_list_callback(){
                 <section class="section-msg">
                     <span class="ip"></span>
                     <div class="m">
-                        <span><?php echo $result->message; ?></span>
+                        <span><?php echo processMessage($result->message); ?></span>
                         <div class="cb"></div>
                         <div class="attachments">
                         	<?php 

@@ -82,6 +82,9 @@
     background-color: #577dc7;
     color: white;
 }
+[data-current-chat] .self .section-msg .m span a {
+    color: #ffd900;
+}
 [data-current-chat] .self .section-msg .m{
     padding-right: 5px;
     padding-left: 5px;

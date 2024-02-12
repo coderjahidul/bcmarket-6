@@ -746,7 +746,14 @@ add_action('wp_login', 'capture_user_login_info', 10, 2);
 
 
 
+function processMessage($mes) {
+		
+    $pattern = '/(https?:\/\/\S+)/';
+    
+    $mes = preg_replace($pattern, '<a href="$1">$1</a>', $mes);
 
+    return $mes;
+}
 
 
 
