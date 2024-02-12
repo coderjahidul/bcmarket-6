@@ -33,6 +33,7 @@
 					<th class="table-tablet-hide">Categories</th>
 					<th class="table-mobile-hide">Goods</th>
 					<th class="table-mobile-hide">Download</th>
+					<th class="table-mobile-hide">Ticket</th>
 					<th class="table-mobile-hide shopping-list-last-col">About</th>
 					<th class="table-tablet-hide">Date</th>
 				</tr>
@@ -148,6 +149,16 @@
 								</svg>
 								</a>
 							<?php endif; ?>
+						</td>
+						<td class="table-mobile-hide align-center">
+							<a href="<?php echo esc_url(home_url('tickets/new/?order_id=')); ?><?php echo $order->get_order_number(); ?>" class="main-block-create-ticket-btn">
+								<svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M1.56522 0C0.696522 0 0 0.702632 0 1.57895V11.0526C0 11.4714 0.164906 11.873 0.458442 12.1691C0.751977 12.4652 1.1501 12.6316 1.56522 12.6316H10.2412C10.1274 11.9525 10.1618 11.2565 10.342 10.5922C10.5221 9.92791 10.8437 9.31121 11.2843 8.78511C11.7249 8.25902 12.274 7.83617 12.8932 7.54605C13.5124 7.25592 14.1868 7.1055 14.8696 7.10526C15.1317 7.10684 15.3939 7.13053 15.6522 7.17632V1.57895C15.6522 1.16018 15.4873 0.758573 15.1937 0.462463C14.9002 0.166353 14.5021 0 14.087 0H1.56522ZM1.56522 1.57895L7.82609 5.52632L14.087 1.57895V3.15789L7.82609 7.10526L1.56522 3.15789V1.57895ZM14.087 8.68421V11.0526H11.7391V12.6316H14.087V15H15.6522V12.6316H18V11.0526H15.6522V8.68421H14.087Z"
+										fill="#A4A4A4"
+									></path>
+								</svg>
+							</a>
 						</td>
 						<td class="table-mobile-hide">
 							<?php foreach ( $order->get_items() as $item_id => $item ) : ?>
