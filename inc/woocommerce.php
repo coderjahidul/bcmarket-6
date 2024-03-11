@@ -1,3 +1,11 @@
+<style>
+    /* bad-accounts */
+    .bad-accounts input[type="checkbox"] {
+        margin: 0px !important;
+        position: relative;
+    }
+
+</style>
 <?php 
 add_action('wp_ajax_show_products', 'show_products_callback');
 add_action('wp_ajax_nopriv_show_products', 'show_products_callback');
@@ -101,6 +109,7 @@ function item_list_callback(){
                 <th>Account</th>
                 <th>Status</th>
                 <th>Order Id</th>
+                <th>Mark Bad Account</th>
             </tr>
 
             <?php $num = 1; foreach($results as $item) : ?>
@@ -130,6 +139,7 @@ function item_list_callback(){
               
                 
                 ?></td>
+                <td class="bad-accounts"><input type="checkbox" name="account"></td>
             </tr>
         <?php $num++; endforeach; ?>
         </table>
