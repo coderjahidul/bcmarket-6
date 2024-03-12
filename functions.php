@@ -755,3 +755,36 @@ function processMessage($mes) {
     return $mes;
 }
 
+// Bad Accounts AJAX
+add_action('wp_ajax_update_database', 'update_database');
+function update_database() {
+    global $wpdb;
+
+    // Get item ID from AJAX request
+    $id = $_POST['id'];
+
+    // Your database table name
+    $table_name = $wpdb->prefix . 'accounts';
+
+    // Update database
+    $update = $wpdb->query($wpdb->prepare("UPDATE $table_name SET item_status = 'bad' WHERE id = %d", $id));
+
+    wp_die(); // This is required to terminate immediately and return a proper response
+}
+
+
+add_action('wp_ajax_update_database_unchecked', 'update_database_unchecked');
+function update_database_unchecked() {
+    global $wpdb;
+
+    // Get Item ID from AjAX request
+    $id = $_POST['id']; 
+
+    // Your database table name
+    $table_name = $wpdb->prefix . 'accounts';
+
+    // Uncheck updated database
+    $update = $wpdb->query($wpdb->prepare("UPDATE $table_name SET item_status = 'free' WHERE id = %d", $id));
+
+    wp_die();
+}

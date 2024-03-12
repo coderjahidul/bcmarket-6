@@ -4,7 +4,6 @@
         margin: 0px !important;
         position: relative;
     }
-
 </style>
 <?php 
 add_action('wp_ajax_show_products', 'show_products_callback');
@@ -113,34 +112,83 @@ function item_list_callback(){
             </tr>
 
             <?php $num = 1; foreach($results as $item) : ?>
-            <tr>
-                <td><?php echo $num; ?></td>
-                <td>
-                    <?php 
-                        $all_items = array();
-                        foreach($item_format_ex as $item_single){
-                            $all_items[] = $item->$item_single; 
-                        }
-                        echo implode(':', $all_items);
-                    ?>
-                </td>
-                <td><?php echo $item->item_status; ?></td>
-                <td><?php
+            <?php if($item->item_status == "bad"):?>
+                <tr style="background-color: red; color: #fff">
+                    <td><?php echo $num; ?></td>
+                    <td>
+                        <?php 
+                            $id = $item->id;
+                            $all_items = array();
+                            foreach($item_format_ex as $item_single){
+                                $all_items[] = $item->$item_single; 
+                            }
+                            echo implode(':', $all_items);
+                        ?>
+                    </td>
+                    <td><?php echo $item->item_status; ?></td>
+                    <td><?php
+                    
+                    $order_id = $item->order_id;
+                    if($order_id == 0){
+                        echo "--";
+                    }else{
+                        $order = wc_get_order($order_id);
+                        $order_number = $order->get_order_number();
+                        echo $order_number ;
+                    }
                 
-                   $order_id = $item->order_id;
-                   if($order_id == 0){
-                    echo "--";
-                   }else{
-                    $order = wc_get_order($order_id);
-                    $order_number = $order->get_order_number();
-                    echo $order_number ;
-                   }
-             
-              
                 
-                ?></td>
-                <td class="bad-accounts"><input type="checkbox" name="account"></td>
-            </tr>
+                    
+                    ?></td>
+                    <td class="bad-accounts">
+                        <?php if($item->item_status == 'bad'): ?>
+                            <input type="checkbox" value="<?=$item->id?>" checked name="account" class="bad-account">
+                        <?php elseif($item->item_status == 'sold'): ?>
+                            
+                        <?php else:?>
+                            <input type="checkbox" value="<?=$item->id?>" name="account" class="bad-account">
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php else: ?>
+                <tr>
+                    <td><?php echo $num; ?></td>
+                    <td>
+                        <?php 
+                            $id = $item->id;
+                            $all_items = array();
+                            foreach($item_format_ex as $item_single){
+                                $all_items[] = $item->$item_single; 
+                            }
+                            echo implode(':', $all_items);
+                        ?>
+                    </td>
+                    <td><?php echo $item->item_status; ?></td>
+                    <td><?php
+                    
+                    $order_id = $item->order_id;
+                    if($order_id == 0){
+                        echo "--";
+                    }else{
+                        $order = wc_get_order($order_id);
+                        $order_number = $order->get_order_number();
+                        echo $order_number ;
+                    }
+                
+                
+                    
+                    ?></td>
+                    <td class="bad-accounts">
+                        <?php if($item->item_status == 'bad'): ?>
+                            <input type="checkbox" value="<?=$item->id?>" checked name="account" class="bad-account">
+                        <?php elseif($item->item_status == 'sold'): ?>
+                            
+                        <?php else:?>
+                            <input type="checkbox" value="<?=$item->id?>" name="account" class="bad-account">
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
         <?php $num++; endforeach; ?>
         </table>
 
@@ -789,3 +837,50 @@ function check_minimum_order_amount() {
        
     }
 }
+
+?>
+<script>
+    jQuery(document).ready(function($){
+        $(".bad-account").change(function(){
+            if(this.checked){
+                var id = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                    data: {
+                        action: 'update_database',
+                        id: id
+                    },
+                    success: function(response) {
+                        console.log('Check Database update successfully.');
+                    },
+                    error: function(xhr, status, error){
+                        console.error("Check Error updated database:", error);
+                    }
+                });
+            }else {
+                var id = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo admin_url('admin-ajax.php');?>',
+                    data: {
+                        action: 'update_database_unchecked',
+                        id:id
+                    },
+                    success: function(response){
+                        console.log('Uncheck Update Database');
+                    },
+                    error: function(xhr, status, error){
+                        console.error("Error Uncheck Update Database");
+                    }
+                });
+            }
+        });
+    });
+    
+
+
+
+
+
+</script>
