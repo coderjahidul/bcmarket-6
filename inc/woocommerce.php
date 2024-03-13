@@ -4,6 +4,10 @@
         margin: 0px !important;
         position: relative;
     }
+    .float-none {
+        float: none !important;
+        margin-right: 15px !important;
+    }
 </style>
 <?php 
 add_action('wp_ajax_show_products', 'show_products_callback');
@@ -876,6 +880,11 @@ function check_minimum_order_amount() {
                 });
             }
         });
+
+        $('.ui-dialog-titlebar > span.ui-dialog-title').each((i, el)=>{
+            $(el).addClass('float-none');
+            $(`<button id="bad-account-upload" style="color:#fff;">Upload Bad Accoutn list</button>`).insertAfter(el)
+        })
     });
     
 
