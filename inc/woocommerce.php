@@ -8,6 +8,13 @@
         float: none !important;
         margin-right: 15px !important;
     }
+    .popup {
+        display: none;
+    }
+    .remove-close-button .ui-dialog-titlebar-close {
+        display: none;
+    }
+    
 </style>
 <?php 
 add_action('wp_ajax_show_products', 'show_products_callback');
@@ -843,6 +850,9 @@ function check_minimum_order_amount() {
 }
 
 ?>
+<div id="popup" class="popup">
+    <textarea name="" id="" cols="30" rows="50"></textarea>
+</div>
 <script>
     jQuery(document).ready(function($){
         $(".bad-account").change(function(){
@@ -881,11 +891,33 @@ function check_minimum_order_amount() {
             }
         });
 
-        $('.ui-dialog-titlebar > span.ui-dialog-title').each((i, el)=>{
+       // Adding the button after each dialog title
+        $('.ui-dialog-titlebar > span.ui-dialog-title').each(function(i, el) {
             $(el).addClass('float-none');
-            $(`<button id="bad-account-upload" style="color:#fff;">Upload Bad Accoutn list</button>`).insertAfter(el)
-        })
+            $('<button id="bad-account-upload" style="color:#fff;">Upload Bad Account list</button>').insertAfter(el);
+        });
+
+        // Adding an event handler to the button to trigger a popup dialog
+        $(document).on('click', '#bad-account-upload', function() {
+            // Show the popup dialog
+            $('#popup').dialog({
+                modal: false,
+                width: '700px',
+                resizable: true,
+                draggable: true,
+                buttons: {
+                    Close: function() {
+                        $(this).dialog('close');
+                    }
+                },
+                title: 'Bad Account List',
+                dialogClass: 'remove-close-button',
+                
+                
+            });
+        });
     });
+    
     
 
 
