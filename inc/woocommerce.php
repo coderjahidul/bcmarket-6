@@ -11,6 +11,13 @@
     .popup {
         display: none;
     }
+    .popup form textarea {
+        height: 150px;
+        margin-bottom: 10px;
+    }
+    /* .popup form {
+        text-align: right;
+    } */
     .remove-close-button .ui-dialog-titlebar-close {
         display: none;
     }
@@ -134,6 +141,7 @@ function item_list_callback(){
                                 $all_items[] = $item->$item_single; 
                             }
                             echo implode(':', $all_items);
+                            
                         ?>
                     </td>
                     <td><?php echo $item->item_status; ?></td>
@@ -851,7 +859,11 @@ function check_minimum_order_amount() {
 
 ?>
 <div id="popup" class="popup">
-    <textarea name="" id="" cols="30" rows="50"></textarea>
+    <form action="" method="post">
+        <textarea name="" id="" cols="10" rows="10"></textarea>
+        <button type="submit">Checked</button>
+    </form>
+    
 </div>
 <script>
     jQuery(document).ready(function($){
@@ -917,6 +929,7 @@ function check_minimum_order_amount() {
             });
         });
     });
+    
     
     
 
