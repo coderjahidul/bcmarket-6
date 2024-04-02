@@ -788,3 +788,20 @@ function update_database_unchecked() {
 
     wp_die();
 }
+
+add_action('wp_ajax_ticket_solved_function', 'ticket_solved_function');
+function ticket_solved_function() {
+    $ticket_id = isset($_POST['ticket_id']) ? intval($_POST['ticket_id']) : 0;
+    if($ticket_id > 0){
+        update_post_meta($ticket_id, '_solved_unsolved', 'solved');
+    }
+    wp_die();
+}
+add_action('wp_ajax_ticket_unsolved_function', 'ticket_unsolved_function');
+function ticket_unsolved_function(){
+    $ticket_id = isset($_POST['ticket_id']) ? intval($_POST['ticket_id']) : 0;
+    if($ticket_id > 0){
+        update_post_meta($ticket_id, '_solved_unsolved', 'unsolved');
+    }
+    wp_die();
+}

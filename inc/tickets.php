@@ -553,18 +553,12 @@ function show_ticket_chat_list_callback(){
 		
 			// Check if the meta value exists
 			if ($meta_value == "solved") {
-				if(isset($ticket_id) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-					update_post_meta($ticket_id, '_solved_unsolved', 'unsolved');
-				}
 				?>
 				<div id="solved" style="display: block;">
-					<p style="color: green">The problem is solved!😊</p> 
+					<p style="color: green">The problem is solved!😊</p>
 				</div>
 			<?php
 			} else {
-				if (isset($ticket_id) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-					update_post_meta($ticket_id, '_solved_unsolved', 'solved');
-				}
 				?>
 				<div id="unsolved" style="display: block;">
 					<p style="color: red">This is a problem that needs solving!😭</p>
@@ -575,17 +569,53 @@ function show_ticket_chat_list_callback(){
 		
 		<div class="solved_unsolved_button_section">
 			<?php
+			// Assuming $meta_value and $ticket_id are defined somewhere in your code
 			if ($meta_value == "unsolved" || $meta_value == NULL) {
 			?>
-			<form method="POST">
-				<button type="submit">Solved</button>
-			</form>
+				<button class="solved-btn" type="button">Solved</button>
 			<?php } else { ?>
-			<form method="POST">
-				<button type="submit">Unsolved</button>
-			</form>
+				<button class="unsolved-btn" type="button">Unsolved</button>
 			<?php } ?>
 		</div>
+			<script>
+				jQuery(document).ready(function($){
+					$(".solved-btn").click(function(){
+						let ticket_id = <?php echo $ticket_id; ?>;
+						$.ajax({
+							type: "POST",
+							url: "<?php echo admin_url('admin-ajax.php'); ?>",
+							data: {
+								action: 'ticket_solved_function',
+								ticket_id: ticket_id
+							},
+							success: function(data){
+								location.reload();
+							},
+							error: function(xhr, status, error) {
+								console.log(xhr.responseText);
+							}
+							
+						});
+					});
+					$(".unsolved-btn").click(function(){
+						let ticket_id = <?php echo $ticket_id; ?>;
+						$.ajax({
+							type: "POST",
+							url: "<?php echo admin_url('admin-ajax.php'); ?>",
+							data: {
+								action: 'ticket_unsolved_function',
+								ticket_id: ticket_id
+							},
+							success: function(data){
+								location.reload();
+							},
+							error: function(xhr, status, error) {
+								console.log(xhr.responseText);
+							}
+						});
+					});
+				});
+			</script>
 
 		</div>
 		
