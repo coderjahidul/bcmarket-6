@@ -1,28 +1,3 @@
-<style>
-    /* bad-accounts */
-    .bad-accounts input[type="checkbox"] {
-        margin: 0px !important;
-        position: relative;
-    }
-    .float-none {
-        float: none !important;
-        margin-right: 15px !important;
-    }
-    .popup {
-        display: none;
-    }
-    .popup form textarea {
-        height: 150px;
-        margin-bottom: 10px;
-    }
-    /* .popup form {
-        text-align: right;
-    } */
-    .remove-close-button .ui-dialog-titlebar-close {
-        display: none;
-    }
-    
-</style>
 <?php 
 add_action('wp_ajax_show_products', 'show_products_callback');
 add_action('wp_ajax_nopriv_show_products', 'show_products_callback');
@@ -119,7 +94,27 @@ function item_list_callback(){
     $item_format_ex = explode(',', $item_format);
 
     ?>
-
+        <style>
+            /* bad-accounts */
+            .bad-accounts input[type="checkbox"] {
+            margin: 0px !important;
+            position: relative;
+            }
+            .float-none {
+            float: none !important;
+            margin-right: 15px !important;
+            }
+            .popup {
+            display: none;
+            }
+            .popup form textarea {
+            height: 150px;
+            margin-bottom: 10px;
+            }
+            .remove-close-button .ui-dialog-titlebar-close {
+            display: none;
+            }
+        </style>
         <table class="list zebra ac">
             <tr>
                 <th>#</th>
@@ -210,6 +205,77 @@ function item_list_callback(){
             <?php endif; ?>
         <?php $num++; endforeach; ?>
         </table>
+        <div id="popup" class="popup">
+            <form action="" method="post">
+                <textarea name="" id="" cols="10" rows="10"></textarea>
+                <button type="submit">Checked</button>
+            </form>
+        </div>
+        <script>
+            jQuery(document).ready(function($){
+                $(".bad-account").change(function(){
+                    if(this.checked){
+                        var id = $(this).val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                            data: {
+                                action: 'update_database',
+                                id: id
+                            },
+                            success: function(response) {
+                                console.log('Check Database update successfully.');
+                            },
+                            error: function(xhr, status, error){
+                                console.error("Check Error updated database:", error);
+                            }
+                        });
+                    }else {
+                        var id = $(this).val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?php echo admin_url('admin-ajax.php');?>',
+                            data: {
+                                action: 'update_database_unchecked',
+                                id:id
+                            },
+                            success: function(response){
+                                console.log('Uncheck Update Database');
+                            },
+                            error: function(xhr, status, error){
+                                console.error("Error Uncheck Update Database");
+                            }
+                        });
+                    }
+                });
+
+            // Adding the button after each dialog title
+                $('.ui-dialog-titlebar > span.ui-dialog-title').each(function(i, el) {
+                    $(el).addClass('float-none');
+                    $('<button id="bad-account-upload" style="color:#fff;">Upload Bad Account list</button>').insertAfter(el);
+                });
+
+                // Adding an event handler to the button to trigger a popup dialog
+                $(document).on('click', '#bad-account-upload', function() {
+                    // Show the popup dialog
+                    $('#popup').dialog({
+                        modal: false,
+                        width: '700px',
+                        resizable: true,
+                        draggable: true,
+                        buttons: {
+                            Close: function() {
+                                $(this).dialog('close');
+                            }
+                        },
+                        title: 'Bad Account List',
+                        dialogClass: 'remove-close-button',
+                        
+                        
+                    });
+                });
+            });
+        </script>
 
     <?php 
 
@@ -837,6 +903,7 @@ class WC_Settings_As_Payment_Gateways_Minimum {
 WC_Settings_As_Payment_Gateways_Minimum::init();
 
 
+
 add_action( 'woocommerce_checkout_process', 'check_minimum_order_amount' );
 function check_minimum_order_amount() {
     // Get the selected payment gateway
@@ -858,83 +925,4 @@ function check_minimum_order_amount() {
 }
 
 ?>
-<div id="popup" class="popup">
-    <form action="" method="post">
-        <textarea name="" id="" cols="10" rows="10"></textarea>
-        <button type="submit">Checked</button>
-    </form>
-    
-</div>
-<script>
-    jQuery(document).ready(function($){
-        $(".bad-account").change(function(){
-            if(this.checked){
-                var id = $(this).val();
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
-                    data: {
-                        action: 'update_database',
-                        id: id
-                    },
-                    success: function(response) {
-                        console.log('Check Database update successfully.');
-                    },
-                    error: function(xhr, status, error){
-                        console.error("Check Error updated database:", error);
-                    }
-                });
-            }else {
-                var id = $(this).val();
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo admin_url('admin-ajax.php');?>',
-                    data: {
-                        action: 'update_database_unchecked',
-                        id:id
-                    },
-                    success: function(response){
-                        console.log('Uncheck Update Database');
-                    },
-                    error: function(xhr, status, error){
-                        console.error("Error Uncheck Update Database");
-                    }
-                });
-            }
-        });
 
-       // Adding the button after each dialog title
-        $('.ui-dialog-titlebar > span.ui-dialog-title').each(function(i, el) {
-            $(el).addClass('float-none');
-            $('<button id="bad-account-upload" style="color:#fff;">Upload Bad Account list</button>').insertAfter(el);
-        });
-
-        // Adding an event handler to the button to trigger a popup dialog
-        $(document).on('click', '#bad-account-upload', function() {
-            // Show the popup dialog
-            $('#popup').dialog({
-                modal: false,
-                width: '700px',
-                resizable: true,
-                draggable: true,
-                buttons: {
-                    Close: function() {
-                        $(this).dialog('close');
-                    }
-                },
-                title: 'Bad Account List',
-                dialogClass: 'remove-close-button',
-                
-                
-            });
-        });
-    });
-    
-    
-    
-
-
-
-
-
-</script>
