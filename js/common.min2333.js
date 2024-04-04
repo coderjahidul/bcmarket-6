@@ -2436,6 +2436,22 @@ $(document).on('click', '.partner_upload_close, .partner_close', function () {
       $('#preloader').show();
     
     });
+
+    // Home page item view toggle on click function
+    $(document).on('click', '.expand_subcat_button', function() {
+        // Find the parent .socs container
+        var socsContainer = $(this).closest('.socs');
+
+        // Toggle visibility of items within the specific category
+        socsContainer.find('.first_div, .new_div_toggle').toggle();
+
+        // Toggle the button text
+        if ($(this).hasClass('hide_subcat')) {
+            $(this).removeClass('hide_subcat').html('View All');
+        } else {
+            $(this).addClass('hide_subcat').html('Hide accounts');
+        }
+    });
     
     
     
