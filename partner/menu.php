@@ -19,8 +19,8 @@
     }
  ?>
     <div class="partner_cost">
-        <div class="partner_cost_amount">Amount to withdraw: <span><?php echo wc_price(get_pending_total_by_user_id(get_current_user_id())); ?></span></div>
-        <button class="partner_cost_button" data-user="<?php echo get_current_user_id(); ?>" id="partner_payment_button" <?php if(get_pending_total_by_user_id(get_current_user_id()) < $min_walllet){ echo 'disabled=""';} ?>>Order withdrawal</button>
+        <div class="partner_cost_amount">Amount to withdraw: <span><?php echo wc_price(get_pending_total_by_user_ids(get_current_user_id())); ?></span></div>
+        <button class="partner_cost_button" data-user="<?php echo get_current_user_id(); ?>" id="partner_payment_button" <?php if(get_pending_total_by_user_ids(get_current_user_id()) < $min_walllet){ echo 'disabled=""';} ?>>Order withdrawal</button>
     </div>
 <?php endif; ?>
 <?php
