@@ -118,9 +118,7 @@ if (get_post_meta(get_the_ID(), 'bid_status', true) == 'awaiting_upload' || get_
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell"
-                        style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;">
-                        <a
-                            href="<?php echo esc_url(home_url('/admin-interface')); ?>/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">Bad Account:</a>
+                        style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;">Bad Account:
                     </div>
                     <div class="divTableCell" style="text-align: left;">&nbsp;
                         <?php echo count_bad_accounts(get_the_ID()); ?>

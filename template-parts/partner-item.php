@@ -73,7 +73,7 @@ $post_7 = get_post( get_the_ID());
                     <div class="divTableCell" style="text-align: left;">&nbsp;<?php echo get_invalid_total_by_pro_id(get_the_ID()); ?></div>
                 </div>
                 <div class="divTableRow">
-                    <div class="divTableCell" style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;"><a href="<?php echo esc_url(home_url('/')); ?>partner/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">Bad Account:</a></div>
+                    <div class="divTableCell" style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;">Bad Account:</div>
                     <div class="divTableCell" style="text-align: left;">&nbsp;<?php echo count_bad_accounts(get_the_ID()); ?></div>
                 </div>
             </div>
