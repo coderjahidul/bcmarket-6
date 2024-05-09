@@ -1739,6 +1739,14 @@ function get_invalid_total_by_pro_id($product_id){
 
 }
 
+// Count bad accounts
+function count_bad_accounts($product_id){
+	global $wpdb;
+	$table_name = $wpdb->prefix . "accounts";
+	$bad_accounts = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE product_id = $product_id and item_status = 'bad'");
+	return $bad_accounts;
+}
+
 
 add_action( 'pre_get_posts', 'search_items_by_id' );
 function search_items_by_id( $query ) {
