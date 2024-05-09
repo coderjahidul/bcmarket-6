@@ -131,7 +131,11 @@ function item_list_callback() {
             <th>Account</th>
             <th>Status</th>
             <th>Order Id</th>
-            <th>Mark Bad Account</th>
+            <?php 
+            if (current_user_can('administrator')) {
+                ?>
+                <th>Mark Bad Account</th>
+            <?php } ?>
         </tr>
 
         <?php $num = 1;
@@ -165,6 +169,7 @@ function item_list_callback() {
 
 
                     ?></td>
+                    <?php if (current_user_can('administrator')) { ?>
                     <td class="bad-accounts">
                         <?php if ( $item->item_status == 'bad' ) : ?>
                             <input type="checkbox" value="<?= $item->id ?>" checked name="account" class="bad-account">
@@ -174,6 +179,7 @@ function item_list_callback() {
                             <input type="checkbox" value="<?= $item->id ?>" name="account" class="bad-account">
                         <?php endif; ?>
                     </td>
+                    <?php } ?>
                 </tr>
             <?php else : ?>
                 <tr>
@@ -203,6 +209,7 @@ function item_list_callback() {
 
 
                     ?></td>
+                    <?php if (current_user_can('administrator')) { ?>
                     <td class="bad-accounts">
                         <?php if ( $item->item_status == 'bad' ) : ?>
                             <input type="checkbox" value="<?= $item->id ?>" checked name="account" class="bad-account">
@@ -212,6 +219,7 @@ function item_list_callback() {
                             <input type="checkbox" value="<?= $item->id ?>" name="account" class="bad-account">
                         <?php endif; ?>
                     </td>
+                    <?php }?>
                 </tr>
             <?php endif; ?>
             <?php $num++; endforeach; ?>
