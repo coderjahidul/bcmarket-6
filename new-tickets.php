@@ -72,7 +72,7 @@ $unique_orders = array_filter( array_unique($all_orders) );
                 
                 </div>
                <?php if(is_user_logged_in()) :?>
-                    <?php  if(!in_array($order_id, $unique_orders)){?>
+                    <?php  if(!in_array($order_id, $unique_orders)){?> 
                         <form action="#" data-action="ticket" id="new_ticket_form">
                             <input type="hidden" name="action" value="new_tickets" />
                             <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>" />
