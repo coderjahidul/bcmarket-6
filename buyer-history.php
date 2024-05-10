@@ -79,6 +79,7 @@ function buyer_history_page_content() {
                         <th><?php echo esc_html( 'Total Purchase' );?></th>
                         <th><?php echo esc_html( 'Total Orders' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
+                        <th><?php echo esc_html( 'Joined Date' );?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -151,6 +152,7 @@ function buyer_history_page_content() {
                         echo '<td>' . wc_price($total_spend) . '</td>';
                         echo '<td>' . $total_orders . '</td>';
                         echo '<td>' . $wallet_balance . '</td>';
+                        echo '<th>' . $user->user_registered . '</th>';
                         echo '</tr>';
                     }
                 
