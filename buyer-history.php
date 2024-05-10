@@ -41,7 +41,7 @@ function buyer_history_page_content() {
         $offset = ($current_page - 1) * $users_per_page;
 
         $user_query = new WP_User_Query(array(
-            'role__in' => array('customer', 'subscriber'),
+            'role__in' => array('customer', 'subscriber','partner'),
             'orderby' => 'login',
             'order' => 'ASC',
             'search' => '*' . $search_term . '*',
@@ -73,11 +73,11 @@ function buyer_history_page_content() {
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
+                        <th><?php echo esc_html( 'User ID'); ?></th>
                         <th><?php echo esc_html( 'Username');?></th>
                         <th><?php echo esc_html( 'Total Deposit' );?></th>
                         <th><?php echo esc_html( 'Total Purchase' );?></th>
                         <th><?php echo esc_html( 'Total Orders' );?></th>
-                        <th><?php echo esc_html( 'Roles' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
                     </tr>
                 </thead>
@@ -145,11 +145,11 @@ function buyer_history_page_content() {
                         
                     
                         echo '<tr>';
+                        echo '<td>' . $user_id . '</td>';
                         echo '<td>' . esc_html($username) . '</td>';
                         echo '<td>' . $total_deposit . '</td>';
                         echo '<td>' . wc_price($total_spend) . '</td>';
                         echo '<td>' . $total_orders . '</td>';
-                        echo '<td>' . esc_html($roles) . '</td>';
                         echo '<td>' . $wallet_balance . '</td>';
                         echo '</tr>';
                     }
