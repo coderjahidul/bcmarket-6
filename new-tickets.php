@@ -72,107 +72,109 @@ $unique_orders = array_filter( array_unique($all_orders) );
                 
                 </div>
                <?php if(is_user_logged_in()) :?>
-                <form action="#" data-action="ticket" id="new_ticket_form">
-                    <input type="hidden" name="action" value="new_tickets" />
-                    <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>" />
-                   
-                    <div id="ticket_result" class="notify"></div>
-                    <table class="form" id="tickets_form">
-                        <tbody>
-                            <tr>
-                                <td>Subject</td>
-                                <td>
-                                    <select name="subject_id" onchange="tickets.subject_select(this.options[this.selectedIndex].value);" required="required">
-                                        <option value="" selected="selected">Select</option>
-                                        <option value="1">I have problems with the product</option>
-                                        <option value="2">I did not receive the product automatically</option>
-                                        <option value="3">I have a simple question/Need consult</option>
-                                    </select>
-                                </td>
-                            </tr>
-							<!-- 
-                            <tr id="faq" style="display: none;">
-                                <td colspan="2">
-                                    <div class="info" style="display: block;">
-                                        <p class="h3">Answers to many questions are already in our FAQ</p>
-                                        <p>
-                                            <a href="/en/faq" style="color: #ff5a6c;">Open FAQ</a>
-                                            &nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0)" onclick="$('#tickets_form tr:not(.ticket-field)').show(); $('#order_id_container').hide()">I did not find an answer, contact the administration</a>
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr> -->
-                            <?php if(!is_user_logged_in()) : ?>
-                                <tr style="display: none;">
-                                    <td>Email <span class="red">*</span></td>
-                                    <td>
-                                        <input type="email" name="email" style="margin-bottom:5px" required=""><br>
-                                        <input type="checkbox" name="email_notify" id="email_notify" value="1" checked="checked"><label for="email_notify">Notify new messages</label>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-
-                            <tr id="order_id_container" style="display: none;">
-                                <td>
-                                    # order <span class="red">*</span>
-                                    <div class="help" data-help="The order number is a 6-digit number that we sent to your mail with a link to upload the order."></div>
-                                </td>
-                                <?php
-                                    $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : null;
-                                    
-                                    if($order_id !== NULL) :?>
+                    <?php  if(!in_array($order_id, $unique_orders)){?>
+                        <form action="#" data-action="ticket" id="new_ticket_form">
+                            <input type="hidden" name="action" value="new_tickets" />
+                            <input type="hidden" name="user_id" value="<?php echo get_current_user_id(); ?>" />
+                        
+                            <div id="ticket_result" class="notify"></div>
+                            <table class="form" id="tickets_form">
+                                <tbody>
+                                    <tr>
+                                        <td>Subject</td>
                                         <td>
-                                            <input type="number" min="0" max="4294967295" name="order_id_client" value="<?php echo $order_id;?>" id="order_id" readonly/>
+                                            <select name="subject_id" onchange="tickets.subject_select(this.options[this.selectedIndex].value);" required="required">
+                                                <option value="" selected="selected">Select</option>
+                                                <option value="1">I have problems with the product</option>
+                                                <option value="2">I did not receive the product automatically</option>
+                                                <option value="3">I have a simple question/Need consult</option>
+                                            </select>
                                         </td>
-                                    <?php else :?>
+                                    </tr>
+                                    <!-- 
+                                    <tr id="faq" style="display: none;">
+                                        <td colspan="2">
+                                            <div class="info" style="display: block;">
+                                                <p class="h3">Answers to many questions are already in our FAQ</p>
+                                                <p>
+                                                    <a href="/en/faq" style="color: #ff5a6c;">Open FAQ</a>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a href="javascript:void(0)" onclick="$('#tickets_form tr:not(.ticket-field)').show(); $('#order_id_container').hide()">I did not find an answer, contact the administration</a>
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr> -->
+                                    <?php if(!is_user_logged_in()) : ?>
+                                        <tr style="display: none;">
+                                            <td>Email <span class="red">*</span></td>
+                                            <td>
+                                                <input type="email" name="email" style="margin-bottom:5px" required=""><br>
+                                                <input type="checkbox" name="email_notify" id="email_notify" value="1" checked="checked"><label for="email_notify">Notify new messages</label>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+
+                                    <tr id="order_id_container" style="display: none;">
                                         <td>
-                                        <input type="number" min="0" max="4294967295" name="order_id_client" value="" id="order_id" />
-                                    </td>
-                                    <?php endif;
-                                ?>
-                            </tr>
-                            <tr class="ticket-field field1" style="display: none;">
-                                <td>
-                                    What proxy was used <span class="red">*</span> &nbsp;
-                                    <div class="help" data-help="Write us whether you used a proxy when logging into accounts or not. If used, then: ipv4 or ipv6."></div>
-                                </td>
-                                <td>
-                                    <textarea name="field1"></textarea>
-                                </td>
-                            </tr>
-                            <tr class="ticket-field field1" style="display: none;">
-                                <td>
-                                    How did you check your purchased accounts <span class="red">*</span> &nbsp;
-                                    <div class="help" data-help="How did you check your purchased accounts? Did you use a browser, a special program, or other methods?"></div>
-                                </td>
-                                <td>
-                                    <textarea name="field2"></textarea>
-                                </td>
-                            </tr>
-                            <tr style="display: none;">
-                                <td>Message <span class="red">*</span></td>
-                                <td><textarea name="message"></textarea></td>
-                            </tr>
-                            <tr style="display: none;">
-                                <td></td>
-                                <td>
-                                    <div class="ticket-trouble-info">
-                                         If you have any problems with the ticket system or you haven’t received an answer, please email us at <a href="mailto:support@pvamarkets.com">support@pvamarkets.com</a> <br />
-                                        Technical support is provided in English
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <input class="all-orders" type="hidden" value='<?php echo json_encode($unique_orders, true); ?>'>
-                            </tr>
-                            <tr style="display: none;">
-                                <td colspan="2"><button id="new-ticket-submit" class="new-ticket-submit"  type="submit">Send</button></td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
+                                            # order <span class="red">*</span>
+                                            <div class="help" data-help="The order number is a 6-digit number that we sent to your mail with a link to upload the order."></div>
+                                        </td>
+                                        <?php
+                                            $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : null;
+                                            
+                                            if($order_id !== NULL) :?>
+                                                <td>
+                                                    <input type="number" min="0" max="4294967295" name="order_id_client" value="<?php echo $order_id;?>" id="order_id" readonly/>
+                                                </td>
+                                            <?php else :?>
+                                                <td>
+                                                <input type="number" min="0" max="4294967295" name="order_id_client" value="" id="order_id" />
+                                            </td>
+                                            <?php endif;
+                                        ?>
+                                    </tr>
+                                    <tr class="ticket-field field1" style="display: none;">
+                                        <td>
+                                            What proxy was used <span class="red">*</span> &nbsp;
+                                            <div class="help" data-help="Write us whether you used a proxy when logging into accounts or not. If used, then: ipv4 or ipv6."></div>
+                                        </td>
+                                        <td>
+                                            <textarea name="field1"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr class="ticket-field field1" style="display: none;">
+                                        <td>
+                                            How did you check your purchased accounts <span class="red">*</span> &nbsp;
+                                            <div class="help" data-help="How did you check your purchased accounts? Did you use a browser, a special program, or other methods?"></div>
+                                        </td>
+                                        <td>
+                                            <textarea name="field2"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none;">
+                                        <td>Message <span class="red">*</span></td>
+                                        <td><textarea name="message"></textarea></td>
+                                    </tr>
+                                    <tr style="display: none;">
+                                        <td></td>
+                                        <td>
+                                            <div class="ticket-trouble-info">
+                                                If you have any problems with the ticket system or you haven’t received an answer, please email us at <a href="mailto:support@pvamarkets.com">support@pvamarkets.com</a> <br />
+                                                Technical support is provided in English
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <input class="all-orders" type="hidden" value='<?php echo json_encode($unique_orders, true); ?>'>
+                                    </tr>
+                                    <tr style="display: none;">
+                                        <td colspan="2"><button id="new-ticket-submit" class="new-ticket-submit"  type="submit">Send</button></td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    <?php }?>
                 <?php else : ?>
                     <form action="#" data-action="ticket" id="new_ticket_form">
                     <input type="hidden" name="action" value="new_tickets" />
