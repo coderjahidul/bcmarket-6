@@ -544,7 +544,7 @@ function show_ticket_chat_list_callback(){
 
     ob_start(); ?>
 		
-		
+		<?php if(current_user_can('administrator')){?>
 		<div class="solved-unsolved-section">
 			<?php
 			
@@ -567,16 +567,16 @@ function show_ticket_chat_list_callback(){
 			}
 			?>
 		
-		<div class="solved_unsolved_button_section">
-			<?php
-			// Assuming $meta_value and $ticket_id are defined somewhere in your code
-			if ($meta_value == "unsolved" || $meta_value == NULL) {
-			?>
-				<button class="solved-btn" type="button">Solved</button>
-			<?php } else { ?>
-				<button class="unsolved-btn" type="button">Unsolved</button>
-			<?php } ?>
-		</div>
+			<div class="solved_unsolved_button_section">
+				<?php
+				// Assuming $meta_value and $ticket_id are defined somewhere in your code
+				if ($meta_value == "unsolved" || $meta_value == NULL) {
+				?>
+					<button class="solved-btn" type="button">Solved</button>
+				<?php } else { ?>
+					<button class="unsolved-btn" type="button">Unsolved</button>
+				<?php } ?>
+			</div>
 			<script>
 				jQuery(document).ready(function($){
 					$(".solved-btn").click(function(){
@@ -618,6 +618,7 @@ function show_ticket_chat_list_callback(){
 			</script>
 
 		</div>
+		<?php } ?>
 		
 
     <form id="form-ticket-send-msg-js" method="post" enctype="multipart/form-data">
