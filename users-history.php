@@ -72,8 +72,8 @@ function users_history_page_content() {
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
+                        <th><?php echo esc_html( 'User ID' );?></th>
                         <th><?php echo esc_html( 'Username');?></th>
-                        <th><?php echo esc_html( 'Name' );?></th>
                         <th><?php echo esc_html( 'Email' );?></th>
                         <th><?php echo esc_html( 'Roles' );?></th>
                         <th><?php echo esc_html( 'Last Login IP Address' );?></th>
@@ -123,8 +123,8 @@ function users_history_page_content() {
                             }
 
                             echo '<tr>';
+                            echo '<td>' . $user_id . '</td>';
                             echo '<td>' . esc_html($username) . '</td>';
-                            echo '<td>' . $name . '</td>';
                             echo '<td>' . $email . '</td>';
                             echo '<td>' . $roles . '</td>';
                             echo '<td>' . $last_login_ip . '</td>';
