@@ -76,11 +76,11 @@ function partner_history_page_content() {
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
-                    <th><?php echo esc_html( 'Username');?></th>
+                        <th><?php echo esc_html( 'User ID' );?></th>
+                        <th><?php echo esc_html( 'Username');?></th>
                         <th><?php echo esc_html( 'Total Income' );?></th>
-                        <th><?php echo esc_html( 'Total Withdraw' );?></th>
-                        <th><?php echo esc_html( 'Roles' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
+                        <th><?php echo esc_html( 'Joined Date' );?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,11 +116,11 @@ function partner_history_page_content() {
                         wp_reset_postdata();
 
                         echo '<tr>';
+                        echo '<td>' . esc_html($user_id) . '</td>';
                         echo '<td>' . esc_html($username) . '</td>';
                         echo '<td>' . $total_income . '</td>';
-                        echo '<td>' . wc_price($total_withdraw) . '</td>';
-                        echo '<td>' . esc_html($roles) . '</td>';
                         echo '<td>' . $wallet_balance . '</td>';
+                        echo '<th>' . $user->user_registered . '</th>';
                         echo '</tr>';
                     }
                     ?>
