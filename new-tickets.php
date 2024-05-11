@@ -71,7 +71,9 @@ $unique_orders = array_filter( array_unique($all_orders) );
                 </h4>
                 
                 </div>
-               <?php if(is_user_logged_in()) :?>
+               <?php 
+                $order_id = isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : '';
+                if($order_id) :?>
                     <?php  if(!in_array($order_id, $unique_orders)){?> 
                         <form action="#" data-action="ticket" id="new_ticket_form">
                             <input type="hidden" name="action" value="new_tickets" />
