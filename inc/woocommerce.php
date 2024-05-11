@@ -364,8 +364,15 @@ function check_accounts() {
     // Get accounts from ajax request
     $accounts_to_check = $_POST['accounts'];
 
+    if(' ' === $accounts_to_check) {
+        return;
+    }
+
     // Convert to array
     $accounts_to_check = explode( "\n", $accounts_to_check );
+
+    // Remove empty lines
+    $accounts_to_check = array_filter( $accounts_to_check );
 
     // get item_id from cookie
     $itemID = isset( $_COOKIE['item_id'] ) ? $_COOKIE['item_id'] : 0;
