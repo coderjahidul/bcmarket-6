@@ -169,6 +169,7 @@ function ban_account_callback() {
 	
 		update_user_meta($id, 'account_status', 'rejected');
 		update_user_meta($id, 'account_status_datetime', $ban_datetime);
+		add_user_meta($id, 'ban_history', 'ban_partner_account');
 
 		$args = array(
 		    'post_type' => 'product',

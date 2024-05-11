@@ -147,17 +147,14 @@ get_header(); ?>
 											</td>
 											<?php 
 												$current_datetimes = current_time('mysql'); // Get the current datetime in MySQL format
-												$current_datetime = date('Y-m-d H:i', strtotime($current_datetimes));
+												$current_datetime = date('Y-m-d', strtotime($current_datetimes)) . '<br>';
 
 												// Get the 'account_status_datetime' meta value for the user
-												$account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true);
-												$account_status_datetime = str_replace('T', ' ', $account_status_datetimes);
-
-												$ban_timestamp = strtotime($account_status_datetime);
-												$current_timestamp = strtotime($current_datetime);
+												$account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true) . '<br>';
+												$ban_timestamp = str_replace('T', ' ', $account_status_datetimes) . '<br>';
 												
 												// Compare 'account_status_datetime' with the current datetime
-												if ($ban_timestamp <= $current_timestamp) {
+												if ($ban_timestamp <= $current_datetime) {
 													// Update 'account_status' to an empty string
 													update_user_meta($user->ID, 'account_status', '');
 													update_user_meta($user->ID, 'account_status_datetime', '');
@@ -167,14 +164,40 @@ get_header(); ?>
 												<?php if(get_user_meta($user->ID, 'account_status' , true) == 'rejected') : ?>
 													<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ">Banned</button>
 													<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger rec_partner_account">Re-activate</button>
+													<button type="button" class="btn btn-success" data-toggle="modal" data-target="#<?php echo $user->ID;?>banHistory">Ban History</button>
 													
 												<?php else : ?>
 													<input class="ban_inp" type="text" placeholder="Add Ban Reason">
-													<input type="datetime-local" class="datetime" name="ban_datetime">
+													<input type="date" class="datetime" name="ban_datetime">
 	                                            	<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ban_account">Ban</button>
+													<button type="button" class="btn btn-success" data-toggle="modal" data-target="#<?php echo $user->ID;?>banHistory">Ban History</button>
 	                                            <?php endif; ?>
 											</td>
 										</tr>
+										<div class="modal fade" id="<?php echo $user->ID;?>banHistory" tabindex="-1" role="dialog" aria-labelledby="banHistoryModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="banHistoryModalLabel">Ban History</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-bodys">
+													<div class="ban_history" style="padding: 20px 10px;">
+														<?php 
+															global $wpdb;
+															$ban_history = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE `user_id` = $user->ID AND `meta_key` LIKE 'ban_history'");
+															echo "Account Ban: " . $ban_history_count = count($ban_history);
+														?>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												</div>
+												</div>
+											</div>
+										</div>
 		                        	<?php 
 
 		                        endforeach; ?>
