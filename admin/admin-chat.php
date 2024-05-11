@@ -53,6 +53,7 @@ get_header(); ?>
         			$newargs = array(
         				'post_type' => 'tickets',
         				'posts_per_page' => 10,
+						'orderby' => 'modified',
         				'paged' => $paged
         				
         			);
