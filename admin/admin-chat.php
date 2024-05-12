@@ -250,84 +250,168 @@ get_header(); ?>
 											ob_start();
 											?>
 
-											<div class="<?php echo $active_class; ?> ticket_list_item <?php
-												if ($chat_read == 0) {
-													echo 'has_unread_chat';
-													$countBadge++;
-												}
-												?>" data-id="<?php echo get_the_ID(); ?>" data-admin="1">
-												<p class="ticket-list-email">
-													<span
-														class="ticket-list-item-ticket-id">#<?php echo get_post_meta(get_the_ID(), 'ticket_id', true); ?></span>
-													<span class="ticket-list-item-email">
-														<a href="#"
-															title="<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>">
-															<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>
-														</a>
-													</span>
-													&nbsp;
-													<span data-item-client-unread-count-js="" style="display: none;"> </span>
-												</p>
-												<p class="ticket-list-last-time">
-													<span data-item-last-message-datetime-js=""><?php echo get_the_date(); ?>
-														<?php echo get_the_time(); ?></span>
-												</p>
-												<p class="ticket-list-message">
-													<span data-item-message-js="">
-														<?php echo $last_message; ?>
-													</span>
-												</p>
-												<p class="ticket_extra_info">
-													<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
-														Order Id:
-														<?php echo get_post_meta(get_the_ID(), 'order_id_client', true); ?>
-													<?php endif; ?>
-													<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
-														Partner Id:
-														<?php
-														$order_id = get_post_meta(get_the_ID(), 'order_id_client', true);
-
-
-														$pro_query = new WP_Query(
-															array(
-																'post_type' => 'shop_order',
-																'post_status' => array_keys(wc_get_order_statuses()),
-																'meta_key' => '_order_number',
-																'meta_value' => $order_id
-															)
-														);
-
-														while ($pro_query->have_posts()) {
-															$pro_query->the_post();
-															$order_id = get_the_ID();
+											<?php 
+												$get_solved_unsolved = get_post_meta($ticket_id, '_solved_unsolved', true);
+												if($get_solved_unsolved == "solved"){?>
+													<div class="<?php echo $active_class; ?> ticket_list_item <?php
+														if ($chat_read == 0) {
+															echo 'has_unread_chat';
+															$countBadge++;
 														}
-														wp_reset_postdata();
+														?>" data-id="<?php echo get_the_ID(); ?>" data-admin="1">
+														<p class="ticket-list-email">
+															<span
+																class="ticket-list-item-ticket-id">#<?php echo get_post_meta(get_the_ID(), 'ticket_id', true); ?></span>
+															<span class="ticket-list-item-email">
+																<a href="#"
+																	title="<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>">
+																	<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>
+																</a>
+															</span>
+															&nbsp;
+															<span data-item-client-unread-count-js="" style="display: none;"> </span>
+														</p>
+														<p class="ticket-list-last-time">
+															<span data-item-last-message-datetime-js=""><?php echo get_the_date(); ?>
+																<?php echo get_the_time(); ?></span>
+														</p>
+														<p class="ticket-list-message">
+															<span data-item-message-js="">
+																<?php echo $last_message; ?>
+															</span>
+														</p>
+														<p class="ticket_extra_info">
+															<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
+																Order Id:
+																<?php echo get_post_meta(get_the_ID(), 'order_id_client', true); ?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
+																Partner Id:
+																<?php
+																$order_id = get_post_meta(get_the_ID(), 'order_id_client', true);
 
 
-														$order = wc_get_order($order_id);
+																$pro_query = new WP_Query(
+																	array(
+																		'post_type' => 'shop_order',
+																		'post_status' => array_keys(wc_get_order_statuses()),
+																		'meta_key' => '_order_number',
+																		'meta_value' => $order_id
+																	)
+																);
 
-														if ($order) {
-															foreach ($order->get_items() as $item_id => $item) {
-																$product_id = $item->get_product_id();
-																echo get_post_field('post_author', $product_id);
-															}
+																while ($pro_query->have_posts()) {
+																	$pro_query->the_post();
+																	$order_id = get_the_ID();
+																}
+																wp_reset_postdata();
+
+
+																$order = wc_get_order($order_id);
+
+																if ($order) {
+																	foreach ($order->get_items() as $item_id => $item) {
+																		$product_id = $item->get_product_id();
+																		echo get_post_field('post_author', $product_id);
+																	}
+																}
+
+
+																?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'user_id', true)): ?>
+																User Id: <?php echo get_post_meta(get_the_ID(), 'user_id', true); ?>
+															<?php endif; ?> <br>
+															<?php if (get_post_meta(get_the_ID(), 'proxy', true)): ?>
+																Proxy: <?php echo get_post_meta(get_the_ID(), 'proxy', true); ?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'purchase_account', true)): ?>
+																Purchased accounts:
+																<?php echo get_post_meta(get_the_ID(), 'purchase_account', true); ?>
+															<?php endif; ?>
+														</p>
+													</div><?php
+												}else{?>
+													<div style="background: #ff4d4d;" class="<?php echo $active_class; ?> ticket_list_item <?php
+														if ($chat_read == 0) {
+															echo 'has_unread_chat';
+															$countBadge++;
 														}
+														?>" data-id="<?php echo get_the_ID(); ?>" data-admin="1">
+														<p class="ticket-list-email">
+															<span
+																class="ticket-list-item-ticket-id">#<?php echo get_post_meta(get_the_ID(), 'ticket_id', true); ?></span>
+															<span class="ticket-list-item-email">
+																<a href="#"
+																	title="<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>">
+																	<?php echo get_post_meta(get_the_ID(), 'subject_title', true); ?>
+																</a>
+															</span>
+															&nbsp;
+															<span data-item-client-unread-count-js="" style="display: none;"> </span>
+														</p>
+														<p class="ticket-list-last-time">
+															<span data-item-last-message-datetime-js=""><?php echo get_the_date(); ?>
+																<?php echo get_the_time(); ?></span>
+														</p>
+														<p class="ticket-list-message">
+															<span data-item-message-js="">
+																<?php echo $last_message; ?>
+															</span>
+														</p>
+														<p class="ticket_extra_info">
+															<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
+																Order Id:
+																<?php echo get_post_meta(get_the_ID(), 'order_id_client', true); ?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'order_id_client', true)): ?>
+																Partner Id:
+																<?php
+																$order_id = get_post_meta(get_the_ID(), 'order_id_client', true);
 
 
-														?>
-													<?php endif; ?>
-													<?php if (get_post_meta(get_the_ID(), 'user_id', true)): ?>
-														User Id: <?php echo get_post_meta(get_the_ID(), 'user_id', true); ?>
-													<?php endif; ?> <br>
-													<?php if (get_post_meta(get_the_ID(), 'proxy', true)): ?>
-														Proxy: <?php echo get_post_meta(get_the_ID(), 'proxy', true); ?>
-													<?php endif; ?>
-													<?php if (get_post_meta(get_the_ID(), 'purchase_account', true)): ?>
-														Purchased accounts:
-														<?php echo get_post_meta(get_the_ID(), 'purchase_account', true); ?>
-													<?php endif; ?>
-												</p>
-											</div>
+																$pro_query = new WP_Query(
+																	array(
+																		'post_type' => 'shop_order',
+																		'post_status' => array_keys(wc_get_order_statuses()),
+																		'meta_key' => '_order_number',
+																		'meta_value' => $order_id
+																	)
+																);
+
+																while ($pro_query->have_posts()) {
+																	$pro_query->the_post();
+																	$order_id = get_the_ID();
+																}
+																wp_reset_postdata();
+
+
+																$order = wc_get_order($order_id);
+
+																if ($order) {
+																	foreach ($order->get_items() as $item_id => $item) {
+																		$product_id = $item->get_product_id();
+																		echo get_post_field('post_author', $product_id);
+																	}
+																}
+
+
+																?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'user_id', true)): ?>
+																User Id: <?php echo get_post_meta(get_the_ID(), 'user_id', true); ?>
+															<?php endif; ?> <br>
+															<?php if (get_post_meta(get_the_ID(), 'proxy', true)): ?>
+																Proxy: <?php echo get_post_meta(get_the_ID(), 'proxy', true); ?>
+															<?php endif; ?>
+															<?php if (get_post_meta(get_the_ID(), 'purchase_account', true)): ?>
+																Purchased accounts:
+																<?php echo get_post_meta(get_the_ID(), 'purchase_account', true); ?>
+															<?php endif; ?>
+														</p>
+													</div>
+													<?php
+												}?>
 											<?php
 											$divContent = ob_get_clean();
 
