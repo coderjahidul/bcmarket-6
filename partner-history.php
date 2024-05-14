@@ -77,7 +77,7 @@ function partner_history_page_content() {
                 <thead>
                     <tr>
                         <th><?php echo esc_html( 'User ID' );?></th>
-                        <th><?php echo esc_html( 'Username');?></th>
+                        <th><?php echo esc_html( 'Email');?></th>
                         <th><?php echo esc_html( 'Total Income' );?></th>
                         <th><?php echo esc_html( 'Wallet Balance' );?></th>
                         <th><?php echo esc_html( 'Joined Date' );?></th>
@@ -117,7 +117,7 @@ function partner_history_page_content() {
 
                         echo '<tr>';
                         echo '<td>' . esc_html($user_id) . '</td>';
-                        echo '<td>' . esc_html($username) . '</td>';
+                        echo '<td>' . esc_html($email) . '</td>';
                         echo '<td>' . $total_income . '</td>';
                         echo '<td>' . $wallet_balance . '</td>';
                         echo '<th>' . $user->user_registered . '</th>';
