@@ -74,7 +74,7 @@ function buyer_history_page_content() {
                 <thead>
                     <tr>
                         <th><?php echo esc_html( 'User ID'); ?></th>
-                        <th><?php echo esc_html( 'Username');?></th>
+                        <th><?php echo esc_html( 'Email' );?></th>
                         <th><?php echo esc_html( 'Total Deposit' );?></th>
                         <th><?php echo esc_html( 'Total Purchase' );?></th>
                         <th><?php echo esc_html( 'Total Orders' );?></th>
@@ -147,7 +147,7 @@ function buyer_history_page_content() {
                     
                         echo '<tr>';
                         echo '<td>' . $user_id . '</td>';
-                        echo '<td>' . esc_html($username) . '</td>';
+                        echo '<td>' . $email . '</td>';
                         echo '<td>' . $total_deposit . '</td>';
                         echo '<td>' . wc_price($total_spend) . '</td>';
                         echo '<td>' . $total_orders . '</td>';
