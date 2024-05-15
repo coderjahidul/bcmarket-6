@@ -121,7 +121,7 @@ if (get_post_meta(get_the_ID(), 'bid_status', true) == 'awaiting_upload' || get_
                         style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;">Bad Account:
                     </div>
                     <div class="divTableCell" style="text-align: left;">&nbsp;
-                        <?php echo count_bad_accounts(get_the_ID()); ?>
+                        <?php echo count_bad_accounts($product->id); ?>
                     </div>
                 </div>
             </div>

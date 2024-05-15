@@ -74,7 +74,7 @@ $post_7 = get_post( get_the_ID());
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell" style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;">Bad Account:</div>
-                    <div class="divTableCell" style="text-align: left;">&nbsp;<?php echo count_bad_accounts(get_the_ID()); ?></div>
+                    <div class="divTableCell" style="text-align: left;">&nbsp;<?php echo count_bad_accounts($product->id); ?></div>
                 </div>
             </div>
         </div>
