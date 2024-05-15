@@ -273,10 +273,13 @@ function item_list_callback() {
             });
 
             // Adding the button after each dialog title
-            $('.ui-dialog-titlebar > span.ui-dialog-title').each(function (i, el) {
-                $(el).addClass('float-none');
-                $('<button id="bad-account-upload" style="color:#fff;">Upload Bad Account list</button>').insertAfter(el);
-            });
+            let isAdmin = <?php echo (current_user_can('administrator')) ? 'true' : 'false' ?>; // Check if the current user is an administrator
+            if(isAdmin){
+                $('.ui-dialog-titlebar > span.ui-dialog-title').each(function (i, el) {
+                    $(el).addClass('float-none');
+                    $('<button id="bad-account-upload" style="color:#fff;">Upload Bad Account list</button>').insertAfter(el);
+                });
+            }
 
             // Adding an event handler to the button to trigger a popup dialog
             $(document).on('click', '#bad-account-upload', function () {
