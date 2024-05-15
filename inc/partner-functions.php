@@ -1318,52 +1318,79 @@ function get_pending_total_by_user_id($user_id){
 	}
 
 }
-function get_pending_total_by_user_ids($user_id){
+// function get_pending_total_by_user_ids($user_id){
 
+// 	$product_query = new WP_Query(array(
+// 		'post_type' => 'product', 
+// 		'posts_per_page' => 5, 
+// 		'author' => $user_id, 
+// 		'post_status' => array('publish', 'draft', 'pending')
+// 	));
+
+// 	$total = array();
+
+// 	global $wpdb;
+
+// 	$dtotal = array();
+ 
+// 	$table_name = $wpdb->prefix . "wallet_minus";
+// 	$results = $wpdb->get_results( "SELECT * FROM $table_name WHERE partner_id = $user_id AND status = 1");
+// 	if($results){
+
+// 		foreach($results as $item){
+// 			$dtotal[] = $item->amount;
+// 		}
+	
+// 	}
+
+
+// 	if($product_query->have_posts()){
+
+// 		while($product_query->have_posts()){
+// 			$product_query->the_post();
+
+// 			$total[] = get_pending_payment_by_product_id(get_the_ID());
+
+// 		} wp_reset_postdata();
+
+// 		if($total){
+// 			return array_sum($total) - array_sum($dtotal);
+// 		}else{
+// 			return 0 - array_sum($dtotal);
+// 		}
+
+
+// 	}else{
+// 		return 0 - array_sum($dtotal);
+// 	}
+
+// }
+
+function get_pending_total_by_user_ids($user_id){
+	global $wpdb;
+
+	// Fetching total amount from wallet_minus table
+	$table_name = $wpdb->prefix . "wallet_minus";
+	$dtotal = $wpdb->get_col($wpdb->prepare("SELECT amount FROM $table_name WHERE partner_id = %d AND status = 1", $user_id));
+
+	// Fetching pending payment from product posts
 	$product_query = new WP_Query(array(
-		'post_type' => 'product', 
-		'posts_per_page' => 5, 
-		'author' => $user_id, 
-		'post_status' => array('publish', 'draft', 'pending')
+		'post_type'	=> 'product',
+		'posts_per_page' => -1,
+		'author'	=> $user_id,
+		'post_status'	=> array('publish', 'draft', 'pending')
 	));
 
 	$total = array();
-
-	global $wpdb;
-
-	$dtotal = array();
- 
-	$table_name = $wpdb->prefix . "wallet_minus";
-	$results = $wpdb->get_results( "SELECT * FROM $table_name WHERE partner_id = $user_id AND status = 1");
-	if($results){
-
-		foreach($results as $item){
-			$dtotal[] = $item->amount;
-		}
-	
-	}
-
-
 	if($product_query->have_posts()){
-
 		while($product_query->have_posts()){
 			$product_query->the_post();
-
 			$total[] = get_pending_payment_by_product_id(get_the_ID());
-
-		} wp_reset_postdata();
-
-		if($total){
-			return array_sum($total) - array_sum($dtotal);
-		}else{
-			return 0 - array_sum($dtotal);
 		}
-
-
-	}else{
-		return 0 - array_sum($dtotal);
+		wp_reset_postdata();
 	}
-
+	// Calculating and returning total pending payment
+	return array_sum($total) - array_sum($dtotal);
 }
 
 

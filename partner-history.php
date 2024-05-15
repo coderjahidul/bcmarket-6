@@ -91,7 +91,7 @@ function partner_history_page_content() {
                         $name = $user->display_name;
                         $email = $user->user_email;
                         $roles = implode(', ', $user->roles);
-                        $wallet_balance = woo_wallet()->wallet->get_wallet_balance($user_id);
+                        $wallet_balance = wc_price(get_pending_total_by_user_id($user_id));
                     
                         // Assuming that the following functions are correctly defined
                         $total_income = wc_price(get_pending_total_by_user_id($user_id));
