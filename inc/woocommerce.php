@@ -145,12 +145,13 @@ function item_list_callback() {
                     <td><?php echo $num; ?></td>
                     <td>
                         <?php
-                        $id        = $item->id;
-                        $all_items = array();
-                        foreach ( $item_format_ex as $item_single ) {
-                            $all_items[] = $item->$item_single;
-                        }
-                        echo implode( ':', $all_items );
+                        // $id        = $item->id;
+                        // $all_items = array();
+                        // foreach ( $item_format_ex as $item_single ) {
+                        //     $all_items[] = $item->$item_single;
+                        // }
+                        // echo implode( ':', $all_items );
+                        echo $item->login . ': ' . $item->password;
 
                         ?>
                     </td>
@@ -186,12 +187,13 @@ function item_list_callback() {
                     <td><?php echo $num; ?></td>
                     <td>
                         <?php
-                        $id        = $item->id;
-                        $all_items = array();
-                        foreach ( $item_format_ex as $item_single ) {
-                            $all_items[] = $item->$item_single;
-                        }
-                        echo implode( ':', $all_items );
+                        // $id        = $item->id;
+                        // $all_items = array();
+                        // foreach ( $item_format_ex as $item_single ) {
+                        //     $all_items[] = $item->$item_single;
+                        // }
+                        // echo implode( ':', $all_items );
+                        echo $item->login . ': ' . $item->password;
                         ?>
                     </td>
                     <td><?php echo $item->item_status; ?></td>
