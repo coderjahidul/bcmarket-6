@@ -805,7 +805,7 @@ function ticket_unsolved_function(){
     }
     wp_die();
 }
-
+// Subscribe form AJAX function
 function handle_subscribe_form_ajax(){
     if(isset($_POST['subscriber_email']) && is_email($_POST['subscriber_email'])){
         $email = sanitize_email($_POST['subscriber_email']);
@@ -851,4 +851,28 @@ function handle_subscribe_form_ajax(){
 
 add_action('wp_ajax_subscribe_form', 'handle_subscribe_form_ajax');
 add_action('wp_ajax_nopriv_subscribe_form', 'handle_subscribe_form_ajax');
+
+
+// Unsubscribe function 
+function handle_unsubscribe_request(){
+    if(isset($_GET['email'])){
+        $email = sanitize_email($_GET['email']);
+
+        if(!is_email($email)){
+            wp_die('Invalid email address.');
+        }
+        global $wpdb;
+        $table_name = $wpdb->prefix . "subscribe_emails";
+        $subscribe = $wpdb->get_var($wpdb->prepare("SELECT email FROM $table_name WHERE email = %s", $email));
+
+        if($subscribe){
+            $wpdb->delete($table_name, array('email' => $email));
+            echo "You have successfully unsubscribed.";
+        }else{
+            echo "You are not subscribed.";
+        }
+        exit;
+    }
+}
+add_action('init', 'handle_unsubscribe_request');
 

@@ -661,6 +661,7 @@ function send_subscription_emails($to, $product_url){
 	$subject = 'Get new Accounts from Pvamarkets';
 	  $site_name = get_bloginfo('name');
       $domain_name = parse_url( get_site_url(), PHP_URL_HOST );
+	  $unsubscribe_link = home_url() . '/unsubscribe?email=' . $to;
 	ob_start();
 	?>
 		<p style='text-align:center'>
@@ -677,6 +678,7 @@ function send_subscription_emails($to, $product_url){
 		<div style="margin-bottom: 40px;">
 			
 			<p>Thanks for using Pvamarkets!</p>
+			<p>If you no longer wish to receive these emails, you can <a href='$unsubscribe_link'>unsubscribe</a>.</p>
 			<p style="text-align: center;" align="center">Please read these articles to avoid problems when working with accounts</p>
 			<p style="text-align: center;" align="center">
 				<a target="_blank" rel="noopener noreferrer" href="<?php echo home_url(); ?>/accounts-guidelines/" style="color: #7f54b3; font-weight: normal; text-decoration: underline;">Recommendations for working with any accounts</a>
@@ -706,7 +708,6 @@ function send_subscription_emails($to, $product_url){
 
 	wp_mail( $to, $subject, $body, $headers );
 }
-
 
 
 add_action('wp_ajax_connect_item', 'connect_item_callback');
@@ -781,7 +782,12 @@ function connect_item_callback(){
 
 		send_subscription_emails( $user_email, get_permalink($item_id) );
 	}
+	$table_name = $wpdb->prefix . "subscribe_emails";
+	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
 
+	foreach($get_subscriber as $subscriber){
+		send_subscription_emails( $subscriber->email, get_permalink($item_id) );
+	}
 	die();
 
 }
