@@ -661,7 +661,7 @@ function send_subscription_emails($to, $product_url){
 	$subject = 'Get new Accounts from Pvamarkets';
 	  $site_name = get_bloginfo('name');
       $domain_name = parse_url( get_site_url(), PHP_URL_HOST );
-	  $unsubscribe_link = home_url() . '/unsubscribe?email=' . $to;
+	  $unsubscribe_link = home_url() . '/unsubscribe?email=' . urlencode($to);
 	ob_start();
 	?>
 		<p style='text-align:center'>
@@ -678,7 +678,7 @@ function send_subscription_emails($to, $product_url){
 		<div style="margin-bottom: 40px;">
 			
 			<p>Thanks for using Pvamarkets!</p>
-			<p>If you no longer wish to receive these emails, you can <a href='$unsubscribe_link'>unsubscribe</a>.</p>
+			<p>If you no longer wish to receive these emails, you can <a href='<?php echo $unsubscribe_link;?>'>unsubscribe</a>.</p>
 			<p style="text-align: center;" align="center">Please read these articles to avoid problems when working with accounts</p>
 			<p style="text-align: center;" align="center">
 				<a target="_blank" rel="noopener noreferrer" href="<?php echo home_url(); ?>/accounts-guidelines/" style="color: #7f54b3; font-weight: normal; text-decoration: underline;">Recommendations for working with any accounts</a>

@@ -867,9 +867,11 @@ function handle_unsubscribe_request(){
 
         if($subscribe){
             $wpdb->delete($table_name, array('email' => $email));
-            echo "You have successfully unsubscribed.";
+            // redirect to unsubscribe page
+            wp_redirect(home_url().'/unsubscribe-success');
+            exit;
         }else{
-            echo "You are not subscribed.";
+            wp_redirect(home_url().'/unsubscribe-fail');
         }
         exit;
     }
