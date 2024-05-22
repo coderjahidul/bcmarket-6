@@ -863,46 +863,46 @@ var busy = 0,
                         $("body").css({ opacity: 1 }), $("#buy-dialog-loader").remove();
                     });
         },
-        subscribers_dialog: function (e, t) {
-            var a = "<br />" + lang.subscribeLabel + "<br /><b>" + t + "</b><br /><br />",
-                i = $(
-                    '<div id="subscribers_dialog" title="' +
-                        lang.subscribeTitle +
-                        '" style="display:none">' +
-                        a +
-                        '<input type="text" id="subscribe_email" autocomplete="off" placeholder="' +
-                        lang.enterEmail +
-                        '"><span id="valid"></span><br /><br /><span class="red">' +
-                        lang.confirmSubscribtion +
-                        '</span><br /><br /><button id="save_subscribe" onclick="orders.subscribe_save(' +
-                        e +
-                        ')">' +
-                        lang.subscribe +
-                        "</button></div>"
-                )
-                    .appendTo("body")
-                    .dialog({
-                        autoOpen: !0,
-                        open: function () {
-                            $(".ui-widget-overlay").click(function () {
-                                i.remove();
-                            });
-                        },
-                        modal: !0,
-                        width: $("body").width() > 800 ? 800 : "95%",
-                        maxHeight: "90%",
-                    });
-        },
-        subscribe_save: function (e) {
-            var t = $("#subscribe_email").val();
-            if ("" != t) {
-                /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(t)
-                    ? $.post("/req/subscribe.php", { do: "subscribe", item_id: e, email: t }, function (e) {
-                          0 == e.code ? ($(".ui-dialog").fadeOut(), $("#subscribers_dialog").html(e.message), $(".ui-dialog").fadeIn()) : (alert(e.errormsg), (i.innerHTML = e.errormsg));
-                      })
-                    : ($(this).css({ border: "1px solid #ff0000" }), $("#valid").text(lang.invalidEmail));
-            } else $(this).css({ border: "1px solid #ff0000" }), $("#valid").text(lang.errorEmptyEmail);
-        },
+        // subscribers_dialog: function (e, t) {
+        //     var a = "<br />" + lang.subscribeLabel + "<br /><b>" + t + "</b><br /><br />",
+        //         i = $(
+        //             '<div id="subscribers_dialog" title="' +
+        //                 lang.subscribeTitle +
+        //                 '" style="display:none">' +
+        //                 a +
+        //                 '<input type="text" id="subscribe_email" autocomplete="off" placeholder="' +
+        //                 lang.enterEmail +
+        //                 '"><span id="valid"></span><br /><br /><span class="red">' +
+        //                 lang.confirmSubscribtion +
+        //                 '</span><br /><br /><button id="save_subscribe" onclick="orders.subscribe_save(' +
+        //                 e +
+        //                 ')">' +
+        //                 lang.subscribe +
+        //                 "</button></div>"
+        //         )
+        //             .appendTo("body")
+        //             .dialog({
+        //                 autoOpen: !0,
+        //                 open: function () {
+        //                     $(".ui-widget-overlay").click(function () {
+        //                         i.remove();
+        //                     });
+        //                 },
+        //                 modal: !0,
+        //                 width: $("body").width() > 800 ? 800 : "95%",
+        //                 maxHeight: "90%",
+        //             });
+        // },
+        // subscribe_save: function (e) {
+        //     var t = $("#subscribe_email").val();
+        //     if ("" != t) {
+        //         /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i.test(t)
+        //             ? $.post("/req/subscribe.php", { do: "subscribe", item_id: e, email: t }, function (e) {
+        //                   0 == e.code ? ($(".ui-dialog").fadeOut(), $("#subscribers_dialog").html(e.message), $(".ui-dialog").fadeIn()) : (alert(e.errormsg), (i.innerHTML = e.errormsg));
+        //               })
+        //             : ($(this).css({ border: "1px solid #ff0000" }), $("#valid").text(lang.invalidEmail));
+        //     } else $(this).css({ border: "1px solid #ff0000" }), $("#valid").text(lang.errorEmptyEmail);
+        // },
         invalid: function (e, t, a, i) {
             var o = t.parentNode;
             (o.innerHTML = '<img src="/img/ajax-load.gif" alt="">'),
@@ -2451,6 +2451,38 @@ $(document).on('click', '.partner_upload_close, .partner_close', function () {
         } else {
             $(this).addClass('hide_subcat').html('Hide accounts');
         }
+    });
+
+    jQuery(document).ready(function($){
+        $('form[id^="subscribe-form"]').on('submit', function(e){
+            e.preventDefault();
+
+            let form = $(this);
+            let email = form.find('input[name = "subscriber_email"]').val();
+            let action = form.find('input[name = "action"]').val();
+
+            $.ajax({
+                url: my_ajax_object.ajax_url,
+                type: 'POST',
+                data: {
+                    action: action,
+                    subscriber_email: email
+                },
+                success: function(response){
+                    if(response.success){
+                        alert(response.data.message);
+                        form[0].reset();
+                        form.closest('.modal').modal('hide');
+                    }else{
+                        alert(response.data.message);
+                    }
+                },
+                error: function(){
+                    alert('There was an error processing your request. Please try again.');
+                }
+                
+            });
+        });
     });
     
     

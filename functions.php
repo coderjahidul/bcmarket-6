@@ -805,3 +805,50 @@ function ticket_unsolved_function(){
     }
     wp_die();
 }
+
+function handle_subscribe_form_ajax(){
+    if(isset($_POST['subscriber_email']) && is_email($_POST['subscriber_email'])){
+        $email = sanitize_email($_POST['subscriber_email']);
+
+
+        global $wpdb;
+        $table_name = $wpdb->prefix . "subscribe_emails";
+        $charset_collate = $wpdb->get_charset_collate();
+        // Create the table if it doesn't exist
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            email varchar(255) NOT NULL,
+            date datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY email (email)
+        ) $charset_collate;";
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
+        // Check if the email is already in the table
+        $check_email = $wpdb->get_var($wpdb->prepare("SELECT email FROM $table_name WHERE email = %s", $email));
+        // Insert the email into the table
+        if(!$check_email == $email){
+            $wpdb->insert(
+                $table_name,
+                array(
+                    'email' => $email,
+                )
+            );
+    
+            // Response with a success message
+            wp_send_json_success(array('message'=>'Thenks for subscribing!'));
+        }else{
+            // Response with email already subscribed message
+            wp_send_json_error(array('message'=>'You are already subscribed!'));
+        }
+        
+    }else {
+        // Response with an error message
+        wp_send_json_error(array('message'=>'Please enter a valid email!'));
+        wp_die();
+    }
+}
+
+add_action('wp_ajax_subscribe_form', 'handle_subscribe_form_ajax');
+add_action('wp_ajax_nopriv_subscribe_form', 'handle_subscribe_form_ajax');
+
