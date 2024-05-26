@@ -878,3 +878,38 @@ function handle_unsubscribe_request(){
 }
 add_action('init', 'handle_unsubscribe_request');
 
+function daily_ban_accounts_status_check(){
+    $users = get_users();
+    foreach($users as $user) {
+        $current_datetimes = current_time('mysql'); // Get the current datetime in MySQL format
+        $current_datetime = date('Y-m-d', strtotime($current_datetimes)) . '<br>';
+
+        // Get the 'account_status_datetime' meta value for the user
+        $account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true) . '<br>';
+        $ban_timestamp = str_replace('T', ' ', $account_status_datetimes) . '<br>';
+        
+        // Compare 'account_status_datetime' with the current datetime
+        if ($ban_timestamp <= $current_datetime) {
+            // Update 'account_status' to an empty string
+            update_user_meta($user->ID, 'account_status', '');
+            update_user_meta($user->ID, 'account_status_datetime', '');
+        }
+    }
+}
+// Sedule the cron event
+if(!wp_next_scheduled('daily_ban_accounts_status_check')){
+    wp_schedule_event(time(), 'daily', 'daily_ban_accounts_status_check');
+}
+
+// Hook into the seduled event
+add_action('daily_ban_accounts_status_check', 'ban_accounts_status_check');
+
+//  Unschedule Event on Theme Deactivation
+register_deactivation_hook('__FILE__', 'theme_deactivate');
+
+function theme_deactivate() {
+    wp_clear_scheduled_hook('daily_ban_accounts_status_check');
+}
+
+
+

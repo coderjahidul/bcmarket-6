@@ -145,21 +145,7 @@ get_header(); ?>
 													<div class="deduct_msg"></div>
 												</form>
 											</td>
-											<?php 
-												$current_datetimes = current_time('mysql'); // Get the current datetime in MySQL format
-												$current_datetime = date('Y-m-d', strtotime($current_datetimes)) . '<br>';
-
-												// Get the 'account_status_datetime' meta value for the user
-												$account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true) . '<br>';
-												$ban_timestamp = str_replace('T', ' ', $account_status_datetimes) . '<br>';
-												
-												// Compare 'account_status_datetime' with the current datetime
-												if ($ban_timestamp <= $current_datetime) {
-													// Update 'account_status' to an empty string
-													update_user_meta($user->ID, 'account_status', '');
-													update_user_meta($user->ID, 'account_status_datetime', '');
-												}
-											?>
+											
 											<td>
 												<?php if(get_user_meta($user->ID, 'account_status' , true) == 'rejected') : ?>
 													<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ">Banned</button>
