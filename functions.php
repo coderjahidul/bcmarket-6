@@ -70,7 +70,7 @@ function bcmarket_scripts() {
     wp_enqueue_style('sweet_alert_css', get_template_directory_uri() . '/css/sweetalert2.min.css');
     
 
-
+    wp_enqueue_script('script', 'https://code.jquery.com/jquery-3.0.0.min.js', array('jquery'), '', true);
     wp_enqueue_script('md5', get_template_directory_uri() . '/js/md5.min.js');
     wp_enqueue_script('min4b23', get_template_directory_uri() . '/js/lang/en.min4b23.js');
     wp_enqueue_script('jquery');
