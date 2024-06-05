@@ -164,21 +164,21 @@ function upload_accounts_callback()
 
 
 	foreach ($line_array as $element) {
-		if (strpos($element, '|||') !== false) {
-			$contains = "|||";
-		} elseif (strpos($element, ':::') !== false) {
-			$contains = ":::";
+		if (strpos($element, '|') !== false) {
+			$contains = "|";
+		} elseif (strpos($element, ':') !== false) {
+			$contains = ":";
 		}
 
 	}
 
 
 	if ($line_array) {
-		if ($contains === "|||") {
+		if ($contains === "|") {
 			$filteredArray = array_filter($line_array, function ($item) use ($logins) {
 				$emails = [];
 
-				$emails = explode('|||', $item);
+				$emails = explode('|', $item);
 
 
 				$matched = false;
@@ -196,11 +196,11 @@ function upload_accounts_callback()
 
 				return true; // Return true for unmatched emails
 			});
-		} elseif ($contains === ":::") {
+		} elseif ($contains === ":") {
 			$filteredArray = array_filter($line_array, function ($item) use ($logins) {
 				$emails = [];
 
-				$emails = explode(':::', $item);
+				$emails = explode(':', $item);
 
 
 
@@ -393,22 +393,22 @@ function bcmarket_run_every_one_minute_callbacks()
 				$line_array = explode("\n", str_replace("\r", "", $accounts_text));
 				$duplicate_array = explode("\n", str_replace("\r", "", $duplicate_text));
 
-				$item_format = get_post_meta(get_the_ID(), 'item_format', true);
-				$item_format_ex = explode(',', $item_format);
-				$profile_index = array_search('profile_link', $item_format_ex);
-				$item_format_count = count($item_format_ex);
-				$item_format_login_key = array_search('login', $item_format_ex);
-				$item_format_pass_key = array_search('password', $item_format_ex);
-				$item_format_alt_email_key = array_search('alt_email', $item_format_ex);
-				$item_format_phone_key = array_search('phone', $item_format_ex);
-				$item_format_dob_key = array_search('dob', $item_format_ex);
-				$item_format_gender_key = array_search('gender', $item_format_ex);
-				$item_format_username_key = array_search('username', $item_format_ex);
-				$item_format_email_key = array_search('email', $item_format_ex);
-				$item_format_cookies_key = array_search('cookies', $item_format_ex);
-				$item_format_gauth_key = array_search('gauth', $item_format_ex);
-				$item_format_mailpassword_key = array_search('mailpassword', $item_format_ex);
-				$item_format_profile_link_key = array_search('profile_link', $item_format_ex);
+				$item_format = get_post_meta(get_the_ID(), 'item_format', true); // Example: login,password,alt_email,phone,dob,gender,username,email,cookies,gauth,mailpassword,profile_link
+				$item_format_ex = explode(',', $item_format);  // Example: array([0] => login, [1] => password, [2] => alt_email, [3] => phone, [4] => dob, [5] => gender, [6] => username, [7] => email, [8] => cookies, [9] => gauth, [10] => mailpassword, [11] => profile_link)
+				$profile_index = array_search('profile_link', $item_format_ex); // Example: profile index = 11
+				$item_format_count = count($item_format_ex); // Example: Format count = 12
+				$item_format_login_key = array_search('login', $item_format_ex); // Example: login index = 0
+				$item_format_pass_key = array_search('password', $item_format_ex); // Example: password index = 1
+				$item_format_alt_email_key = array_search('alt_email', $item_format_ex); // Example: alt_email index = 2
+				$item_format_phone_key = array_search('phone', $item_format_ex); // Example: phone index = 3
+				$item_format_dob_key = array_search('dob', $item_format_ex); // Example: dob index = 4
+				$item_format_gender_key = array_search('gender', $item_format_ex); // Example: gender index = 5
+				$item_format_username_key = array_search('username', $item_format_ex); // Example: username index = 6
+				$item_format_email_key = array_search('email', $item_format_ex); // Example: email index = 7
+				$item_format_cookies_key = array_search('cookies', $item_format_ex); // Example: cookies index = 8
+				$item_format_gauth_key = array_search('gauth', $item_format_ex); // Example: gauth index = 9
+				$item_format_mailpassword_key = array_search('mailpassword', $item_format_ex); // Example: mailpassword index = 10
+				$item_format_profile_link_key = array_search('profile_link', $item_format_ex); // Example: profile_link index = 11
 
 				// 	if (strlen($accounts_text)==0 ) {
 
@@ -428,7 +428,7 @@ function bcmarket_run_every_one_minute_callbacks()
 				// //   	break;
 				// }
 
-
+				
 				if ($profile_index) {
 
 					if (strlen($accounts_text) != 0) {
@@ -436,16 +436,16 @@ function bcmarket_run_every_one_minute_callbacks()
 
 							$uniqueString = "##COLONSLASH##";
 							$modifiedString = str_replace('://', $uniqueString, $each_item);
-							if (strpos($accounts_text, '|||')) {
-								$item_array = explode('|||', $modifiedString);
-							} else if (strpos($accounts_text, ':::')) {
-								$item_array = explode(':::', $modifiedString);
+							if (strpos($accounts_text, '|')) {
+								$item_array = explode('|', $modifiedString);
+							} else if (strpos($accounts_text, ':')) {
+								$item_array = explode(':', $modifiedString);
 							}
 							foreach ($item_array as &$item) {
 								$item = str_replace($uniqueString, '://', $item);
 							}
 
-							$colon_count = count($item_array);
+							echo "Count Items: " . $colon_count = count($item_array);
 
 							// if($colon_count < 3){
 							// 	$item_array = explode("|", $each_item);
@@ -558,10 +558,10 @@ function bcmarket_run_every_one_minute_callbacks()
 
 								$uniqueString = "##COLONSLASH##";
 								$modifiedString = str_replace('://', $uniqueString, $each_item);
-								if (strpos($duplicate_text, '|||')) {
-									$item_array = explode('|||', $modifiedString);
-								} else if (strpos($duplicate_text, ':::')) {
-									$item_array = explode(':::', $modifiedString);
+								if (strpos($duplicate_text, '|')) {
+									$item_array = explode('|', $modifiedString);
+								} else if (strpos($duplicate_text, ':')) {
+									$item_array = explode(':', $modifiedString);
 								}
 								foreach ($item_array as &$item) {
 									$item = str_replace($uniqueString, '://', $item);
@@ -671,17 +671,17 @@ function bcmarket_run_every_one_minute_callbacks()
 						foreach ($line_array as $each_item) {
 
 
-							if (strpos($accounts_text, '|||')) {
-								$item_array = explode('|||', $each_item);
-							} else if (strpos($accounts_text, ':::')) {
-								$item_array = explode(':::', $each_item);
+							if (strpos($accounts_text, '|')) { 
+								$item_array = explode('|', $each_item);
+							} else if (strpos($accounts_text, ':')) {
+								$item_array = explode(':', $each_item);
 							}
 
 
 							$colon_count = count($item_array);
 
 
-							$count_item = count($item_array);
+							$count_item = count($item_array); // jahiduil
 
 
 							if ($count_item == $item_format_count) {
@@ -788,10 +788,10 @@ function bcmarket_run_every_one_minute_callbacks()
 							foreach ($duplicate_array as $each_item) {
 
 
-								if (strpos($duplicate_text, '|||')) {
-									$item_array = explode('|||', $each_item);
-								} else if (strpos($duplicate_text, ':::')) {
-									$item_array = explode(':::', $each_item);
+								if (strpos($duplicate_text, '|')) {
+									$item_array = explode('|', $each_item);
+								} else if (strpos($duplicate_text, ':')) {
+									$item_array = explode(':', $each_item);
 								}
 
 
