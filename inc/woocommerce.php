@@ -926,47 +926,44 @@ WC_Settings_As_Payment_Gateways::init();
 
 
 // Calculate Fees based on gateways
-add_action( 'woocommerce_cart_calculate_fees', 'as_add_fee_discounter_per_payment_gateways', 25 );
-function as_add_fee_discounter_per_payment_gateways( $cart ) {
+add_action('woocommerce_cart_calculate_fees', 'as_add_fee_discounter_per_payment_gateways', 25);
 
-    $current_method            = WC()->session->get( 'chosen_payment_method' );
+function as_add_fee_discounter_per_payment_gateways($cart) {
+
+    $current_method            = WC()->session->get('chosen_payment_method');
     $installed_payment_methods = WC()->payment_gateways->payment_gateways();
     $available_methods         = array();
     $available_methods_title   = array();
-    $current_method_title      = WC()->session->get( 'payment_method_title' );
-    $subtotal                  = WC()->cart->get_subtotal();
+    $current_method_title      = WC()->session->get('payment_method_title');
+    $subtotal                  = floatval(WC()->cart->get_subtotal()); // Convert subtotal to float
 
-    foreach ( $installed_payment_methods as $method_id => $method ) {
+    foreach ($installed_payment_methods as $method_id => $method) {
         $available_methods[]                 = $method_id;
         $available_methods_title[$method_id] = $method->title;
     }
 
-    if ( is_admin() && !defined( 'DOING_AJAX' ) ) {
+    if (is_admin() && !defined('DOING_AJAX')) {
         return;
     }
 
-    if ( in_array( $current_method, $available_methods ) ) {
+    if (in_array($current_method, $available_methods)) {
 
         $opt_title = $available_methods_title[$current_method];
         $opt_name  = 'wc_settings_discount_' . $current_method;
-        $opt_val   = get_option( $opt_name );
+        $opt_val   = floatval(get_option($opt_name)); // Convert option value to float
 
-        if ( $opt_val != 0 ) {
+        if ($opt_val != 0) {
 
-            if ( $opt_val < 0 ) {
+            if ($opt_val < 0) {
                 $dis_text = 'Discount';
             } else {
                 $dis_text = 'Fee';
             }
 
-            $calculate_discount = ( $subtotal * $opt_val ) / 100;
-            WC()->cart->add_fee( $opt_title . ' ' . $dis_text, $calculate_discount );
+            $calculate_discount = ($subtotal * $opt_val) / 100;
+            WC()->cart->add_fee($opt_title . ' ' . $dis_text, $calculate_discount);
         }
-
-
     }
-
-
 }
 
 // Update Checkout on Gateway Selection 
