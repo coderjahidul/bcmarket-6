@@ -1,9 +1,10 @@
 <?php 
 function change_item_status_callback() {
  
-	$status = $_POST['status'];
-	$id = $_POST['product_id'];
-	$note = $_POST['note'];
+	$status = $_POST['status'] ?? '';
+	print_r("product_id: " . $id . " status: " . $status);
+	$id = $_POST['product_id'] ?? '';
+	$note = $_POST['note'] ?? '';
 
 	if(!empty($id)){
 	
@@ -28,9 +29,10 @@ function change_item_status_callback() {
 			    $post_id = wp_update_post( $my_post );
 		    	do_action('send_soldout_email', $post_id);
 		    }
+		
 
 
-		}elseif($status == 'declined'){
+		}elseif($status === 'declined'){
 
 			do_action('send_declined_email', $id, $note);
 			die('dcelnied email setn');
@@ -765,23 +767,23 @@ function connect_item_callback(){
 	
 
 
-	$table_name = $wpdb->prefix . "subscribe";
-	$results = $wpdb->get_results( "SELECT user_id FROM $table_name WHERE partner_id = $partner_id");
+	// $table_name = $wpdb->prefix . "subscribe";
+	// $results = $wpdb->get_results( "SELECT user_id FROM $table_name WHERE partner_id = $partner_id");
 	
 	  
 
-	$users = [];
-	foreach($results as $result){
-		$users[] = $result->user_id;
-	}
+	// $users = [];
+	// foreach($results as $result){
+	// 	$users[] = $result->user_id;
+	// }
 
-	$users = array_unique( $users );
+	// $users = array_unique( $users );
 
-	foreach($users as $user_id){
-		$user_email = get_userdata( $user_id )->user_email;
+	// foreach($users as $user_id){
+	// 	$user_email = get_userdata( $user_id )->user_email;
 
-		send_subscription_emails( $user_email, get_permalink($item_id) );
-	}
+	// 	send_subscription_emails( $user_email, get_permalink($item_id) );
+	// }
 	$table_name = $wpdb->prefix . "subscribe_emails";
 	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
 
