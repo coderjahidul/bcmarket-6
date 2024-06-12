@@ -37,7 +37,7 @@ function users_history_page_content() {
         // Use get_query_var as a fallback
         $current_page = max(1, get_query_var('paged', $current_page));
 
-        $users_per_page = 20; // Change this as needed
+        $users_per_page = 100; // Change this as needed
         $offset = ($current_page - 1) * $users_per_page;
 
         $user_query = new WP_User_Query(array(
