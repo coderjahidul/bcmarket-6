@@ -1,10 +1,9 @@
 <?php 
 function change_item_status_callback() {
  
-	$status = $_POST['status'] ?? '';
-	print_r("product_id: " . $id . " status: " . $status);
-	$id = $_POST['product_id'] ?? '';
-	$note = $_POST['note'] ?? '';
+	$status = $_POST['status'];
+	$id = $_POST['product_id'];
+	$note = $_POST['note'];
 
 	if(!empty($id)){
 	
