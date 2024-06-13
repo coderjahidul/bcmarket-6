@@ -153,7 +153,7 @@ get_header(); ?>
 													<button type="button" class="btn btn-success" data-toggle="modal" data-target="#<?php echo $user->ID;?>banHistory">Ban History</button>
 													
 												<?php else : ?>
-													<input class="ban_inp" type="text" placeholder="Add Ban Reason">
+													<input class="ban_inp" type="text" name="reason" placeholder="Add Ban Reason">
 													<input type="date" class="datetime" name="ban_datetime">
 	                                            	<button data-id="<?php echo $user->ID; ?>" class="btn  btn-danger ban_account">Ban</button>
 													<button type="button" class="btn btn-success" data-toggle="modal" data-target="#<?php echo $user->ID;?>banHistory">Ban History</button>
@@ -173,8 +173,12 @@ get_header(); ?>
 													<div class="ban_history" style="padding: 20px 10px;">
 														<?php 
 															global $wpdb;
+															$get_ban_reasons = get_usermeta($user->ID, 'ban_reason', true);
+															foreach($get_ban_reasons as $index => $ban_reason) {
+																echo "<strong>Ban Reason: </strong> " . ($index + 1) . ": " . $ban_reason . '<br>';
+															}
 															$ban_history = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE `user_id` = $user->ID AND `meta_key` LIKE 'ban_history'");
-															echo "Account Ban: " . $ban_history_count = count($ban_history);
+															echo"<strong>Total Ban: </strong>" . $ban_history_count = count($ban_history);
 														?>
 													</div>
 												</div>

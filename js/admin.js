@@ -88,20 +88,19 @@ jQuery(document).ready(function($){
     });
 
 
-     $(document).on('click', '.ban_account', function(){
-
-        var id  = $(this).attr('data-id');
-        var reason  = $(this).prev('input').val();
-        var ban_datetime = $('.datetime').val();
+    $(document).on('click', '.ban_account', function() {
+        var id = $(this).attr('data-id');
+        var reason = $(this).prevAll('input[name="reason"]').val();
+        var ban_datetime = $(this).prevAll('input[name="ban_datetime"]').val();
         var dis = $(this);
         dis.text('Banning');
-        dis.css("pointer-events",'none');
-        console.log(id);
-
+        dis.css("pointer-events", 'none');
+        console.log(id, reason, ban_datetime);
+    
         $.ajax({
             type: "POST",
             url: my_ajax_object.ajax_url,
-            dataType : 'html',
+            dataType: 'html',
             data: {
                 action: 'ban_account', 
                 id: id, 
@@ -110,18 +109,18 @@ jQuery(document).ready(function($){
             },
             success: function(response) {
                 console.log(response);
-
-                if(response == 'yes'){
+    
+                if(response === 'yes'){
                     dis.text('Banned'); 
-                }else{
+                } else {
                     alert('Could not be Banned. Please try again.');
                     dis.text('Ban'); 
+                    dis.css("pointer-events", 'auto');
                 }
-                
             }
         });
-
     });
+    
 
      $(document).on('click', '.rec_partner_account', function(){
 
