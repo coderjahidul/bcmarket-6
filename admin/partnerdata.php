@@ -187,11 +187,10 @@ get_header(); ?>
 																if (!is_array($get_un_ban_date)) {
 																	$get_un_ban_date = array($get_un_ban_date);
 																}
-															
 																foreach ($get_ban_reasons as $index => $ban_reason) {
 																	$ban_current_date = isset($get_ban_current_date[$index]) ? $get_ban_current_date[$index] : '';
 																	$un_ban_date = isset($get_un_ban_date[$index]) ? $get_un_ban_date[$index] : '';
-																	echo "<strong>Ban Reason " . ($index + 1) . ":</strong> " . esc_html($ban_reason) . " (" . esc_html($ban_current_date) . " TO " . esc_html($un_ban_date) . ")<br>";
+																	echo "<strong>Ban Reason:</strong> " . esc_html($ban_reason) . " (" . esc_html($ban_current_date) . " TO " . esc_html($un_ban_date) . ")<br>";
 																}
 															} else {
 																echo "<strong>No Ban Reason</strong>";
