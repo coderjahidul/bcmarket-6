@@ -9,7 +9,7 @@ function users_history_page_content() {
         .history .tablenav-pages a {
             text-decoration: none;
         }
-        .history .tablenav-pages .current{
+        .history .tablenav-pages .current {
             background-color: #fff;
         }
         .history .tablenav-pages .page-numbers {
@@ -25,7 +25,9 @@ function users_history_page_content() {
         <form method="post">
             <p class="search-box">
                 <label class="screen-reader-text" for="user-search-input">Search Buyer:</label>
-                <input type="search" id="user-search-input" name="user_search" value="<?php echo isset($_POST['user_search']) ? esc_attr($_POST['user_search']) : ''; ?>">
+                <input type="search" id="user-search-input" name="user_search" placeholder="Search by Email" value="<?php echo isset($_POST['user_search']) ? esc_attr($_POST['user_search']) : ''; ?>">
+                <input type="search" id="ip-search-input" name="last_login_ip_search" placeholder="Search by Last Login IP" value="<?php echo isset($_POST['last_login_ip_search']) ? esc_attr($_POST['last_login_ip_search']) : ''; ?>">
+                <input type="search" id="ip-search-input" name="ip_search" placeholder="Search by Registered IP" value="<?php echo isset($_POST['ip_search']) ? esc_attr($_POST['ip_search']) : ''; ?>">
                 <input type="submit" id="search-submit" class="button" value="Search Partner">
             </p>
         </form>
@@ -33,6 +35,9 @@ function users_history_page_content() {
         <?php
         // Query and display user information
         $search_term = isset($_POST['user_search']) ? sanitize_text_field($_POST['user_search']) : '';
+        $last_login_ip_search_term = isset($_POST['last_login_ip_search']) ? sanitize_text_field($_POST['last_login_ip_search']) : '';
+        $ip_search_term = isset($_POST['ip_search']) ? sanitize_text_field($_POST['ip_search']) : '';
+
         $current_page = max(1, isset($_GET['paged']) ? absint($_GET['paged']) : 1);
         // Use get_query_var as a fallback
         $current_page = max(1, get_query_var('paged', $current_page));
@@ -40,13 +45,40 @@ function users_history_page_content() {
         $users_per_page = 100; // Change this as needed
         $offset = ($current_page - 1) * $users_per_page;
 
-        $user_query = new WP_User_Query(array(
+        // Construct the meta query for the IP address search
+        $meta_query = array();
+        if ($last_login_ip_search_term) {
+            $meta_query[] = array(
+                'key' => 'last_login_ip',
+                'value' => $last_login_ip_search_term,
+                'compare' => 'LIKE'
+            );
+        }
+        if ($ip_search_term) {
+            $meta_query[] = array(
+                'key' => 'user_registration_ip',
+                'value' => $ip_search_term,
+                'compare' => 'LIKE'
+            );
+        }
+
+
+        $args = array(
             'orderby' => 'login',
             'order' => 'ASC',
-            'search' => '*' . $search_term . '*',
             'number' => $users_per_page,
             'offset' => $offset,
-        ));
+            'meta_query' => $meta_query,
+        );
+
+        // If there is a username search term, add the search query
+        if ($search_term) {
+            $args['search'] = '*' . $search_term . '*';
+            $args['search_columns'] = array('user_login', 'user_nicename', 'user_email', 'display_name');
+        }
+
+        // Query users
+        $user_query = new WP_User_Query($args);
 
         if (!empty($user_query->get_results())) {
             ?>
