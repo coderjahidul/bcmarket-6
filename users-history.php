@@ -80,6 +80,7 @@ function users_history_page_content() {
                         <th><?php echo esc_html( 'Last Login Time' );?></th>
                         <th><?php echo esc_html( 'Last Login Location' );?></th>
                         <th><?php echo esc_html( 'Joined Date' );?></th>
+                        <th><?php echo esc_html( 'Registered IP Address' );?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,6 +122,14 @@ function users_history_page_content() {
                             }else{
                                 $last_login_location = "N/A";
                             }
+                            // Get the registered IP address from user meta
+                            $registered_ip = get_user_meta($user_id, 'user_registration_ip', true);
+                            if($registered_ip != NULL){
+                                $user_registered_ip = $registered_ip;
+                            }else{
+                                $user_registered_ip = "N/A";
+                            }
+
 
                             echo '<tr>';
                             echo '<td>' . $user_id . '</td>';
@@ -131,6 +140,7 @@ function users_history_page_content() {
                             echo '<td>' . $last_login_time . '</td>';
                             echo '<td>' . $last_login_location . '</td>';
                             echo '<td>' . $user->user_registered . '</td>';
+                            echo '<td>' . $user_registered_ip . '</td>';
                             echo '</tr>';
                         }
 

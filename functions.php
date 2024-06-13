@@ -912,4 +912,27 @@ function theme_deactivate() {
 }
 
 
+// Capture user IP address
+function capture_user_ip_address( $user_id ) {
+    // Get the user IP address
+    $user_ip = $_SERVER['REMOTE_ADDR'];
 
+    // Update user meta with the IP address
+    update_user_meta( $user_id, 'user_registration_ip', $user_ip );
+}
+add_action( 'user_register', 'capture_user_ip_address' );
+
+
+function add_ip_address_column( $columns ) {
+    $columns['ip_address'] = 'IP Address';
+    return $columns;
+}
+add_filter( 'manage_users_columns', 'add_ip_address_column' );
+
+function show_ip_address_column_content( $value, $column_name, $user_id ) {
+    if ( 'ip_address' == $column_name ) {
+        return get_user_meta( $user_id, 'user_registration_ip', true );
+    }
+    return $value;
+}
+add_action( 'manage_users_custom_column', 'show_ip_address_column_content', 10, 3 );
