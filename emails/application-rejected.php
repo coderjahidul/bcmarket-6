@@ -6,7 +6,7 @@ $reason = $args['reason'];
 </p>
 <?php if(!empty($reason)) : ?>
 <p style="text-align:center">
-	<span style="font-size:22px">Reason: <?php echo $reason; ?></span>
+	<span style="font-size:22px">Reason: <?php echo $reason . " (" . $current_datetime . "TO" . $ban_datetime . ")"; ?></span>
 </p>
 <?php endif; ?>
 <p style="text-align:center">

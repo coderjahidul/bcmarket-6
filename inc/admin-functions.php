@@ -172,6 +172,12 @@ function ban_account_callback() {
 		update_user_meta($id, 'account_status_datetime', $ban_datetime);
 		add_user_meta($id, 'ban_reason', $reason);
 		add_user_meta($id, 'ban_history', 'ban_partner_account');
+        add_user_meta($id, 'unban_date', $ban_datetime);
+
+		$current_datetimes = current_time('mysql'); // Get the current datetime in MySQL format
+        $current_datetime = date('Y-m-d', strtotime($current_datetimes));
+        // ban current date 
+        add_user_meta($id, 'ban_current_date', $current_datetime);
 
 		$args = array(
 		    'post_type' => 'product',
@@ -191,7 +197,7 @@ function ban_account_callback() {
 		    wp_reset_postdata();
 		}
 
-		do_action('send_ban_email', $id, $reason);
+		do_action('send_ban_email', $id, $reason, $current_datetime, $ban_datetime);
 		
 
 		
@@ -258,7 +264,7 @@ function send_reactivate_email_callback($user_id){
 }
 add_action('send_reactivate_email', 'send_reactivate_email_callback', 10, 1);
 
-function send_ban_email_callback($user_id, $reason){
+function send_ban_email_callback($user_id, $reason, $current_datetime, $ban_datetime){
 
 
 	$user = get_userdata( $user_id );

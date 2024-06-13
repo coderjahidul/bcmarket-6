@@ -885,9 +885,12 @@ function daily_ban_accounts_status_check(){
         $current_datetime = date('Y-m-d', strtotime($current_datetimes)) . '<br>';
 
         // Get the 'account_status_datetime' meta value for the user
-        $account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true) . '<br>';
-        $ban_timestamp = str_replace('T', ' ', $account_status_datetimes) . '<br>';
-        
+        $account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true);
+        $ban_timestamp = str_replace('T', ' ', $account_status_datetimes);
+        // ban current date 
+        $ban_current_date = add_usermeta($user->ID, 'ban_current_date', $current_datetime);
+        // Unban date 
+        $unban_date = add_usermeta($user->ID, 'unban_date', $ban_timestamp);
         // Compare 'account_status_datetime' with the current datetime
         if ($ban_timestamp <= $current_datetime) {
             // Update 'account_status' to an empty string
