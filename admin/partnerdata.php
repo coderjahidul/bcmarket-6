@@ -174,9 +174,17 @@ get_header(); ?>
 														<?php 
 															global $wpdb;
 															$get_ban_reasons = get_usermeta($user->ID, 'ban_reason', true);
-															foreach($get_ban_reasons as $index => $ban_reason) {
-																echo "<strong>Ban Reason: </strong> " . ($index + 1) . ": " . $ban_reason . '<br>';
+															if(!empty($get_ban_reasons)){
+																if(!is_array($get_ban_reasons)){
+																	$get_ban_reasons = array($get_ban_reasons);
+																}
+																foreach($get_ban_reasons as $index => $ban_reason) {
+																	echo "<strong>Ban Reason: </strong> " . ($index + 1) . ": " . $ban_reason . '<br>';
+																}
+															}else {
+																echo "<strong>No Ban Reason</strong>";
 															}
+															
 															$ban_history = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE `user_id` = $user->ID AND `meta_key` LIKE 'ban_history'");
 															echo"<strong>Total Ban: </strong>" . $ban_history_count = count($ban_history);
 														?>
