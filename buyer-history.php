@@ -90,6 +90,7 @@ function buyer_history_page_content() {
                         $customer_orders = wc_get_orders(array(
                             'customer' => $user_id,
                             'status'   => array('completed', 'processing'),
+                            'limit'    => -1
                         ));
                     
                         foreach ($customer_orders as $order) {
@@ -142,6 +143,7 @@ function buyer_history_page_content() {
                         $total_orders = count(wc_get_orders(array(
                             'customer' => $user_id,
                             'status'   => array('completed','processing'),
+                            'limit'    => -1
                         )));
                         
                     
