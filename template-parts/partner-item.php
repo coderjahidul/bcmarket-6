@@ -38,7 +38,7 @@ $post_7 = get_post( get_the_ID());
         <div id="account_format"><?php echo get_post_meta(get_the_ID(), 'item_format', true); ?></div>
     </td>
     <td>
-        <?php  echo "Price Per Account: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD <br>
+        <?php  echo "Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD <br>
         <?php echo "Saling Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD
     </td>
     <td>
