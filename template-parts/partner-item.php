@@ -35,21 +35,42 @@ $post_7 = get_post( get_the_ID());
         </div>
         <a href="javascript:void(0)" onclick="bids.description_dialog(<?php echo get_the_ID(); ?>)">partner description</a>
         <div id="description_<?php echo get_the_ID(); ?>" style="display: none;"><?php echo $product->get_name(); ?></div>
-        <div id="account_format"><?php echo get_post_meta(get_the_ID(), 'item_format', true); ?></div>
+        <?php
+            // Get the 'item_format' meta value from the current post
+            $item_format = get_post_meta(get_the_ID(), 'item_format', true);
+
+            // Split the item format value into an array
+            $output_values = explode(',', $item_format);
+
+            // Split the output into two parts: first three values and the remaining values
+            $first_three = array_slice($output_values, 0, 3);
+            $remaining = array_slice($output_values, 3);
+
+            // Combine the first three values into a single string
+            $first_three_str = implode(',', $first_three);
+
+            // Combine the remaining values into a single string
+            $remaining_str = implode(',', $remaining);
+
+            // Print the first three values on one line and the remaining values on the next line
+            echo "<div id='account_format'>{$first_three_str}</div>";
+            if (!empty($remaining_str)) {
+                echo "<div id='account_format'>{$remaining_str}</div>";
+            }
+        ?>
+
     </td>
     <td>
         <?php  echo "Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD <br>
-        <?php // Retrieve the selling price from post meta and convert it to a float
-            $selling_price = (float) get_post_meta($product->get_id(), 'partner_price', true);
-
-            // Calculate the increment (15% of the selling price)
-            $increment = $selling_price * 0.15;
-
-            // Calculate the new selling price
-            $new_selling_price = $selling_price + $increment;
+        <?php 
+            $partner_price = get_post_meta($product->get_id(), 'partner_price', true);
+            $admin_percentage = get_theme_mod('admin_percentage');
+			$new_price = $partner_price + (($admin_percentage / 100) * $partner_price);
+            // Retrieve the selling price from post meta and convert it to a float
+            
 
             // Display the new selling price with a descriptive text
-            echo "Selling Price Per: " . $new_selling_price . " USD";
+            echo "Selling Price Per: " . $new_price . " USD";
         ?>
     </td>
     <td>
