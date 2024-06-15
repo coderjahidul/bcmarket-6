@@ -39,7 +39,18 @@ $post_7 = get_post( get_the_ID());
     </td>
     <td>
         <?php  echo "Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD <br>
-        <?php echo "Saling Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD
+        <?php // Retrieve the selling price from post meta and convert it to a float
+            $selling_price = (float) get_post_meta($product->get_id(), 'partner_price', true);
+
+            // Calculate the increment (15% of the selling price)
+            $increment = $selling_price * 0.15;
+
+            // Calculate the new selling price
+            $new_selling_price = $selling_price + $increment;
+
+            // Display the new selling price with a descriptive text
+            echo "Selling Price Per: " . $new_selling_price . " USD";
+        ?>
     </td>
     <td>
         <?php if(get_post_meta(get_the_ID(), 'bid_status', true)  == 'processing') : ?>
