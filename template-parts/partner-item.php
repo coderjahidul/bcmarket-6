@@ -35,8 +35,12 @@ $post_7 = get_post( get_the_ID());
         </div>
         <a href="javascript:void(0)" onclick="bids.description_dialog(<?php echo get_the_ID(); ?>)">partner description</a>
         <div id="description_<?php echo get_the_ID(); ?>" style="display: none;"><?php echo $product->get_name(); ?></div>
+        <div id="account_format"><?php echo get_post_meta(get_the_ID(), 'item_format', true); ?></div>
     </td>
-    <td><?php echo get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD</td>
+    <td>
+        <?php  echo "Price Per Account: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD <br>
+        <?php echo "Saling Price Per: " . get_post_meta($product->get_id(), 'partner_price', true); ?>&nbsp; USD
+    </td>
     <td>
         <?php if(get_post_meta(get_the_ID(), 'bid_status', true)  == 'processing') : ?>
             <a href="#" class="processing_tool" data-toggle="tooltip" title="Expect your accounts to be uploaded and displayed in the application soon"><i class="fa fa-question" aria-hidden="true"></i></a>
