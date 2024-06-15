@@ -177,7 +177,7 @@ get_header(); ?>
 															$get_ban_current_date = get_usermeta($user->ID, 'ban_current_date', true);
 															$get_un_ban_date = get_usermeta($user->ID, 'unban_date', true);
 															
-															if (!empty($get_ban_reasons)) {
+															if (!empty($get_ban_reasons || $get_ban_current_date || $get_un_ban_date)) {
 																if (!is_array($get_ban_reasons)) {
 																	$get_ban_reasons = array($get_ban_reasons);
 																}
