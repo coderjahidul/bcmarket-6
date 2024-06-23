@@ -12,7 +12,7 @@
 
 	$args = array(
 		'post_type' => 'tickets', 
-		'posts_per_page' => 10,
+		'posts_per_page' => -1,
 		'paged' => $paged,
 		'orderby' => 'modified',
 		'meta_query' => array(
