@@ -105,7 +105,7 @@ function new_tickets_callback(){
 	    if($subject_id == 2){
 	    	update_post_meta($ticket_id, 'subject_title', 'I did not receive the product automatically');
 	    }
-	    if($subject_id == 2){
+	    if($subject_id == 3){
 	    	update_post_meta($ticket_id, 'subject_title', 'I have a simple question/Need consult');
 	    }
 
