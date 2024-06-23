@@ -91,10 +91,26 @@ function partner_history_page_content() {
                         $name = $user->display_name;
                         $email = $user->user_email;
                         $roles = implode(', ', $user->roles);
-                        $wallet_balance = wc_price(get_pending_total_by_user_id($user_id));
+                        $wallet_balance = get_pending_total_by_user_id($user_id);
                     
                         // Assuming that the following functions are correctly defined
-                        $total_income = wc_price(get_pending_total_by_user_id($user_id));
+
+                        $total_income = 0;
+                        $payment_querys = new WP_Query(array(
+                            'post_type' => 'payment',
+                            'posts_per_page' => -1,
+                            'author' => $user_id,
+                        ));
+
+                        while ($payment_querys->have_posts()) : $payment_querys->the_post();
+                            $order_ids_meta = get_post_meta(get_the_ID(), 'order_ids', true);
+
+                            $total_income += get_payment_request_total($order_ids_meta, $user_id) - deduct_payment_by_payment_id($user_id);
+                        
+                        endwhile;
+
+                        wp_reset_postdata();
+
                     
                         // Calculate total value for each user based on the 'payment' post type
                         $total_withdraw = 0; // Initialize total value
@@ -118,8 +134,8 @@ function partner_history_page_content() {
                         echo '<tr>';
                         echo '<td>' . esc_html($user_id) . '</td>';
                         echo '<td>' . esc_html($email) . '</td>';
-                        echo '<td>' . $total_income . '</td>';
-                        echo '<td>' . $wallet_balance . '</td>';
+                        echo '<td>' . "$" . $total_income + $wallet_balance . '</td>';
+                        echo '<td>' . "$" . $wallet_balance . '</td>';
                         echo '<th>' . $user->user_registered . '</th>';
                         echo '</tr>';
                     }
