@@ -803,15 +803,28 @@ function connect_item_callback(){
 
 add_action('wp_ajax_update_invalid_item', 'update_invalid_item_callback');
 function update_invalid_item_callback(){
+	global $wpdb;
 
-		$invalid_item = $_POST['invalid_item'];
-		$order_item_id = $_POST['order_id'];
+	$table_name = $wpdb->prefix . "wallet_minus";
 
-		update_metadata('order_item', $order_item_id, 'invalid_items', $invalid_item);
+	$invalid_item = $_POST['invalid_item'];
+	$order_item_id = $_POST['order_id'];
+	$partner_id = $_POST['partner_id'];
+	$pre_qty_price = $_POST['pre_qty_price'];
+	$cost = $invalid_item * $pre_qty_price;
 
-		echo $invalid_item;
+	update_metadata('order_item', $order_item_id, 'invalid_items', $invalid_item);
 
-		die();
+	$data = array(
+		'partner_id' => $partner_id,
+		'amount' => $cost,
+		'status' => '1',
+	);
+	$wpdb->insert($table_name, $data);
+
+	echo $invalid_item;
+
+	die();
 
 }
 

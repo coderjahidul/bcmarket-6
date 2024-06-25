@@ -100,65 +100,63 @@ get_header(); ?>
 
                                 <?php 
                                 while($orders->have_posts()) : $orders->the_post(); 
-                                    $order = wc_get_order( get_the_ID() );
-                                    foreach ( $order->get_items() as $item_id => $item ) : 
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $order->get_order_number(); ?></td>
-                                            
-                                            <td><?php echo $order->get_user_id(); ?></td>
-                                            <td>
-                                                <?php 
-                                                    
-                                                    $product_id = $item->get_product_id();
-                                                    echo get_post_field( 'post_author', $product_id );
-                                                    
- 
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php echo get_post_meta($product_id, 'custom_product_id', true); ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $order_total_qty = $item->get_quantity();
-                                                    echo  $order_total_qty;
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $order_total_price = wc_price($item->get_total());
-                                                    echo  $order_total_price;
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-
-                                                    $total_order_price = $item->get_data()['total'];
-
-                                                    if ($order_total_qty != 0) {
-                                                        $pre_qty_price = $total_order_price / $order_total_qty;
-                                                        $pre_qty_price = number_format($pre_qty_price, 2);
-                                                        echo "$" . $pre_qty_price;
-                                                    } else {
-                                                        echo "0";
-                                                    }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order->get_date_created(); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order->get_payment_method_title(); ?>
-                                            </td>
-                                            <td class="invalid" date-itemid="<?php echo $item_id; ?>" data-id="<?php echo $item_id; ?>">
-                                                <input type="number" name="invalid_item" placeholder="Add Total Invalid" value="<?php echo $item->get_meta( 'invalid_items', true ); ?>">
-                                            </td>
-                                              <td><a href="<?php echo esc_url(home_url('/download-accounts/')); ?>?order_id=<?php echo $order->get_order_number(); ?>&order_key=<?php echo $order->get_order_key(); ?>" target="_blank" > Download</a></td>
-                                        </tr>
-                                    <?php endforeach;
-
-                                endwhile; wp_reset_postdata(); ?>
+                                $order = wc_get_order(get_the_ID());
+                                foreach ($order->get_items() as $item_id => $item) : 
+                            ?>
+                                <tr>
+                                    <td><?php echo $order->get_order_number(); ?></td>
+                                    <td><?php echo $order->get_user_id(); ?></td>
+                                    <td>
+                                        <?php 
+                                            $product_id = $item->get_product_id();
+                                            $partner_id = get_post_field('post_author', $product_id);
+                                            echo $partner_id;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo get_post_meta($product_id, 'custom_product_id', true); ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $order_total_qty = $item->get_quantity();
+                                            echo $order_total_qty;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $order_total_price = wc_price($item->get_total());
+                                            echo $order_total_price;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $total_order_price = $item->get_data()['total'];
+                                            if ($order_total_qty != 0) {
+                                                $pre_qty_price = $total_order_price / $order_total_qty;
+                                                $pre_qty_price = number_format($pre_qty_price, 2);
+                                                echo "$" . $pre_qty_price;
+                                            } else {
+                                                echo "0";
+                                            }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $order->get_date_created(); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $order->get_payment_method_title(); ?>
+                                    </td>
+                                    <td class="invalid" data-itemid="<?php echo $item_id; ?>" data-id="<?php echo $item_id; ?>" data-partner_id="<?php echo $partner_id; ?>" data-pre_qty_price="<?php echo $pre_qty_price; ?>">
+                                        <input type="number" name="invalid_item" placeholder="Add Total Invalid" value="<?php echo $item->get_meta('invalid_items', true); ?>">
+                                    </td>
+                                    <td><a href="<?php echo esc_url(home_url('/download-accounts/')); ?>?order_id=<?php echo $order->get_order_number(); ?>&order_key=<?php echo $order->get_order_key(); ?>" target="_blank">Download</a></td>
+                                </tr>
+                            <?php 
+                                endforeach;
+                            endwhile; 
+                            wp_reset_postdata();
+                            ?>
+                            
                                
                             </tbody>
                         </table>

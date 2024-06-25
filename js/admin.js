@@ -356,30 +356,31 @@ jQuery(document).ready(function($){
     });
 
     $(document).on('keyup', 'input[name="invalid_item"]', function(){
-
         var invalid_item = $(this).val();
         var order_id = $(this).parent('.invalid').attr('data-id');
+        var partner_id = $(this).parent('.invalid').attr('data-partner_id');
+        var pre_qty_price = $(this).parent('.invalid').attr('data-pre_qty_price');
         var dis = $(this);
         console.log('keyup');
- 
+    
         $.ajax({
             type: "POST",
             url: my_ajax_object.ajax_url,
-            dataType : 'html',
+            dataType: 'html',
             data: {
                 action: 'update_invalid_item',
                 invalid_item: invalid_item,
-                order_id: order_id
+                order_id: order_id,
+                partner_id: partner_id,
+                pre_qty_price: pre_qty_price
             },
             success: function(response) {
                 console.log(response);
                 alert('Invalid Item Updated.');
             }
         });
-
+    
         return false;
-
     });
-     
-
+    
 });
