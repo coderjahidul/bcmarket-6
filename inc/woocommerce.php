@@ -369,7 +369,7 @@ function check_accounts() {
     // Get accounts from ajax request
     $accounts_to_check = $_POST['accounts'];
 
-    if(' ' === $accounts_to_check) {
+    if (empty($accounts_to_check)) {
         return;
     }
 
@@ -377,23 +377,41 @@ function check_accounts() {
     $accounts_to_check = explode( "\n", $accounts_to_check );
 
     // Remove empty lines
-    $accounts_to_check = array_filter( $accounts_to_check );
+    $accounts_to_check = array_filter( $accounts_to_check, function($item){
+        return !empty($item);
+    });
+
+    
+    /**
+     * @var string $emails represents a list of comma separated quoted string of emails to be used with sql IN operator
+     * *Example Output:* string: 'email@test.com', 'email2@test.com'
+     */
+    $emails = '';
+    $emails_count =  count($accounts_to_check);
+    foreach ($accounts_to_check as $key => $email) {
+        $length = ($key + 1);
+        $is_last = $emails_count == $length;
+        $comma = !$is_last ? ', ' : '';
+        $emails .= "'$email'$comma";
+    }
+
+    // Accounts Table name
+    $table_name = $wpdb->prefix . "accounts";
 
     // get item_id from cookie
     $itemID = isset( $_COOKIE['item_id'] ) ? $_COOKIE['item_id'] : 0;
 
-    // Construct the LIKE condition dynamically
-    $like_conditions = '';
-    foreach ( $accounts_to_check as $index => $account_email ) {
-        $like_conditions .= "email LIKE '%" . esc_sql( trim( $account_email ) ) . "%'";
-        if ( $index < count( $accounts_to_check ) - 1 ) {
-            $like_conditions .= " OR ";
-        }
-    }
+    /**
+     * @var string $query SQL Query retrieving accounts to mark as bad
+     */
+    $query = "SELECT id, product_id, email 
+    FROM $table_name 
+    WHERE product_id = $itemID 
+    AND email IN ($emails)
+    AND item_status = 'free'";
 
-    // Get accounts from database
-    $table_name = $wpdb->prefix . "accounts";
-    $accounts   = $wpdb->get_results( $wpdb->prepare( "SELECT id, product_id, email FROM $table_name WHERE product_id = %d AND ($like_conditions) AND item_status = 'free'", $itemID ) );
+    //Retrieve accounts
+    $accounts   = $wpdb->get_results($wpdb->prepare($query));
 
     // Initialize count of bad emails
     $badEmailsCount = 0;
