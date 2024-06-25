@@ -374,63 +374,80 @@ function check_accounts() {
     }
 
     // Convert to array
-    $accounts_to_check = explode( "\n", $accounts_to_check );
+    $accounts_to_check = explode("\n", $accounts_to_check);
 
     // Remove empty lines
-    $accounts_to_check = array_filter( $accounts_to_check, function($item){
+    $accounts_to_check = array_filter($accounts_to_check, function($item){
         return !empty($item);
     });
 
-    
-    /**
-     * @var string $emails represents a list of comma separated quoted string of emails to be used with sql IN operator
-     * *Example Output:* string: 'email@test.com', 'email2@test.com'
-     */
-    $emails = '';
-    $emails_count =  count($accounts_to_check);
-    foreach ($accounts_to_check as $key => $email) {
-        $length = ($key + 1);
-        $is_last = $emails_count == $length;
-        $comma = !$is_last ? ', ' : '';
-        $emails .= "'$email'$comma";
+    // get item_id from cookie
+    $itemID = isset($_COOKIE['item_id']) ? $_COOKIE['item_id'] : 0;
+
+    // Construct the LIKE condition dynamically
+    $like_conditions = '';
+    foreach ($accounts_to_check as $index => $account_email) {
+        $like_conditions .= "email LIKE '%" . esc_sql(trim($account_email)) . "%'";
+        if ($index < count($accounts_to_check) - 1) {
+            $like_conditions .= " OR ";
+        }
     }
 
     // Accounts Table name
     $table_name = $wpdb->prefix . "accounts";
 
-    // get item_id from cookie
-    $itemID = isset( $_COOKIE['item_id'] ) ? $_COOKIE['item_id'] : 0;
-
-    /**
-     * @var string $query SQL Query retrieving accounts to mark as bad
-     */
-    $query = "SELECT id, product_id, email 
-    FROM $table_name 
-    WHERE product_id = $itemID 
-    AND email IN ($emails)
-    AND item_status = 'free'";
-
-    //Retrieve accounts
-    $accounts   = $wpdb->get_results($wpdb->prepare($query));
+    // Get accounts using LIKE operator
+    $accounts = $wpdb->get_results($wpdb->prepare("SELECT id, product_id, email FROM $table_name WHERE product_id = %d AND ($like_conditions) AND item_status = 'free'", $itemID));
 
     // Initialize count of bad emails
     $badEmailsCount = 0;
 
-    // Iterate through accounts from database
-    foreach ( $accounts as $account ) {
-        // Update the record in the database
+    // Iterate through accounts from database and update them
+    foreach ($accounts as $account) {
         $wpdb->update(
             $table_name,
-            array( 'item_status' => 'bad' ),
-            array( 'id' => $account->id )
+            array('item_status' => 'bad'),
+            array('id' => $account->id)
         );
         $badEmailsCount++;
+    }
+
+    // If no accounts were updated using LIKE operator, proceed with IN operator
+    if ($badEmailsCount === 0) {
+        // Prepare emails for IN operator
+        $emails = '';
+        $emails_count = count($accounts_to_check);
+        foreach ($accounts_to_check as $key => $email) {
+            $length = ($key + 1);
+            $is_last = $emails_count == $length;
+            $comma = !$is_last ? ', ' : '';
+            $emails .= "'" . esc_sql(trim($email)) . "'$comma";
+        }
+
+        // Get accounts using IN operator
+        $query = "SELECT id, product_id, email 
+                  FROM $table_name 
+                  WHERE product_id = %d 
+                  AND email IN ($emails)
+                  AND item_status = 'free'";
+        
+        $accounts = $wpdb->get_results($wpdb->prepare($query, $itemID));
+
+        // Iterate through accounts from database and update them
+        foreach ($accounts as $account) {
+            $wpdb->update(
+                $table_name,
+                array('item_status' => 'bad'),
+                array('id' => $account->id)
+            );
+            $badEmailsCount++;
+        }
     }
 
     // Prepare response
     $message = '';
 
-    if ( $badEmailsCount >= 0 ) {
+    if ($badEmailsCount > 0) {
         $message = "Bad Accounts checked successfully.";
     } else {
         $message = 'No bad accounts found.';
@@ -439,6 +456,7 @@ function check_accounts() {
     // Send response
     echo $message;
 }
+
 
 
 add_action( 'woocommerce_order_status_processing', 'bcmarket_execute_accounts_on_payment_complete' );
