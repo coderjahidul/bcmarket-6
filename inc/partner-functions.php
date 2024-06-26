@@ -1657,7 +1657,7 @@ function bcmarket_create_deduct_table()
 	$column_exists = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'order_id'");
 
 	if (empty($column_exists)) {
-		$sql = "ALTER TABLE $table_name ADD order_id int(11) DEFAULT NULL after id;";
+		$sql = "ALTER TABLE $table_name ADD order_id INT(11) DEFAULT NULL AFTER partner_id;";
 		$wpdb->query($sql);
 	}
 }
