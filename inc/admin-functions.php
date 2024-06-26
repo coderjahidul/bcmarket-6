@@ -727,7 +727,7 @@ function connect_item_callback(){
 	$item_partner_price = $_POST['item_partner_price'];
 	$admin_percentage = get_theme_mod('admin_percentage');
 	$new_price = $item_partner_price + (($admin_percentage / 100) * $item_partner_price);
-	
+
 // 	checking 
 
 
@@ -790,12 +790,16 @@ function connect_item_callback(){
 
 	// 	send_subscription_emails( $user_email, get_permalink($item_id) );
 	// }
-	$table_name = $wpdb->prefix . "subscribe_emails";
-	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
+	$status = get_post_meta($product_id, 'bid_status', true);
+	if($status == 'onsale'){
+		$table_name = $wpdb->prefix . "subscribe_emails";
+		$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
 
-	foreach($get_subscriber as $subscriber){
-		send_subscription_emails( $subscriber->email, get_permalink($item_id) );
+		foreach($get_subscriber as $subscriber){
+			send_subscription_emails( $subscriber->email, get_permalink($item_id) );
+		}
 	}
+	
 	die();
 
 }
