@@ -810,17 +810,25 @@ function update_invalid_item_callback(){
 	$invalid_item = $_POST['invalid_item'];
 	$order_item_id = $_POST['order_id'];
 	$partner_id = $_POST['partner_id'];
-	$pre_qty_price = $_POST['pre_qty_price'];
-	$cost = $invalid_item * $pre_qty_price;
+	// $pre_qty_price = $_POST['pre_qty_price'];
+	$pre_qty_partner_price = $_POST['pre_qty_partner_price'];
+	$cost = $invalid_item * $pre_qty_partner_price;
 
 	update_metadata('order_item', $order_item_id, 'invalid_items', $invalid_item);
 
 	$data = array(
+		'order_id' => $order_item_id,
 		'partner_id' => $partner_id,
 		'amount' => $cost,
 		'status' => '1',
 	);
-	$wpdb->insert($table_name, $data);
+	// Check if the record already exists
+	$exists = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE order_id = $order_item_id");
+	if ($exists > 0) {
+		$wpdb->update($table_name, $data, array('order_id' => $order_item_id));
+	}else{
+		$wpdb->insert($table_name, $data);
+	}
 
 	echo $invalid_item;
 

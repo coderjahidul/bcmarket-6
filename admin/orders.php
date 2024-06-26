@@ -130,6 +130,7 @@ get_header(); ?>
                                     </td>
                                     <td>
                                         <?php
+                                            $pre_qty_partner_price = get_post_meta($product_id, 'partner_price', true);
                                             $total_order_price = $item->get_data()['total'];
                                             if ($order_total_qty != 0) {
                                                 $pre_qty_price = $total_order_price / $order_total_qty;
@@ -146,7 +147,7 @@ get_header(); ?>
                                     <td>
                                         <?php echo $order->get_payment_method_title(); ?>
                                     </td>
-                                    <td class="invalid" data-itemid="<?php echo $item_id; ?>" data-id="<?php echo $item_id; ?>" data-partner_id="<?php echo $partner_id; ?>" data-pre_qty_price="<?php echo $pre_qty_price; ?>">
+                                    <td class="invalid" data-itemid="<?php echo $item_id; ?>" data-id="<?php echo $item_id; ?>" data-partner_id="<?php echo $partner_id; ?>" data-pre_qty_partner_price="<?php echo $pre_qty_partner_price; ?>">
                                         <input type="number" name="invalid_item" placeholder="Add Total Invalid" value="<?php echo $item->get_meta('invalid_items', true); ?>">
                                     </td>
                                     <td><a href="<?php echo esc_url(home_url('/download-accounts/')); ?>?order_id=<?php echo $order->get_order_number(); ?>&order_key=<?php echo $order->get_order_key(); ?>" target="_blank">Download</a></td>

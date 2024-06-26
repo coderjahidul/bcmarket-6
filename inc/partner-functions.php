@@ -1635,25 +1635,33 @@ function update_payment_profile_callback()
 
 function bcmarket_create_deduct_table()
 {
-
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . "wallet_minus";
-
 	$charset_collate = $wpdb->get_charset_collate();
 
+	// Create table if it doesn't exist
 	$sql = "CREATE TABLE IF NOT EXISTS $table_name (
       id bigint(20) NOT NULL AUTO_INCREMENT,
       partner_id varchar(255),
       amount INT(11),
       status VARCHAR(255),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY id (id)
+      PRIMARY KEY (id)
     ) $charset_collate;";
 
 	require_once (ABSPATH . 'wp-admin/includes/upgrade.php');
 	dbDelta($sql);
+
+	// Add the new column if it doesn't exist
+	$column_exists = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'order_id'");
+
+	if (empty($column_exists)) {
+		$sql = "ALTER TABLE $table_name ADD order_id int(11) NOT NULL after id;";
+		$wpdb->query($sql);
+	}
 }
+
 
 add_action('init', 'bcmarket_create_deduct_table');
 

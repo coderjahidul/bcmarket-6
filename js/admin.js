@@ -359,7 +359,7 @@ jQuery(document).ready(function($){
         var invalid_item = $(this).val();
         var order_id = $(this).parent('.invalid').attr('data-id');
         var partner_id = $(this).parent('.invalid').attr('data-partner_id');
-        var pre_qty_price = $(this).parent('.invalid').attr('data-pre_qty_price');
+        var pre_qty_partner_price = $(this).parent('.invalid').attr('data-pre_qty_partner_price');
         var dis = $(this);
         console.log('keyup');
     
@@ -372,7 +372,7 @@ jQuery(document).ready(function($){
                 invalid_item: invalid_item,
                 order_id: order_id,
                 partner_id: partner_id,
-                pre_qty_price: pre_qty_price
+                pre_qty_partner_price: pre_qty_partner_price
             },
             success: function(response) {
                 console.log(response);
