@@ -142,7 +142,6 @@ function add_bids_callback()
 
 add_action('wp_ajax_add_bids', 'add_bids_callback');
 
-
 // upload_accounts
 function upload_accounts_callback()
 {
@@ -156,12 +155,11 @@ function upload_accounts_callback()
 
 	$table_name = $wpdb->prefix . 'accounts';
 
-	$query = "SELECT login FROM $table_name";
-	$logins = $wpdb->get_col($query);
-
+	// Update query to select both login and password
+	$query = "SELECT login, password FROM $table_name";
+	$accounts = $wpdb->get_results($query, ARRAY_A);
 
 	$line_array = explode("\n", str_replace("\r", "", $accounts_text));
-
 
 	foreach ($line_array as $element) {
 		if (strpos($element, '|') !== false) {
@@ -169,74 +167,39 @@ function upload_accounts_callback()
 		} elseif (strpos($element, ':') !== false) {
 			$contains = ":";
 		}
-
 	}
-
 
 	if ($line_array) {
 		if ($contains === "|") {
-			$filteredArray = array_filter($line_array, function ($item) use ($logins) {
-				$emails = [];
-
-				$emails = explode('|', $item);
-
-
-				$matched = false;
-
-				foreach ($logins as $login) {
-					if ($emails[0] === $login) {
-						$matched = true;
-						return false;
-
+			$filteredArray = array_filter($line_array, function ($item) use ($accounts) {
+				list($login, $password) = explode('|', $item);
+				foreach ($accounts as $account) {
+					if ($login === $account['login'] && $password === $account['password']) {
+						return false; // Match found, filter out this item
 					}
 				}
-
-
-
-
-				return true; // Return true for unmatched emails
+				return true; // No match found, keep this item
 			});
 		} elseif ($contains === ":") {
-			$filteredArray = array_filter($line_array, function ($item) use ($logins) {
-				$emails = [];
-
-				$emails = explode(':', $item);
-
-
-
-				$matched = false;
-
-				foreach ($logins as $login) {
-					if ($emails[0] === $login) {
-						$matched = true;
-						return false;
-
+			$filteredArray = array_filter($line_array, function ($item) use ($accounts) {
+				list($login, $password) = explode(':', $item);
+				foreach ($accounts as $account) {
+					if ($login === $account['login'] && $password === $account['password']) {
+						return false; // Match found, filter out this item
 					}
 				}
-
-
-
-
-				return true;
+				return true; // No match found, keep this item
 			});
 		}
-
-
-
 
 		$uniqueArray = array_unique($line_array);
 		$result1 = array_diff_assoc($line_array, $filteredArray);
 		$result2 = array_diff_assoc($line_array, $uniqueArray);
 		$duplicates = array_merge($result1, $result2);
 
-
-
-
 		$duplicate_string = implode("\n", $duplicates);
 		update_post_meta($bid_id, 'duplicate_accounts', $duplicate_string);
 		$json['duplicate_array'] = $duplicates;
-
-
 
 		if (count($duplicates) == 0) {
 			$repeatedAccount = 0;
@@ -246,23 +209,14 @@ function upload_accounts_callback()
 
 		$uniqueFilterarray = array_unique($filteredArray);
 		if (!empty($uniqueFilterarray)) {
-			// Only execute if there are unmatched emails
 			$json['uploaded_account'] = count($uniqueFilterarray);
 			$json['filter_account'] = $uniqueFilterarray;
-			$json['login'] = $logins;
+			$json['login'] = array_column($accounts, 'login');
 			$json['repeated_account'] = $repeatedAccount;
-			// $repeatedAccount = $repeatedAccount + (count($uniqueArray) - count($filteredArray));
-			// update_option('repeat_account', $repeatedAccount);
 			$json['account_text'] = $accounts_text;
 
-
 			$original_string = implode("\n", $uniqueFilterarray);
-
-
 			update_post_meta($bid_id, 'accounts_as_text', $original_string);
-
-
-
 		}
 		update_post_meta($bid_id, 'bid_status', 'checking_accounts');
 		update_post_meta($bid_id, 'account_checked', 0);
@@ -275,6 +229,7 @@ function upload_accounts_callback()
 }
 
 add_action('wp_ajax_upload_accounts', 'upload_accounts_callback');
+
 
 
 
