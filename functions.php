@@ -836,7 +836,7 @@ function handle_subscribe_form_ajax(){
             );
     
             // Response with a success message
-            wp_send_json_success(array('message'=>'Thenks for subscribing!'));
+            wp_send_json_success(array('message'=>'Thanks for subscribing!'));
         }else{
             // Response with email already subscribed message
             wp_send_json_error(array('message'=>'You are already subscribed!'));

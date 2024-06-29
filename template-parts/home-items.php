@@ -258,7 +258,7 @@
                                                     </button>
                                                 </div>
                                             <?php else : ?>
-                                                <div class="subscribe-cell">
+                                                <div class="subscribe-cell" data-help="Subscribe to newsletter">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="subscribe_button" data-toggle="modal" data-target="#exampleModal<?php echo $item_id; ?>">
                                                         <i class="fa-regular fa-envelope"></i>

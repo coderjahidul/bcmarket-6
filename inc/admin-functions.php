@@ -773,23 +773,24 @@ function connect_item_callback(){
 	
 
 
-	// $table_name = $wpdb->prefix . "subscribe";
-	// $results = $wpdb->get_results( "SELECT user_id FROM $table_name WHERE partner_id = $partner_id");
+	$table_name = $wpdb->prefix . "subscribe";
+	$results = $wpdb->get_results( "SELECT user_id FROM $table_name WHERE partner_id = $partner_id");
 	
 	  
 
-	// $users = [];
-	// foreach($results as $result){
-	// 	$users[] = $result->user_id;
-	// }
+	$users = [];
+	foreach($results as $result){
+		$users[] = $result->user_id;
+	}
 
-	// $users = array_unique( $users );
+	$users = array_unique( $users );
 
-	// foreach($users as $user_id){
-	// 	$user_email = get_userdata( $user_id )->user_email;
+	foreach($users as $user_id){
+		$user_email = get_userdata( $user_id )->user_email;
 
-	// 	send_subscription_emails( $user_email, get_permalink($item_id) );
-	// }
+		send_subscription_emails( $user_email, get_permalink($item_id) );
+	}
+	
 	$status = get_post_meta($product_id, 'bid_status', true);
 	if($status == 'onsale'){
 		$table_name = $wpdb->prefix . "subscribe_emails";
