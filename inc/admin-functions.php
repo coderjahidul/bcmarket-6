@@ -665,7 +665,7 @@ function similar_pro_find_callback(){
 add_action('wp_ajax_similar_pro_find', 'similar_pro_find_callback');
 
 function send_subscription_emails($to, $product_url){
-	$to = $to;
+
 	$subject = 'Get new Accounts from Pvamarkets';
 	  $site_name = get_bloginfo('name');
       $domain_name = parse_url( get_site_url(), PHP_URL_HOST );
@@ -712,6 +712,7 @@ function send_subscription_emails($to, $product_url){
 		<p style="text-align: center;" align="center">&nbsp;</p>
 
 	<?php $body = ob_get_clean();
+	error_log($body); // Add this line to log the email content
 	$headers = array('Content-Type: text/html; charset=UTF-8','From: '. $site_name .' <noreply@'. $domain_name .'>');
 
 	wp_mail( $to, $subject, $body, $headers );
@@ -773,35 +774,49 @@ function connect_item_callback(){
 	
 
 
+	// Fetch user IDs from 'subscribe' table where partner_id matches
 	$table_name = $wpdb->prefix . "subscribe";
-	$results = $wpdb->get_results( "SELECT user_id FROM $table_name WHERE partner_id = $partner_id");
-	
-	  
+	$results = $wpdb->get_results("SELECT user_id FROM $table_name");
 
+	// Extract user IDs into an array
 	$users = [];
-	foreach($results as $result){
+	foreach ($results as $result) {
 		$users[] = $result->user_id;
 	}
 
-	$users = array_unique( $users );
+	// Remove duplicate user IDs
+	$users = array_unique($users);
 
-	foreach($users as $user_id){
-		$user_email = get_userdata( $user_id )->user_email;
-
-		send_subscription_emails( $user_email, get_permalink($item_id) );
-	}
-	
-	$status = get_post_meta($product_id, 'bid_status', true);
-	if($status == 'onsale'){
-		$table_name = $wpdb->prefix . "subscribe_emails";
-		$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
-
-		foreach($get_subscriber as $subscriber){
-			send_subscription_emails( $subscriber->email, get_permalink($item_id) );
+	// Fetch emails for each user ID and store them in $emails array
+	$emails = [];
+	foreach ($users as $user_id) {
+		$user = get_userdata($user_id);
+		if ($user) {
+			$emails[] = $user->user_email;
 		}
 	}
+
+	// Fetch additional emails from 'subscribe_emails' table
+	$table_name = $wpdb->prefix . "subscribe_emails";
+	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
+
+	foreach ($get_subscriber as $subscriber) {
+		$sub_email = $subscriber->email;
+		$emails[] = $sub_email;
+	}
+
+	// Remove duplicate emails and reindex the array
+	$emails = array_unique($emails);
+	$emails = array_values($emails);
 	
+	// Send emails
+	foreach ($emails as $email) {
+		send_subscription_emails($email, get_permalink($item_id));
+	}
+	
+	// Terminate the script
 	die();
+	
 
 }
 
