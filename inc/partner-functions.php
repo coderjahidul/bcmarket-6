@@ -392,9 +392,9 @@ function bcmarket_run_every_one_minute_callbacks()
 							$uniqueString = "##COLONSLASH##";
 							$modifiedString = str_replace('://', $uniqueString, $each_item);
 							if (strpos($accounts_text, '|')) {
-								$item_array = explode('|', $modifiedString);
+								$item_array = explode('|', $modifiedString, $item_format_count);
 							} else if (strpos($accounts_text, ':')) {
-								$item_array = explode(':', $modifiedString);
+								$item_array = explode(':', $modifiedString, $item_format_count);
 							}
 							foreach ($item_array as &$item) {
 								$item = str_replace($uniqueString, '://', $item);
@@ -514,9 +514,9 @@ function bcmarket_run_every_one_minute_callbacks()
 								$uniqueString = "##COLONSLASH##";
 								$modifiedString = str_replace('://', $uniqueString, $each_item);
 								if (strpos($duplicate_text, '|')) {
-									$item_array = explode('|', $modifiedString);
+									$item_array = explode('|', $modifiedString, $item_format_count);
 								} else if (strpos($duplicate_text, ':')) {
-									$item_array = explode(':', $modifiedString);
+									$item_array = explode(':', $modifiedString, $item_format_count);
 								}
 								foreach ($item_array as &$item) {
 									$item = str_replace($uniqueString, '://', $item);
@@ -627,9 +627,9 @@ function bcmarket_run_every_one_minute_callbacks()
 
 
 							if (strpos($accounts_text, '|')) { 
-								$item_array = explode('|', $each_item);
+								$item_array = explode('|', $each_item, $item_format_count);
 							} else if (strpos($accounts_text, ':')) {
-								$item_array = explode(':', $each_item);
+								$item_array = explode(':', $each_item, $item_format_count);
 							}
 
 
@@ -744,9 +744,9 @@ function bcmarket_run_every_one_minute_callbacks()
 
 
 								if (strpos($duplicate_text, '|')) {
-									$item_array = explode('|', $each_item);
+									$item_array = explode('|', $each_item, $item_format_count);
 								} else if (strpos($duplicate_text, ':')) {
-									$item_array = explode(':', $each_item);
+									$item_array = explode(':', $each_item, $item_format_count);
 								}
 
 
