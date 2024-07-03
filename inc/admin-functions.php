@@ -776,7 +776,7 @@ function connect_item_callback(){
 
 	// Fetch user IDs from 'subscribe' table where partner_id matches
 	$table_name = $wpdb->prefix . "subscribe";
-	$results = $wpdb->get_results("SELECT user_id FROM $table_name");
+	$results = $wpdb->get_results($wpdb->prepare("SELECT user_id FROM $table_name WHERE partner_id = %d", $partner_id));
 
 	// Extract user IDs into an array
 	$users = [];
@@ -796,24 +796,32 @@ function connect_item_callback(){
 		}
 	}
 
+	// Filter emails to include only those with @gmail.com
+	$gmail_emails = array_filter($emails, function($email) {
+		return strpos($email, '@gmail.com') !== false;
+	});
+
 	// Fetch additional emails from 'subscribe_emails' table
 	$table_name = $wpdb->prefix . "subscribe_emails";
 	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
 
 	foreach ($get_subscriber as $subscriber) {
 		$sub_email = $subscriber->email;
-		$emails[] = $sub_email;
+		// Filter additional emails to include only those with @gmail.com
+		if (strpos($sub_email, '@gmail.com') !== false) {
+			$gmail_emails[] = $sub_email;
+		}
 	}
 
 	// Remove duplicate emails and reindex the array
-	$emails = array_unique($emails);
-	$emails = array_values($emails);
-	
+	$gmail_emails = array_unique($gmail_emails);
+	$gmail_emails = array_values($gmail_emails);
+
 	// Send emails
-	foreach ($emails as $email) {
+	foreach ($gmail_emails as $email) {
 		send_subscription_emails($email, get_permalink($item_id));
 	}
-	
+
 	// Terminate the script
 	die();
 	
