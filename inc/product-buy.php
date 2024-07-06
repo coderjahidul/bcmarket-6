@@ -1,3 +1,4 @@
+
 <?php 
 add_action('wp_ajax_buy_product', 'buy_product_callback');
 add_action('wp_ajax_nopriv_buy_product', 'buy_product_callback');
@@ -8,7 +9,11 @@ function buy_product_callback(){
 	$product = wc_get_product( $product_id );
 
 	?>
-
+	<style>
+		#subscribe_email {
+			display: none;
+		}
+	</style>
 	<form action="#" class="submit_buy">
 	    <input type="hidden" name="item_id" id="item_id" value="" />
 	    <input type="hidden" name="price" id="item_price" value="" />
@@ -102,11 +107,19 @@ function buy_product_callback(){
 	                            <td><div id="p_alert"></div></td>
 	                        </tr>
 	                        <tr>
-	                            <td colspan="2">
-	                                <input type="checkbox" name="subscribe" id="subscribe" value="1" />
-	                                <label for="subscribe">Subscribe to E-mail newsletter for products</label>
-	                            </td>
-	                        </tr>
+								<td colspan="2">
+									<input type="checkbox" name="subscribe" id="subscribe" value="1" onclick="toggleEmailInput()" />
+									<label for="subscribe">Subscribe to E-mail newsletter for products</label>
+								</td>
+							</tr>
+							<tr id="subscribe_email">
+								<td colspan="2">
+									<?php 
+										$current_user = wp_get_current_user();
+									?>
+									<input type="email" placeholder="Enter your Subscribe Email" value="<?php if(!empty($current_user->user_email)){ echo $current_user->user_email;} ?>" name="email" id="email" />
+								</td>
+							</tr>
 	                        <tr>
 	                            <td colspan="2">
 	                                <input type="checkbox" name="conditions" id="conditions" value="1" required="required" class="price_recalculate" />
@@ -126,14 +139,20 @@ function buy_product_callback(){
 	</form>
 
 	<script>
-	
+		function getPartnerID(partner_id){
+			document.getElementById('item_partners_id').value = partner_id;
+		}
 
-			function getPartnerID(partner_id){
-			 document.getElementById('item_partners_id').value = partner_id;
-			}
-			
+		function toggleEmailInput() {
+		var checkBox = document.getElementById("subscribe");
+		var emailRow = document.getElementById("subscribe_email");
 
-			
+		if (checkBox.checked) {
+			emailRow.style.display = "table-row";
+		} else {
+			emailRow.style.display = "none";
+		}
+	}
 	</script>
 
 
@@ -158,6 +177,23 @@ function create_order_callback(){
 
 		$wpdb->insert($table,$data);
 	}
+	if (isset($_POST['email'])) {
+		$email = $_POST['email'];
+		$table = $wpdb->prefix . 'subscribe_emails';
+		
+		// Check if the email already exists
+		$email_exists = $wpdb->get_var($wpdb->prepare(
+			"SELECT COUNT(*) FROM $table WHERE email = %s", 
+			$email
+		));
+		
+		// If the email doesn't exist, insert it
+		if ($email_exists == 0) {
+			$data = array('email' => $email);
+			$wpdb->insert($table, $data);
+		}
+	}
+	
 
 
 	$product_ids = $_POST['item_id'];
