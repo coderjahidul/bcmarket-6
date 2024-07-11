@@ -878,7 +878,31 @@ function handle_unsubscribe_request(){
 }
 add_action('init', 'handle_unsubscribe_request');
 
-function daily_ban_accounts_status_check(){
+function add_second_interval($schedules) {
+    $schedules['every_second'] = array(
+        'interval' => 1, // 1 second
+        'display' => __('Every Second')
+    );
+    return $schedules;
+}
+add_filter('cron_schedules', 'add_second_interval');
+
+// Schedule the cron event if not already scheduled
+if (!wp_next_scheduled('second_ban_accounts_status_check')) {
+    wp_schedule_event(time(), 'every_second', 'second_ban_accounts_status_check');
+}
+
+// Hook into the scheduled event
+add_action('second_ban_accounts_status_check', 'ban_accounts_status_check');
+
+// Unschedule Event on Theme Deactivation
+register_deactivation_hook('__FILE__', 'theme_deactivate');
+
+function theme_deactivate() {
+    wp_clear_scheduled_hook('second_ban_accounts_status_check');
+}
+
+function ban_accounts_status_check() {
     $users = get_users();
     foreach($users as $user) {
         $current_datetimes = current_time('mysql'); // Get the current datetime in MySQL format
@@ -887,12 +911,6 @@ function daily_ban_accounts_status_check(){
         // Get the 'account_status_datetime' meta value for the user
         $account_status_datetimes = get_user_meta($user->ID, 'account_status_datetime', true);
         $ban_timestamp = str_replace('T', ' ', $account_status_datetimes);
-
-        // ban current date 
-        update_user_meta($user->ID, 'ban_current_date', $current_datetime);
-        // Unban date 
-        update_user_meta($user->ID, 'unban_date', $ban_timestamp);
-
         // Compare 'account_status_datetime' with the current datetime
         if ($ban_timestamp <= $current_datetime) {
             // Update 'account_status' to an empty string
@@ -902,31 +920,6 @@ function daily_ban_accounts_status_check(){
     }
 }
 
-// Add a custom cron schedule for every minute
-function add_every_minute_cron_schedule($schedules) {
-    $schedules['every_minute'] = array(
-        'interval' => 60, // 60 seconds in 1 minute
-        'display' => __('Every Minute')
-    );
-    return $schedules;
-}
-add_filter('cron_schedules', 'add_every_minute_cron_schedule');
-
-// Schedule the cron event if not already scheduled
-if (!wp_next_scheduled('every_minute_ban_accounts_status_check')) {
-    wp_schedule_event(time(), 'every_minute', 'every_minute_ban_accounts_status_check');
-}
-
-// Hook into the scheduled event
-add_action('every_minute_ban_accounts_status_check', 'daily_ban_accounts_status_check');
-
-
-//  Unschedule Event on Theme Deactivation
-register_deactivation_hook('__FILE__', 'theme_deactivate');
-
-function theme_deactivate() {
-    wp_clear_scheduled_hook('daily_ban_accounts_status_check');
-}
 
 
 // Capture user IP address
