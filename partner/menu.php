@@ -1,28 +1,4 @@
-<?php if(is_user_logged_in() && current_user_has_approve_bid()) :
-    $wallet = get_user_meta(get_current_user_id(), 'wallets', true);
-    $min_walllet = 999999999999;
-    if($wallet){
-        foreach(array_filter($wallet) as $key => $value){
-            if($key == 74){
-                $min_walllet = get_theme_mod('usdt_min');
-            }
-            if($key == 60){
-                $min_walllet = get_theme_mod('etherium_min');
-            }
-            if($key == 52){
-                $min_walllet = get_theme_mod('litecoin_min');
-            }
-            if($key == 11){
-                $min_walllet = get_theme_mod('bitcoin_min');
-            }
-        }
-    }
- ?>
-    <div class="partner_cost">
-        <div class="partner_cost_amount">Amount to withdraw: <span><?php echo wc_price(get_pending_total_by_user_ids(get_current_user_id())); ?></span></div>
-        <button class="partner_cost_button" data-user="<?php echo get_current_user_id(); ?>" id="partner_payment_button" <?php if(get_pending_total_by_user_ids(get_current_user_id()) < $min_walllet){ echo 'disabled=""';} ?>>Order withdrawal</button>
-    </div>
-<?php endif; ?>
+
 <?php
     global $post;
     $post_slug = $post->post_name;
