@@ -2484,6 +2484,32 @@ $(document).on('click', '.partner_upload_close, .partner_close', function () {
             });
         });
     });
+    // Partner cost script
+    jQuery(document).ready(function($) {
+        // Function to show loading indicator
+        function showLoading() {
+            $('#partner_cost_ammount').html('<div class="loading-indicator"><strong>Amount to withdraw is Calculating...</strong></div>');
+        }
+    
+        // Function to fetch partner cost HTML via AJAX
+        function fetchPartnerCost() {
+            var data = {
+                'action': 'get_partner_cost'
+            };
+    
+            $.get(partnerCostAjax.ajaxurl, data, function(response) {
+                $('#partner_cost_ammount').html(response);
+            });
+        }
+    
+        // Initially show loading indicator
+        showLoading();
+    
+        // Fetch partner cost HTML
+        fetchPartnerCost();
+    });
+    
+    
     
     
     

@@ -946,3 +946,58 @@ function show_ip_address_column_content( $value, $column_name, $user_id ) {
     return $value;
 }
 add_action( 'manage_users_custom_column', 'show_ip_address_column_content', 10, 3 );
+
+// Add this in your functions.php or a custom plugin file
+
+// Function to fetch partner cost HTML
+function get_partner_cost_html() {
+    ob_start(); // Start output buffering to capture HTML
+
+    $wallet = get_user_meta(get_current_user_id(), 'wallets', true);
+    $min_walllet = 999999999999;
+    if($wallet){
+        foreach(array_filter($wallet) as $key => $value){
+            if($key == 74){
+                $min_walllet = get_theme_mod('usdt_min');
+            }
+            if($key == 60){
+                $min_walllet = get_theme_mod('etherium_min');
+            }
+            if($key == 52){
+                $min_walllet = get_theme_mod('litecoin_min');
+            }
+            if($key == 11){
+                $min_walllet = get_theme_mod('bitcoin_min');
+            }
+        }
+    }
+
+    
+    $current_user_id = get_current_user_id();
+    $pending_total = get_pending_total_by_user_ids($current_user_id);
+
+    // Prepare the HTML output
+    ?>
+    <div class="partner_cost_amount">Amount to withdraw: <span><?php echo wc_price($pending_total); ?></span></div>
+    <button class="partner_cost_button" data-user="<?php echo $current_user_id; ?>" id="partner_payment_button"<?php if ($pending_total < $min_walllet) echo ' disabled'; ?>>Order withdrawal</button>
+    <?php
+
+    $output = ob_get_clean(); // Get the buffered HTML content and clear the buffer
+    echo $output;
+    wp_die(); // Always end Ajax call with wp_die() to prevent extra output
+}
+add_action('wp_ajax_get_partner_cost', 'get_partner_cost_html');
+add_action('wp_ajax_nopriv_get_partner_cost', 'get_partner_cost_html');
+
+// Enqueue JavaScript for AJAX
+function enqueue_partner_cost_script() {
+    wp_enqueue_script('partner-cost-ajax-script', get_template_directory_uri() . '/js/script.js', array('jquery'), null, true);
+
+    // Localize the script with the AJAX URL
+    wp_localize_script('partner-cost-ajax-script', 'partnerCostAjax', array(
+        'ajaxurl' => admin_url('admin-ajax.php')
+    ));
+}
+add_action('wp_enqueue_scripts', 'enqueue_partner_cost_script');
+
+
