@@ -207,7 +207,7 @@ get_header(); ?>
         <div class="partner_upload_top">
             <h3>Upload your accounts</h3>
             <div class="partner_upload_close">
-                <i class="fa-solid fa-close"></i>
+                <i style="color: #000;" class="fa-solid fa-close"></i>
             </div>
         </div>
         <form class="partner_upload_form">

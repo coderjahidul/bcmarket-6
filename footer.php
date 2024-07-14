@@ -58,7 +58,7 @@
                                 <li><a target="_blank" href="<?php echo get_theme_mod('footer_telegram'); ?>"><i class="fa-brands fa-telegram"></i></a></li>
                                 <li><a target="_blank" href="mailto:<?php echo get_theme_mod('footer_email'); ?>"><i class="fa-solid fa-envelope"></i></a></li>
                                 <li><a target="_blank" href="<?php echo get_theme_mod('footer_skype'); ?>"><i class="fab fa-skype"></i></a></li>
-                                <li><a target="_blank" href="<?php echo get_theme_mod('footer_whatsapp'); ?>"><i class="fab fa-whatsapp"></i></a></li>
+                                <!-- <li><a target="_blank" href="<?php //echo get_theme_mod('footer_whatsapp'); ?>"><i class="fab fa-whatsapp"></i></a></li> -->
                                 <!-- <li><a target="_blank" href="https://twitter.com/Accountsseller1"><i class="fa-brands fa-twitter"></i></a></li>
                                 <li><a target="_blank" href="https://www.instagram.com/accountsseller2012/"><i class="fa-brands fa-instagram"></i></a></li> -->
                             </ul>

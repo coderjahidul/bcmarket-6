@@ -205,7 +205,7 @@ textarea[name="note"]{
         <div class="partner_price_top">
                 <h3>Change Price</h3>
                 <div class="price_close">
-                    <i class="fa-solid fa-close"></i>
+                    <i style="color: #000;" class="fa-solid fa-close"></i>
                 </div>
             </div>
         <form class="pp_price_form">

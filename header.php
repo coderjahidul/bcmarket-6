@@ -33,7 +33,7 @@
                                 <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_telegram_link')); ?>"><i class="fab fa-telegram"></i></a>
                                 <a target="_blank" href="mailto:<?php echo esc_html(get_theme_mod('footer_email')); ?>"><i class="fa-solid fa-envelope"></i></a>
                                 <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_skype')); ?>"><i class="fab fa-skype"></i></a>
-                                <a target="_blank" href="<?php echo esc_url(get_theme_mod('header_whatsapp')); ?>"><i class="fab fa-whatsapp"></i></a>
+                                <!-- <a target="_blank" href="<?php //echo esc_url(get_theme_mod('header_whatsapp')); ?>"><i class="fab fa-whatsapp"></i></a> -->
                             </div>
                             <div class="authorization">
                                 <?php if(!is_user_logged_in()) : ?>
