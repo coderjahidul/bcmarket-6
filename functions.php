@@ -947,8 +947,6 @@ function show_ip_address_column_content( $value, $column_name, $user_id ) {
 }
 add_action( 'manage_users_custom_column', 'show_ip_address_column_content', 10, 3 );
 
-// Add this in your functions.php or a custom plugin file
-
 // Function to fetch partner cost HTML
 function get_partner_cost_html() {
     ob_start(); // Start output buffering to capture HTML
