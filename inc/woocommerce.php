@@ -699,38 +699,38 @@ add_action( 'woocommerce_review_order_before_payment', 'add_payment_title_before
 
 
 
-add_filter( 'woocommerce_available_payment_gateways', 'bcmarket_gateway_by_wallet' );
-function bcmarket_gateway_by_wallet( $gateways ) {
+// add_filter( 'woocommerce_available_payment_gateways', 'bcmarket_gateway_by_wallet' );
+// function bcmarket_gateway_by_wallet( $gateways ) {
 
-    if ( is_admin() ) {
-        return $gateways;
-    }
+//     if ( is_admin() ) {
+//         return $gateways;
+//     }
 
-    foreach ( WC()->cart->get_cart_contents() as $item ) {
-        $product_id  = $item['product_id'];
-        $item_status = get_post_status( $product_id );
+//     foreach ( WC()->cart->get_cart_contents() as $item ) {
+//         $product_id  = $item['product_id'];
+//         $item_status = get_post_status( $product_id );
 
-        if ( $item_status !== 'draft' ) {
-            if ( isset( $gateways['cheque'] ) ) {
-                unset( $gateways['cheque'] );
-            }
-            if ( isset( $gateways['cp'] ) ) {
-                unset( $gateways['cp'] );
-            }
-            if ( isset( $gateways['cop'] ) ) {
-                unset( $gateways['cop'] );
-            }
-            if ( isset( $gateways['bacs'] ) ) {
-                unset( $gateways['bacs'] );
-            }
-        }
+//         if ( $item_status !== 'draft' ) {
+//             if ( isset( $gateways['cheque'] ) ) {
+//                 unset( $gateways['cheque'] );
+//             }
+//             if ( isset( $gateways['cp'] ) ) {
+//                 unset( $gateways['cp'] );
+//             }
+//             if ( isset( $gateways['cop'] ) ) {
+//                 unset( $gateways['cop'] );
+//             }
+//             if ( isset( $gateways['bacs'] ) ) {
+//                 unset( $gateways['bacs'] );
+//             }
+//         }
 
 
-    }
+//     }
 
-    return $gateways;
+//     return $gateways;
 
-}
+// }
 
 
 add_filter( 'woocommerce_gateway_icon', 'custom_gateway_icon_wall', 10, 2 );
