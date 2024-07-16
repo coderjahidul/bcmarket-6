@@ -50,9 +50,9 @@ form#login_form {
                             <td>Password</td>
                             <td><input type="password" name="password" value="" /></td>
                         </tr>
-                        <tr style="postion:relative !important;">
+                        <tr>
                             <td>&nbsp;</td>
-                            <td><input type="checkbox" style="position: absolute !important; margin-left: -950px !important; margin-top: 2px !important;" name="remember_me" id="remember_me" value="1" /> <label for="remember_me">Remember me</label></td>
+                            <td><input type="checkbox" name="remember_me" id="remember_me" value="1" /> <label for="remember_me">Remember me</label></td>
                         </tr>
                     </tbody>
                 </table>
