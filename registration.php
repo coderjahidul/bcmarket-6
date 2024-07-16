@@ -48,7 +48,7 @@ get_header(); ?>
                         <tr>
                             <td>&nbsp;</td>
                             <td>
-                                <input type="checkbox" name="conditions_reg" id="conditions_reg_page" value="1" />
+                                <input type="checkbox" style="margin-left: 0px;" name="conditions_reg" id="conditions_reg_page" value="1" />
                                 <label class="container-checkbox" for="conditions_reg_page">I agree to the <a href="/en/public-offer" target="_blank">public offer</a> and <a href="/en/conditions" target="_blank">terms of use</a></label>
                             </td>
                         </tr>

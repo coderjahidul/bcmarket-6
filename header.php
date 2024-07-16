@@ -9,6 +9,14 @@
     <?php wp_head(); ?>
 	
 <body <?php body_class(); ?>>
+    <style>
+        .login-icon {
+            display: none;
+        }
+        .login-open {
+            color: #fff;
+        }
+    </style>
 
     <div class="main-wrapper">
         <header>
@@ -39,7 +47,7 @@
                                 <?php if(!is_user_logged_in()) : ?>
                                     <a href="javascript:void(0);" class="registration-open">+ Sign Up</a>
                                     <a href="javascript:void(0);" class="login-open">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/img/icons/svg/user.svg" alt="user" class="img-svg login-icon"> Login </a>
+                                        <img style="width: 20px;" src="<?php echo get_template_directory_uri(); ?>/img/icons/svg/user.svg" alt="user" class="img-svg login-icon"> Login </a>
                                 <?php else : ?>
                                     <div class="cabinet-menu">
                                         <a href="<?php echo home_url();?>/your-account" class="cabinet-open">
