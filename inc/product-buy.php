@@ -14,7 +14,7 @@ function buy_product_callback(){
 			display: none;
 		}
 	</style>
-	<form action="#" class="submit_buy">
+	<form action="#" class="submit_buy" onsubmit="setWooWalletHideCookie();">
 	    <input type="hidden" name="item_id" id="item_id" value="" />
 	    <input type="hidden" name="price" id="item_price" value="" />
 		<input type="hidden" name="partner_id" id="item_partners_id" value="" />
@@ -137,22 +137,26 @@ function buy_product_callback(){
 	    <p id="creating_order" style="display: none;"><img src="<?php echo get_template_directory_uri(); ?>/img/ajax-load.gif" alt="" /> Redirecting to checkout page, please wait ...</p>
 
 	</form>
-
+		
 	<script>
+		function setWooWalletHideCookie() {
+			document.cookie = "woo_wallet_hide=1; path=/; max-age=-360";
+			return true; // Ensure form submission continues
+		}
 		function getPartnerID(partner_id){
 			document.getElementById('item_partners_id').value = partner_id;
 		}
 
 		function toggleEmailInput() {
-		var checkBox = document.getElementById("subscribe");
-		var emailRow = document.getElementById("subscribe_email");
+			var checkBox = document.getElementById("subscribe");
+			var emailRow = document.getElementById("subscribe_email");
 
-		if (checkBox.checked) {
-			emailRow.style.display = "table-row";
-		} else {
-			emailRow.style.display = "none";
+			if (checkBox.checked) {
+				emailRow.style.display = "table-row";
+			} else {
+				emailRow.style.display = "none";
+			}
 		}
-	}
 	</script>
 
 
