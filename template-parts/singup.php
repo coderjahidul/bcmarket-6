@@ -1,3 +1,20 @@
+<style>
+    #conditions_reg {
+        position: absolute !important; 
+        margin-left: -133px !important; 
+        margin-top:2px !important;
+    }
+    @media screen and (max-width: 550px) {
+        #conditions_reg {
+            position: absolute !important; 
+            margin-left: -75px !important; 
+            margin-top:2px !important;
+        }
+        #registration_form input {
+            height: 13px !important;
+        }
+    }
+</style>
 <div class="reg-shadow">
     <div class="registration">
         <div class="t-block">Sign up to your account</div>
@@ -18,7 +35,7 @@
                 <input type="password" name="password2" id="reg_password2" required="">
             </div>
             <div class="form-line" style="position:relative !important;">
-            <input type="checkbox" style="position: absolute !important; margin-left: -133px !important; margin-top:2px !impotant;" name="conditions_reg" id="conditions_reg" value="1">
+            <input type="checkbox" name="conditions_reg" id="conditions_reg" value="1">
                 <label for="conditions_reg">I agree to the <a href="/public-offer" target="_blank">public offer</a> and <a href="/rules" target="_blank">terms of use</a></label>
             </div>
             <button id="reg_button" type="submit">Sign up</button>
