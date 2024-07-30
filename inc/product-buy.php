@@ -13,6 +13,12 @@ function buy_product_callback(){
 		#subscribe_email {
 			display: none;
 		}
+		#subscribe {
+			margin-left: 0px;
+		}
+		#conditions {
+			margin-left: 0px;
+		}
 	</style>
 	<form action="#" class="submit_buy" onsubmit="setWooWalletHideCookie();">
 	    <input type="hidden" name="item_id" id="item_id" value="" />
