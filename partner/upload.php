@@ -138,21 +138,34 @@ endif;
                                 </div>
                                 <select class="format_fi" name="format[0][]" multiple>
                                     <option value="">Select</option>
-                                    <option value="login">Login ID</option>
-                                    <option value="username">Username</option>
                                     <option value="email">Email ID</option>
-                                    <option value="password">Passoword</option>
-                                    <option value="mailpassword">Mail Passoword</option>
-                                    <option value="alt_email">Alt Email</option>
-                                    <option value="phone">Phone</option>
+                                    <option value="mailpassword">Mail Password</option>
+                                    <option value="alt_email">Recovery email</option>
+                                    <option value="username">Username</option>
+                                    <option value="userid">User ID</option>
+                                    <option value="name">Name</option>
+                                    <option value="login">Login ID</option>
+                                    <option value="password">Password</option>
+                                    <option value="gauth">2fa</option>
                                     <option value="dob">Date of Birth</option>
-                                    <option value="gender">Gender</option>
                                     <option value="cookies">Cookies</option>
-                                    <option value="gauth">Google Authentication Code</option>
+                                    <option value="useragent">User Agent</option>
+                                    <option value="token">Token</option>
+                                    <option value="phone">Phone number</option>
+                                    <option value="gender">Gender</option>
                                     <option value="profile_link">Profile Link</option>
+                                    <option value="uid">UID</option>
+                                    <option value="backup_code">Backup Code</option>
+                                    <option value="code_1">Code 1</option>
+                                    <option value="code_2">Code 2</option>
+                                    <option value="code_3">Code 3</option>
+                                    <option value="code_4">Code 4</option>
+                                    <option value="code_5">Code 5</option>
                                 </select>
+                                
                                 <!-- <select class="format_fi" name="format[0][]" multiple>
                                     <option value="" disabled="" selected="" hidden="">Select</option>
+                                    
                                     <?php 
                                         // $terms = get_terms( array(
                                         //     'taxonomy' => 'accounts_cat',
@@ -161,7 +174,7 @@ endif;
                                         // ) );
 
                                         // if($terms) : foreach($terms as $term) : ?>
-                                            <option value="<?php //echo $term->term_id; ?>"><?php //echo $term->name; ?></option>
+                                            <option value="<?php //echo $term->slug; ?>"><?php //echo $term->name; ?></option>
                                         <?php //endforeach; endif; ?>
                                 </select> -->
                                 

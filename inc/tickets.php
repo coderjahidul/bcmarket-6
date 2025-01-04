@@ -544,7 +544,7 @@ function show_ticket_chat_list_callback(){
 
     ob_start(); ?>
 		
-		<?php if(current_user_can('administrator')){?>
+		<?php if(current_user_can('administrator') || current_user_can('wpseo_manager')){?>
 		<div class="solved-unsolved-section">
 			<?php
 			

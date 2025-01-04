@@ -4,7 +4,7 @@ $post_7 = get_post( get_the_ID());
 
 ?>
 <tr class="tr_decline">
-    <td><a target="blank" href="<?php echo esc_url(home_url('/')); ?>partner/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">#&nbsp;<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?></a></td>
+    <td><a target="blank" href="<?php echo esc_url(home_url('/')); ?>partners/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">#&nbsp;<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?></a></td>
     <td><?php echo $product->get_date_created()->date('m.d.Y'); ?></td>
     <td>
 
@@ -91,7 +91,7 @@ $post_7 = get_post( get_the_ID());
             <a href="javascript:void(0)" onclick="bids.remove_unsold(<?php echo get_the_ID(); ?>)">delete unsold</a>
         <?php endif; ?>
 
-        <a href="<?php echo esc_url(home_url('/partner/upload/')); ?>?id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">create like this</a>
+        <a href="<?php echo esc_url(home_url('/partners/upload/')); ?>?id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">create like this</a>
     </td>
     <td>
         <div class="divTable" style="width: 100%;">
@@ -105,7 +105,7 @@ $post_7 = get_post( get_the_ID());
                     <div class="divTableCell" style="text-align: left; ">&nbsp;<?php echo get_pending_pcs_by_product_id_interface(get_the_ID()); ?> pcs (<?php echo get_pending_payment_by_product_id_interface(get_the_ID()); ?> USD)</div>
                 </div>
                 <div class="divTableRow">
-                    <div class="divTableCell" style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;"><a href="<?php echo esc_url(home_url('/')); ?>partner/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">Invalid:</a></div>
+                    <div class="divTableCell" style="text-align: right; font-weight: bold; width: 30%; border-right: 1px solid #999999; border-width: medium;"><a href="<?php echo esc_url(home_url('/')); ?>partners/view?pro_id=<?php echo get_post_meta(get_the_ID(), 'custom_product_id', true); ?>">Invalid:</a></div>
                     <div class="divTableCell" style="text-align: left;">&nbsp;<?php echo get_invalid_total_by_pro_id(get_the_ID()); ?></div>
                 </div>
                 <div class="divTableRow">

@@ -775,11 +775,11 @@ function connect_item_callback(){
 	$table_name = $wpdb->prefix . "subscribe_emails";
         
 	// Fetch all subscriber emails from the database
-	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name");
+	$get_subscriber = $wpdb->get_results("SELECT email FROM $table_name WHERE email != '' ORDER BY id DESC");
 	
 	// Send emails to the filtered list
 	foreach ($get_subscriber as $subscriber) {
-		send_subscription_emails($subscriber->email, get_permalink($item_id));
+		send_subscription_emails_in_smtp($subscriber->email, get_permalink($item_id));
 	}
 
 	// Terminate the script
@@ -788,7 +788,29 @@ function connect_item_callback(){
 
 }
 
+// Program Logs
+function put_program_logs( $data ) {
 
+	// Ensure the directory for logs exists
+	$directory = __DIR__ . '/program_logs/';
+	if ( !file_exists( $directory ) ) {
+		mkdir( $directory, 0777, true );
+	}
+
+	// Construct the log file path
+	$file_name = $directory . 'program_logs.log';
+
+	// Append the current datetime to the log entry
+	$current_datetime = date( 'Y-m-d H:i:s' );
+	$data             = $data . ' - ' . $current_datetime;
+
+	// Write the log entry to the file
+	if ( file_put_contents( $file_name, $data . "\n\n", FILE_APPEND | LOCK_EX ) !== false ) {
+		return "Data appended to file successfully.";
+	} else {
+		return "Failed to append data to file.";
+	}
+}
 add_action('wp_ajax_update_invalid_item', 'update_invalid_item_callback');
 function update_invalid_item_callback(){
 	global $wpdb;

@@ -132,7 +132,7 @@ function item_list_callback() {
             <th>Status</th>
             <th>Order Id</th>
             <?php 
-            if (current_user_can('administrator')) {
+            if (current_user_can('administrator') || current_user_can('wpseo_manager')) {
                 ?>
                 <th>Mark Bad Account</th>
             <?php } ?>
@@ -170,7 +170,7 @@ function item_list_callback() {
 
 
                     ?></td>
-                    <?php if (current_user_can('administrator')) { ?>
+                    <?php if (current_user_can('administrator') || current_user_can('wpseo_manager')) { ?>
                     <td class="bad-accounts">
                         <?php if ( $item->item_status == 'bad' ) : ?>
                             <input type="checkbox" value="<?= $item->id ?>" checked name="account" class="bad-account">
@@ -211,7 +211,7 @@ function item_list_callback() {
 
 
                     ?></td>
-                    <?php if (current_user_can('administrator')) { ?>
+                    <?php if (current_user_can('administrator') || current_user_can('wpseo_manager')) { ?>
                     <td class="bad-accounts">
                         <?php if ( $item->item_status == 'bad' ) : ?>
                             <input type="checkbox" value="<?= $item->id ?>" checked name="account" class="bad-account">
@@ -275,7 +275,7 @@ function item_list_callback() {
             });
 
             // Adding the button after each dialog title
-            let isAdmin = <?php echo (current_user_can('administrator')) ? 'true' : 'false' ?>; // Check if the current user is an administrator
+            let isAdmin = <?php echo (current_user_can('administrator') || current_user_can('wpseo_manager')) ? 'true' : 'false' ?>; // Check if the current user is an administrator
             if(isAdmin){
                 $('.ui-dialog-titlebar > span.ui-dialog-title').each(function (i, el) {
                     $(el).addClass('float-none');
@@ -698,7 +698,7 @@ function add_payment_title_before_gateway() {
 add_action( 'woocommerce_review_order_before_payment', 'add_payment_title_before_gateway' );
 
 
-
+/*
 add_filter( 'woocommerce_available_payment_gateways', 'bcmarket_gateway_by_wallet' );
 function bcmarket_gateway_by_wallet( $gateways ) {
 
@@ -731,6 +731,7 @@ function bcmarket_gateway_by_wallet( $gateways ) {
     return $gateways;
 
 }
+*/
 
 
 add_filter( 'woocommerce_gateway_icon', 'custom_gateway_icon_wall', 10, 2 );

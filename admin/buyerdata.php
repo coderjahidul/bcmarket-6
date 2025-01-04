@@ -1,7 +1,7 @@
 <?php 
 if(is_user_logged_in()){
     $current_user = wp_get_current_user();
-    $roles = array('administrator', 'employee');
+    $roles = array('administrator', 'employee', 'wpseo_manager');
     $found = 0; 
     foreach($roles as $role){
         if(in_array( $role, (array) $current_user->roles) ){
@@ -59,7 +59,7 @@ get_header(); ?>
 					// Construct query arguments based on conditions
 					if (isset($_GET['query']) && !empty($_GET['query'])) {
 						$args = array(
-							'role__in' => array('Customer', 'Subscriber', 'Administrator', 'partner'),
+							'role__in' => array('Customer', 'Subscriber', 'Administrator', 'partner', 'wpseo_manager'),
 							'search' => $_GET['query'],
 							'search_columns' => array('ID', 'user_email', 'user_login'),
 						);

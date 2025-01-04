@@ -5005,7 +5005,7 @@ table.dataTable tbody td img {
         width: 26px;
         height: 26px;
         padding: 7px;
-        display: block;
+        /*display: block;*/
         overflow: hidden;
         background: #245f9b;
         border-radius: 3px;
@@ -5016,7 +5016,7 @@ table.dataTable tbody td img {
     .authorization .login-open svg {
         margin: 0;
         padding: 0;
-        display: block;
+        /*display: block;*/
     }
     #language_mobile {
         display: block;

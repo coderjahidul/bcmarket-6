@@ -9,6 +9,14 @@
     <?php wp_head(); ?>
 	
 <body <?php body_class(); ?>>
+    <style>
+        .login-icon {
+            display: none;
+        }
+        .login-open {
+            color: #fff;
+        }
+    </style>
 
     <div class="main-wrapper">
         <header>
@@ -18,12 +26,17 @@
                         <p><?php echo get_theme_mod('top_left_text'); ?> </p>
                         <p class="xs-vis"> <?php echo get_theme_mod('top_left_text_mobile'); ?> </p>
                         <div id="navigation_right">
-                            <?php if(current_user_can('manage_options')) : ?>
+                            <?php if(current_user_can('administrator') || current_user_can('employee')) : ?>
                                 <div>
                                     <a class="btn btn-primary btn-xs" href="<?php echo esc_url(home_url('/admin-interface/')); ?>">Admin Interface</a>
                                     <a class="btn btn-primary btn-xs" href="<?php echo esc_url(home_url('/admin-interface/bid-request/')); ?>">Bid Request</a>
-                                    <a class="btn btn-primary btn-xs" href="<?php echo esc_url(home_url('/partner')); ?>">Partner</a>
+                                    <a class="btn btn-primary btn-xs" href="<?php echo esc_url(home_url('/partners')); ?>">Partner</a>
                                 </div>
+                            <?php //elseif(current_user_can('manage_options')): ?>
+                                <!--<div>-->
+                                <!--    <a class="btn btn-primary btn-xs" href="<?php //echo esc_url(home_url('/admin-interface/bid-request/')); ?>">Bid Request</a>-->
+                                <!--    <a class="btn btn-primary btn-xs" href="<?php //echo esc_url(home_url('/partners')); ?>">Partner</a>-->
+                                <!--</div>-->
                             <?php endif; ?>
 
                             <div id="navigation_menu">
@@ -39,8 +52,7 @@
                                 <?php if(!is_user_logged_in()) : ?>
                                     <a href="javascript:void(0);" class="registration-open">+ Sign Up</a>
                                     <a href="javascript:void(0);" class="login-open">
-                                        <!-- <img src="<?php //echo get_template_directory_uri(); ?>/img/icons/svg/user.svg" alt="user" class="img-svg login-icon"> Login </a> -->
-                                         Login
+                                        <img style="width: 20px;" src="https://img.icons8.com/?size=100&id=23265&format=png&color=000000" alt="user" class="img-svg login-icon"> Login </a>
                                 <?php else : ?>
                                     <div class="cabinet-menu">
                                         <a href="<?php echo home_url();?>/your-account" class="cabinet-open">
@@ -139,7 +151,7 @@
                             </div>
                         </div>
                         <div id="head_mob_navigation">
-                            <a href="#" class="open-menu"></a>
+                            <a href="#" class="open-menu"><img style="width: 20px;" src="https://img.icons8.com/?size=100&id=36389&format=png&color=000000" alt="menu"></a>
                         </div>
                     </div>
                 </div>

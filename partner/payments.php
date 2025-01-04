@@ -52,7 +52,7 @@ get_header(); ?>
                             $paged = $page_number == 0 ? 1 : $page_number;
 
                             $current_user = wp_get_current_user();
-                            $is_admin = current_user_can('administrator');
+                            $is_admin = current_user_can('administrator') || current_user_can('wpseo_manager');
                             if ($is_admin) {
                                 // If the current user is an admin, show all payments
                                 $payment_query = new WP_Query(array(

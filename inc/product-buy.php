@@ -1,4 +1,3 @@
-
 <?php 
 add_action('wp_ajax_buy_product', 'buy_product_callback');
 add_action('wp_ajax_nopriv_buy_product', 'buy_product_callback');
@@ -13,8 +12,14 @@ function buy_product_callback(){
 		#subscribe_email {
 			display: none;
 		}
+		#subscribe {
+			margin-left: 0px;
+		}
+		#conditions {
+			margin-left: 0px;
+		}
 	</style>
-	<form action="#" class="submit_buy">
+	<form action="#" class="submit_buy" onsubmit="setWooWalletHideCookie();">
 	    <input type="hidden" name="item_id" id="item_id" value="" />
 	    <input type="hidden" name="price" id="item_price" value="" />
 		<input type="hidden" name="partner_id" id="item_partners_id" value="" />
@@ -139,20 +144,24 @@ function buy_product_callback(){
 	</form>
 
 	<script>
+		function setWooWalletHideCookie() {
+			document.cookie = "woo_wallet_hide=1; path=/; max-age=-360";
+			return true; // Ensure form submission continues
+		}
 		function getPartnerID(partner_id){
 			document.getElementById('item_partners_id').value = partner_id;
 		}
 
 		function toggleEmailInput() {
-		var checkBox = document.getElementById("subscribe");
-		var emailRow = document.getElementById("subscribe_email");
+			var checkBox = document.getElementById("subscribe");
+			var emailRow = document.getElementById("subscribe_email");
 
-		if (checkBox.checked) {
-			emailRow.style.display = "table-row";
-		} else {
-			emailRow.style.display = "none";
+			if (checkBox.checked) {
+				emailRow.style.display = "table-row";
+			} else {
+				emailRow.style.display = "none";
+			}
 		}
-	}
 	</script>
 
 

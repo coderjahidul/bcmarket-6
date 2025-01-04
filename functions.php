@@ -20,7 +20,7 @@ function bcmarket_setup() {
 	add_theme_support('custom-logo');
 	add_theme_support('post-thumbnails');
 
-	if (!current_user_can('administrator') && !is_admin()) {
+	if (!current_user_can('administrator') && !current_user_can('wpseo_manager') && !is_admin()) {
 	  show_admin_bar(false);
 	}
 
@@ -193,26 +193,11 @@ function bcmarket_setup_post_type() {
     );
     
     register_taxonomy( 'item_cat', 'item', $args );
-
-    $args = array(
-        'public'    => true,
-        'label'        => __( 'Accounts', 'bcmarket' ),
-        'supports' => array(),
-        'rewrite' => array('slug' => 'accounts'),
-        'menu_icon' => 'dashicons-format-aside',
-    );
-
-    register_post_type( 'accounts', $args );
-
-    $args = array(
-        'label'        => __( 'Accounts Formats', 'bcmarket' ),
-        'public'       => true,
-        'hierarchical' => true,
-    );
-    register_taxonomy( 'accounts_cat', 'accounts', $args );
 }
 
 add_action( 'init', 'bcmarket_setup_post_type' );
+
+
 
 
 // Add Classes to Menus
@@ -336,11 +321,12 @@ require get_template_directory() . '/inc/partner-functions.php';
 require get_template_directory() . '/inc/admin-functions.php';
 require get_template_directory() . '/inc/tickets.php';
 require get_template_directory() . '/inc/customizer.php';
+require get_template_directory() . '/subscriber-mail/send-subscriber-mail.php';
 
 function get_total_pcs_by_item($item_id){
 
     $args = array(
-        'role__in' => array('partner', 'Administrator'),
+        'role__in' => array('partner', 'Administrator', 'wpseo_manager'),
         'number' => 50,
     );
 
@@ -400,7 +386,7 @@ function get_total_pcs_by_item($item_id){
 function get_per_pcs_by_item($item_id){
 
     $args = array(
-        'role__in' => array('partner', 'Administrator'),
+        'role__in' => array('partner', 'Administrator', 'wpseo_manager'),
         'number' => 50,
     );
 
@@ -461,7 +447,7 @@ function get_per_pcs_by_item($item_id){
 function get_available_partner_by_item($item_id){
 
     $args = array(
-        'role__in' => array('partner', 'Administrator'),
+        'role__in' => array('partner', 'Administrator', 'wpseo_manager'),
         'number' => 50,
     );
 
@@ -672,6 +658,23 @@ function users_history_menu(){
         'users_history_page_content', // Callback function to display the content
         'dashicons-admin-users', // Icon Url or Dashicon class
         40 // Position in the menu
+    );
+}
+
+// Hook to add the menu page Mailtrap API Settings
+add_action('admin_menu', 'mailtrap_api_menu');
+// Include Mailtrap API Settings
+include_once('mailtrap-api-settings.php');
+// Function to create Mailtrap API Settings menu page
+function mailtrap_api_menu(){
+    add_menu_page(
+        'Mailtrap SMTP API Settings', // Page title
+        'Mailtrap SMTP API', // Menu title
+        'manage_options', // Capability
+        'mailtrap-api', // Menu slug
+        'mailtrap_api_page_content', // Callback function to display the content
+        'dashicons-email', // Icon Url or Dashicon class
+        50 // Position in the menu
     );
 }
 
@@ -997,5 +1000,37 @@ function enqueue_partner_cost_script() {
     ));
 }
 add_action('wp_enqueue_scripts', 'enqueue_partner_cost_script');
+
+// Restrict access to the 'partner-history, buyer-history, users-history' page only for admin
+function restrict_partner_history_page() {
+    // Check if the current user is not an administrator
+    if (!current_user_can('administrator')) {
+        // Check if the current page is 'partner-history'
+        if (isset($_GET['page']) && $_GET['page'] === 'partner-history' || isset($_GET['page']) && $_GET['page'] === 'buyer-history' || isset($_GET['page']) && $_GET['page'] === 'users-history' || isset($_GET['page']) && $_GET['page'] === 'mailtrap-api') {
+            // Redirect to the home page or show an error message
+            wp_redirect(home_url('/'));
+            exit;
+        }
+    }
+}
+add_action('admin_init', 'restrict_partner_history_page');
+
+// access to the 'partner-history, buyer-history, users-history' page only for admin
+function hide_admin_menu_items() {
+    if (!current_user_can('administrator')) {
+        echo '
+        <style>
+            /* Hide specific admin menu items */
+            li#toplevel_page_partner-history,
+            li#toplevel_page_buyer-history,
+            li#toplevel_page_users-history,
+	    li#toplevel_page_mailtrap-api {
+                display: none !important;
+            }
+        </style>
+        ';
+    }
+}
+add_action('admin_head', 'hide_admin_menu_items');
 
 

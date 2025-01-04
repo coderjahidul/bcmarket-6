@@ -364,6 +364,17 @@ function bcmarket_run_every_one_minute_callbacks()
 				$item_format_gauth_key = array_search('gauth', $item_format_ex); // Example: gauth index = 9
 				$item_format_mailpassword_key = array_search('mailpassword', $item_format_ex); // Example: mailpassword index = 10
 				$item_format_profile_link_key = array_search('profile_link', $item_format_ex); // Example: profile_link index = 11
+				$item_format_userid_key = array_search('userid', $item_format_ex); // Example: userid index = 12
+				$item_format_name_key = array_search('name', $item_format_ex); // Example: name index = 13
+				$item_format_token_key = array_search('token', $item_format_ex); // Example: token index = 14
+				$item_format_useragent_key = array_search('useragent', $item_format_ex); // Example: useragent index = 15
+				$item_format_uid_key = array_search('uid', $item_format_ex); // Example: uid index = 16
+				$item_format_backup_code_key = array_search('backup_code', $item_format_ex); // Example: backup_code index = 17
+				$item_format_code_1_key = array_search('code_1', $item_format_ex); // Example: code_1 index = 18
+				$item_format_code_2_key = array_search('code_2', $item_format_ex); // Example: code_2 index = 19
+				$item_format_code_3_key = array_search('code_3', $item_format_ex); // Example: code_3 index = 20
+				$item_format_code_4_key = array_search('code_4', $item_format_ex); // Example: code_4 index = 21
+				$item_format_code_5_key = array_search('code_5', $item_format_ex); // Example: code_5 index = 22 
 
 				// 	if (strlen($accounts_text)==0 ) {
 
@@ -463,6 +474,39 @@ function bcmarket_run_every_one_minute_callbacks()
 								if (isset($item_array[$item_format_profile_link_key])) {
 									$data['profile_link'] = $item_array[$item_format_profile_link_key];
 								}
+								if(isset($item_array[$item_format_userid_key])){
+									$data['userid'] = $item_array[$item_format_userid_key];
+								}
+								if(isset($item_array[$item_format_name_key])){
+									$data['name'] = $item_array[$item_format_name_key];
+								}
+								if(isset($item_array[$item_format_token_key])){
+									$data['token'] = $item_array[$item_format_token_key];
+								}
+								if(isset($item_array[$item_format_useragent_key])){
+									$data['useragent'] = $item_array[$item_format_useragent_key];
+								}
+								if(isset($item_array[$item_format_uid_key])){
+									$data['uid'] = $item_array[$item_format_uid_key];
+								}
+								if(isset($item_array[$item_format_backup_code_key])){
+									$data['backup_code'] = $item_array[$item_format_backup_code_key];
+								}
+								if(isset($item_array[$item_format_code_1_key])){
+									$data['code_1'] = $item_array[$item_format_code_1_key];
+								}
+								if(isset($item_array[$item_format_code_2_key])){
+									$data['code_2'] = $item_array[$item_format_code_2_key];
+								}
+								if(isset($item_array[$item_format_code_3_key])){
+									$data['code_3'] = $item_array[$item_format_code_3_key];
+								}
+								if(isset($item_array[$item_format_code_4_key])){
+									$data['code_4'] = $item_array[$item_format_code_4_key];
+								}
+								if(isset($item_array[$item_format_code_5_key])){
+									$data['code_5'] = $item_array[$item_format_code_5_key];
+								}
 
 								$check_values = array('login', 'username', 'email');
 
@@ -477,8 +521,8 @@ function bcmarket_run_every_one_minute_callbacks()
 									}
 								}
 
-								if (isset($item_array[$checked_item]) && !empty($item_array[$checked_item])) {
-									$search_login = $item_array[$checked_item];
+								if (isset($item_array[0]) && !empty($item_array[0])) {
+									$search_login = $item_array[0];
 									$total = $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE $checked_item = '$search_login'");
 
 									if ($total == 0) {
@@ -586,6 +630,39 @@ function bcmarket_run_every_one_minute_callbacks()
 									if (isset($item_array[$item_format_profile_link_key])) {
 										$data['profile_link'] = $item_array[$item_format_profile_link_key];
 									}
+									if(isset($item_array[$item_format_userid_key])){
+									$data['userid'] = $item_array[$item_format_userid_key];
+    								}
+    								if(isset($item_array[$item_format_name_key])){
+    									$data['name'] = $item_array[$item_format_name_key];
+    								}
+    								if(isset($item_array[$item_format_token_key])){
+    									$data['token'] = $item_array[$item_format_token_key];
+    								}
+    								if(isset($item_array[$item_format_useragent_key])){
+    									$data['useragent'] = $item_array[$item_format_useragent_key];
+    								}
+    								if(isset($item_array[$item_format_uid_key])){
+									    $data['uid'] = $item_array[$item_format_uid_key];
+    								}
+    								if(isset($item_array[$item_format_backup_code_key])){
+    									$data['backup_code'] = $item_array[$item_format_backup_code_key];
+    								}
+    								if(isset($item_array[$item_format_code_1_key])){
+    									$data['code_1'] = $item_array[$item_format_code_1_key];
+    								}
+    								if(isset($item_array[$item_format_code_2_key])){
+    									$data['code_2'] = $item_array[$item_format_code_2_key];
+    								}
+    								if(isset($item_array[$item_format_code_3_key])){
+    									$data['code_3'] = $item_array[$item_format_code_3_key];
+    								}
+    								if(isset($item_array[$item_format_code_4_key])){
+    									$data['code_4'] = $item_array[$item_format_code_4_key];
+    								}
+    								if(isset($item_array[$item_format_code_5_key])){
+    									$data['code_5'] = $item_array[$item_format_code_5_key];
+    								}
 
 									$check_values = array('login', 'username', 'email');
 
@@ -696,6 +773,39 @@ function bcmarket_run_every_one_minute_callbacks()
 								if (isset($item_array[$item_format_profile_link_key])) {
 									$data['profile_link'] = $item_array[$item_format_profile_link_key];
 								}
+								if(isset($item_array[$item_format_userid_key])){
+									$data['userid'] = $item_array[$item_format_userid_key];
+								}
+								if(isset($item_array[$item_format_name_key])){
+									$data['name'] = $item_array[$item_format_name_key];
+								}
+								if(isset($item_array[$item_format_token_key])){
+									$data['token'] = $item_array[$item_format_token_key];
+								}
+								if(isset($item_array[$item_format_useragent_key])){
+									$data['useragent'] = $item_array[$item_format_useragent_key];
+								}
+								if(isset($item_array[$item_format_uid_key])){
+									$data['uid'] = $item_array[$item_format_uid_key];
+								}
+								if(isset($item_array[$item_format_backup_code_key])){
+									$data['backup_code'] = $item_array[$item_format_backup_code_key];
+								}
+								if(isset($item_array[$item_format_code_1_key])){
+									$data['code_1'] = $item_array[$item_format_code_1_key];
+								}
+								if(isset($item_array[$item_format_code_2_key])){
+									$data['code_2'] = $item_array[$item_format_code_2_key];
+								}
+								if(isset($item_array[$item_format_code_3_key])){
+									$data['code_3'] = $item_array[$item_format_code_3_key];
+								}
+								if(isset($item_array[$item_format_code_4_key])){
+									$data['code_4'] = $item_array[$item_format_code_4_key];
+								}
+								if(isset($item_array[$item_format_code_5_key])){
+									$data['code_5'] = $item_array[$item_format_code_5_key];
+								}
 
 								$check_values = array('login', 'username', 'email');
 
@@ -710,8 +820,8 @@ function bcmarket_run_every_one_minute_callbacks()
 									}
 								}
 
-								if (isset($item_array[$checked_item]) && !empty($item_array[$checked_item])) {
-									$search_login = $item_array[$checked_item];
+								if (isset($item_array[0]) && !empty($item_array[0])) {
+									$search_login = $item_array[0];
 									$total = $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE $checked_item = '$search_login'");
 
 									if ($total == 0) {
@@ -814,6 +924,39 @@ function bcmarket_run_every_one_minute_callbacks()
 									if (isset($item_array[$item_format_profile_link_key])) {
 										$data['profile_link'] = $item_array[$item_format_profile_link_key];
 									}
+									if(isset($item_array[$item_format_userid_key])){
+									$data['userid'] = $item_array[$item_format_userid_key];
+    								}
+    								if(isset($item_array[$item_format_name_key])){
+    									$data['name'] = $item_array[$item_format_name_key];
+    								}
+    								if(isset($item_array[$item_format_token_key])){
+    									$data['token'] = $item_array[$item_format_token_key];
+    								}
+    								if(isset($item_array[$item_format_useragent_key])){
+    									$data['useragent'] = $item_array[$item_format_useragent_key];
+    								}
+    								if(isset($item_array[$item_format_uid_key])){
+    									$data['uid'] = $item_array[$item_format_uid_key];
+    								}
+    								if(isset($item_array[$item_format_backup_code_key])){
+    									$data['backup_code'] = $item_array[$item_format_backup_code_key];
+    								}
+    								if(isset($item_array[$item_format_code_1_key])){
+    									$data['code_1'] = $item_array[$item_format_code_1_key];
+    								}
+    								if(isset($item_array[$item_format_code_2_key])){
+    									$data['code_2'] = $item_array[$item_format_code_2_key];
+    								}
+    								if(isset($item_array[$item_format_code_3_key])){
+    									$data['code_3'] = $item_array[$item_format_code_3_key];
+    								}
+    								if(isset($item_array[$item_format_code_4_key])){
+    									$data['code_4'] = $item_array[$item_format_code_4_key];
+    								}
+    								if(isset($item_array[$item_format_code_5_key])){
+    									$data['code_5'] = $item_array[$item_format_code_5_key];
+    								}
 
 									$check_values = array('login', 'username', 'email');
 

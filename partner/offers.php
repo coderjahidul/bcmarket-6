@@ -1,6 +1,6 @@
 <?php 
 if(is_user_logged_in() && current_user_has_approve_bid()){
-    wp_safe_redirect( home_url('/partner/') );
+    wp_safe_redirect( home_url('/partners/') );
 }else if(!is_user_logged_in()){
     wp_safe_redirect( home_url('/my/') );
 }
